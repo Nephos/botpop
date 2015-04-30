@@ -45,7 +45,7 @@ bot = Cinch::Bot.new do
     else
       c.server = "irc.freenode.org"
       c.port = 7000
-      c.channels = ["#equilibre"]
+      c.channels = ["#equilibres"]
       c.ssl.use = true
     end
 
@@ -94,13 +94,13 @@ bot = Cinch::Bot.new do
   end
 
   on :message, "!intra on" do |m|
-    if @intra
+    if @intra.nil?
       @intra = Thread.new {
         m.reply "INTRANET SPY ON"
         sleep 1
         loop do
           m.reply Net::Ping::External.new("intra.epitech.eu").ping? ? "Intra ok" : "Intra down"
-          sleep 60
+          sleep 30
         end
       }
     else
