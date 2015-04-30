@@ -22,7 +22,7 @@ def get_msg m
 end
 
 def help m
-  m.reply "!help, !cmds, !status, !version, !ddos, #{SEARCH_ENGINES_VALUES}"
+  m.reply "!help, !cmds, !status, !version, !ddos, !code, #{SEARCH_ENGINES_VALUES}"
 end
 
 bot = Cinch::Bot.new do
@@ -61,6 +61,10 @@ bot = Cinch::Bot.new do
   on :message, /!ddos (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/ do |m|
     ip = get_msg m
     m.reply "I am not allowed to ddos #{ip}"
+  end
+
+  on :message, "!code" do |m|
+    m.reply "https://github.com/pouleta/botpop"
   end
 
   on :message, "!cmds" do |m|
