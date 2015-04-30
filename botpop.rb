@@ -5,6 +5,7 @@ require 'cinch'
 require 'uri'
 require 'net/ping'
 require 'pry'
+# require 'yaml'
 
 VERSION = "0.2"
 
@@ -22,6 +23,7 @@ SEARCH_ENGINES = {
   "map" => "https://www.google.fr/maps/search/___MSG___/",
   "actu" => "https://www.google.fr/search?hl=fr&gl=fr&tbm=nws&authuser=0&q=___MSG___",
   "news" => "https://www.google.fr/search?hl=fr&gl=fr&tbm=nws&authuser=0&q=___MSG___",
+  "tw" => "https://twitter.com/search?q=__MSG___"
 }
 SEARCH_ENGINES_VALUES = SEARCH_ENGINES.values.map{|e|"!"+e}.join(', ')
 SEARCH_ENGINES_KEYS = SEARCH_ENGINES.keys.map{|e|"!"+e}.join(', ')
