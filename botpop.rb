@@ -3,20 +3,26 @@
 
 require 'cinch'
 require 'uri'
+require 'pry'
+
+VERSION = "0.1"
 
 SEARCH_ENGINES = {
   "ddg" => "https://duckduckgo.com/?q=___MSG___",
   "yt" => "https://www.youtube.com/results?search_query=___MSG___",
-  "yp" => "http://www.youporn.com/search/?query=___MSG___",
-  "gh" = "https://github.com/search?q=___MSG___&type=Code&utf8=%E2%9C%93",
+  "yp" => "https://www.youporn.com/search/?query=___MSG___",
+  "gh" => "https://github.com/search?q=___MSG___&type=Code&utf8=%E2%9C%93",
+  "w" => "https://en.wikipedia.org/wiki/Special:Search?&go=Go&search=___MSG___",
+  "tek" => "https://intra.epitech.eu/user/___MSG___",
 }
+SEARCH_ENGINES_VALUES = SEARCH_ENGINES.values.map{|e|"!"+e}.join(', ')
 
 def get_msg m
-  URI.encode(m.params[1..-1].join(' ').gsub(/\!.+ /, ''))
+  URI.encode(m.params[1..-1].join(' ').gsub(/\![^ ]+ /, ''))
 end
 
 def help m
-  m.reply "!help, !cmds, !status, !ddg, !yt, !yp"
+  m.reply "!help, !cmds, !status, !version, !ddos, #{SEARCH_ENGINES_VALUES}"
 end
 
 bot = Cinch::Bot.new do
@@ -41,28 +47,20 @@ bot = Cinch::Bot.new do
     m.reply url
   end
 
-  on :message, /!ddg .+/ do |m|
+  on :message, /\!(#{SEARCH_ENGINES.keys.join('|')}) .+/ do |m|
     msg = get_msg m
-    url = "https://duckduckgo.com/?q=#{msg}"
+    url = SEARCH_ENGINES[m.params[1..-1].join(' ').gsub(/\!([^ ]+) .+/, '\1')]
+    url.gsub!('___MSG___', msg)
     m.reply url
   end
 
-  on :message, /!yt .+/ do |m|
-    msg = get_msg m
-    url = "https://www.youtube.com/results?search_query=#{msg}"
-    m.reply url
+  on :message, "!version" do |m|
+    m.reply VERSION
   end
 
-  on :message, /!yp .+/ do |m|
-    msg = get_msg m
-    url = "http://www.youporn.com/search/?query=#{msg}"
-    m.reply url
-  end
-
-  on :message, /!gh .+/ do |m|
-    msg = get_msg m
-    url = "https://github.com/search?q=#{msg}&type=Code&utf8=%E2%9C%93"
-    m.reply url
+  on :message, /!ddos (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/ do |m|
+    ip = get_msg m
+    m.reply "I am not allowed to ddos #{ip}"
   end
 
   on :message, "!cmds" do |m|
