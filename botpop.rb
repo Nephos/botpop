@@ -3,9 +3,10 @@
 
 require 'cinch'
 require 'uri'
-#require 'pry'
+require 'net/ping'
+require 'pry'
 
-VERSION = "0.1"
+VERSION = "0.2"
 
 SEARCH_ENGINES = {
   "ddg" => "https://duckduckgo.com/?q=___MSG___",
@@ -13,17 +14,25 @@ SEARCH_ENGINES = {
   "yp" => "https://www.youporn.com/search/?query=___MSG___",
   "gh" => "https://github.com/search?q=___MSG___&type=Code&utf8=%E2%9C%93",
   "w" => "https://en.wikipedia.org/wiki/Special:Search?&go=Go&search=___MSG___",
+  "wfr" => "https://fr.wikipedia.org/wiki/Special:Search?search=___MSG___&go=Go",
   "tek" => "https://intra.epitech.eu/user/___MSG___",
+  "archfr" => "https://wiki.archlinux.fr/index.php?title=Sp%C3%A9cial%3ARecherche&search=___MSG___",
+  "arch" => "https://wiki.archlinux.org/index.php?title=Special%3ASearch&search=___MSG___&go=Go",
+  "gl" => "https://gitlab.com/search?utf8=%E2%9C%93&search=___MSG___&group_id=&repository_ref=",
+  "map" => "https://www.google.fr/maps/search/___MSG___/",
+  "actu" => "https://www.google.fr/search?hl=fr&gl=fr&tbm=nws&authuser=0&q=___MSG___",
+  "news" => "https://www.google.fr/search?hl=fr&gl=fr&tbm=nws&authuser=0&q=___MSG___",
 }
 SEARCH_ENGINES_VALUES = SEARCH_ENGINES.values.map{|e|"!"+e}.join(', ')
 SEARCH_ENGINES_KEYS = SEARCH_ENGINES.keys.map{|e|"!"+e}.join(', ')
+TARGET = /[[:alnum:]_\-\.]+/
 
 def get_msg m
   URI.encode(m.params[1..-1].join(' ').gsub(/\![^ ]+ /, ''))
 end
 
 def help m
-  m.reply "!help, !cmds, !status, !version, !ddos, !code, #{SEARCH_ENGINES_KEYS}"
+  m.reply "!cmds, !help, !version, !ddos [ip], !ping, !ping [ip], !code, !intra, !intra [on/off], #{SEARCH_ENGINES_KEYS}"
 end
 
 bot = Cinch::Bot.new do
@@ -42,16 +51,16 @@ bot = Cinch::Bot.new do
     c.nick = "cotcot"
   end
 
-  on :message, "!status" do |m|
-    hours = (Time.now.to_i - Time.gm(2015, 04, 27, 9).to_i) / 60 / 60
-    url = "http://www.fuck-you-internet.com/delivery.php?text=#{hours}h%20apr%C3%A8s%20le%20d%C3%A9but%20du%20pathwar"
-    m.reply url
-  end
+#  on :message, "!status" do |m|
+#    hours = (Time.now.to_i - Time.gm(2015, 04, 27, 9).to_i) / 60 / 60
+#    url = "http://www.fuck-you-internet.com/delivery.php?text=#{hours}h%20apr%C3%A8s%20le%20d%C3%A9but%20du%20pathwar"
+#    m.reply url
+#  end
 
   on :message, /\!(#{SEARCH_ENGINES.keys.join('|')}) .+/ do |m|
     msg = get_msg m
     url = SEARCH_ENGINES[m.params[1..-1].join(' ').gsub(/\!([^ ]+) .+/, '\1')]
-    url.gsub!('___MSG___', msg)
+    url = url.gsub('___MSG___', msg)
     m.reply url
   end
 
@@ -59,13 +68,55 @@ bot = Cinch::Bot.new do
     m.reply VERSION
   end
 
-  on :message, /!ddos (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})/ do |m|
+  on :message, /!ddos #{TARGET}\Z/ do |m|
     ip = get_msg m
     m.reply "I am not allowed to ddos #{ip}"
   end
 
+  on :message, /!ping #{TARGET}\Z/ do |m|
+    ip = get_msg m
+    p = Net::Ping::External.new ip
+    str = "failed"
+    if p.ping?
+      str = "#{(p.duration*100.0).round 2}ms (#{p.host})"
+    end
+    m.reply "#{ip} ping> #{str}"
+  end
+
   on :message, "!code" do |m|
     m.reply "https://github.com/pouleta/botpop"
+  end
+
+  on :message, "!intra" do |m|
+    m.reply Net::Ping::External.new("intra.epitech.eu").ping? ? "Intra ok" : "Intra down"
+  end
+
+  on :message, "!intra on" do |m|
+    if @intra
+      @intra = Thread.new {
+        m.reply "INTRANET SPY ON"
+        sleep 1
+        loop do
+          m.reply Net::Ping::External.new("intra.epitech.eu").ping? ? "Intra ok" : "Intra down"
+          sleep 60
+        end
+      }
+    else
+      m.reply "INTRA SPY ALREADY ON"
+    end
+  end
+
+  on :message, "!intra off" do |m|
+    if @intra
+      m.reply "INTRANET SPY OFF"
+      @intra.terminate
+      @intra.join
+      @intra = nil
+    end
+  end
+
+  on :message, "!ping" do |m|
+    m.reply "#{m.user} pong"
   end
 
   on :message, "!cmds" do |m|
