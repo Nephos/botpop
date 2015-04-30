@@ -3,7 +3,7 @@
 
 require 'cinch'
 require 'uri'
-require 'pry'
+#require 'pry'
 
 VERSION = "0.1"
 
