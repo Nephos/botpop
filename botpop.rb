@@ -16,13 +16,14 @@ SEARCH_ENGINES = {
   "tek" => "https://intra.epitech.eu/user/___MSG___",
 }
 SEARCH_ENGINES_VALUES = SEARCH_ENGINES.values.map{|e|"!"+e}.join(', ')
+SEARCH_ENGINES_KEYS = SEARCH_ENGINES.keys.map{|e|"!"+e}.join(', ')
 
 def get_msg m
   URI.encode(m.params[1..-1].join(' ').gsub(/\![^ ]+ /, ''))
 end
 
 def help m
-  m.reply "!help, !cmds, !status, !version, !ddos, !code, #{SEARCH_ENGINES_VALUES}"
+  m.reply "!help, !cmds, !status, !version, !ddos, !code, #{SEARCH_ENGINES_KEYS}"
 end
 
 bot = Cinch::Bot.new do
