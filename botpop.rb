@@ -137,7 +137,7 @@ bot = Cinch::Bot.new do
       begin
         ip = get_ip m
         if not Action.ping(ip)
-          m.reply "Cannot reach #{ip}"
+          m.reply "Cannot reach the host '#{ip}'"
           raise "Unreachable host"
         end
         m.reply "Begin attack against #{ip}"
@@ -157,8 +157,10 @@ bot = Cinch::Bot.new do
   on :message, /!fok #{TARGET}\Z/ do |m|
     nick = get_ip m
     ip = m.target.users.keys.find{|u| u.nick == nick rescue nil}.host rescue nil
-    if not Action.ping(ip)
-      return m.reply "Cannot reach #{ip}"
+    if ip.nil?
+      return m.reply "User '#{nick}' doesn't exists"
+    elsif not Action.ping(ip)
+      return m.reply "Cannot reach the host '#{ip}'"
     end
     s = Action.dos(ip, DOS_DURATION)
     s = s.split("\n")[3].to_s
