@@ -155,13 +155,12 @@ bot = Cinch::Bot.new do
         s = `tracepath '#{ip}'`.to_s.split("\n")
         t2 = Time.now
         m.reply "Used #{(t2 - t1).round(3)} seconds"
-        so = s.select{|e| not e.include? "no reply" and e =~ /\A \d+: .+/}
-        binding.pry
+        so = s.select{|e| not e.include? "no reply" and e =~ /\A \d+: .+/}.uniq
         @trace.unlock
         duration = 0.3
-        s.each{|l| m.reply l; sleep duration; duration += 0.1}
+        so.each{|l| m.reply l; sleep duration; duration += 0.1}
+        m.reply "Trace #{ip} done"
       rescue # in error case
-        binding.pry
         @trace.unlock
       end
     else
