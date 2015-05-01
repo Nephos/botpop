@@ -41,7 +41,7 @@ def get_ip m
 end
 
 def help m
-  m.reply "!cmds, !help, !version, !dos [ip], !fok [user], !ping, !ping [ip], !trace [ip], !code, !intra, !intra [on/off], #{SEARCH_ENGINES_HELP}"
+  m.reply "!cmds, !help, !version, !code, !dos [ip], !fok [user], !ping, !ping [ip], !trace [ip], !troll [msg], !intra, !intra [on/off], #{SEARCH_ENGINES_HELP}"
 end
 
 bot = Cinch::Bot.new do
@@ -60,11 +60,12 @@ bot = Cinch::Bot.new do
     c.nick = "cotcot"
   end
 
-#  on :message, "!status" do |m|
-#    hours = (Time.now.to_i - Time.gm(2015, 04, 27, 9).to_i) / 60 / 60
-#    url = "http://www.fuck-you-internet.com/delivery.php?text=#{hours}h%20apr%C3%A8s%20le%20d%C3%A9but%20du%20pathwar"
-#    m.reply url
-#  end
+ on :message, /!troll .+/ do |m|
+   # hours = (Time.now.to_i - Time.gm(2015, 04, 27, 9).to_i) / 60 / 60
+   s = get_msg m
+   url = "http://www.fuck-you-internet.com/delivery.php?text=#{s}"
+   m.reply url
+ end
 
   on :message, /\!(#{SEARCH_ENGINES.keys.join('|')}) .+/ do |m|
     msg = get_msg m
