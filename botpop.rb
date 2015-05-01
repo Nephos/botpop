@@ -8,7 +8,7 @@ require 'pry'
 require_relative 'action'
 # require 'yaml'
 
-VERSION = "0.3.2"
+VERSION = "0.4"
 
 SEARCH_ENGINES = {
   "ddg" => "https://duckduckgo.com/?q=___MSG___",
