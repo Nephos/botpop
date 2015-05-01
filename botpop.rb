@@ -151,16 +151,17 @@ bot = Cinch::Bot.new do
       begin
         ip = get_ip m
         m.reply "It can take time"
+        t1 = Time.now
         s = `tracepath '#{ip}'`.to_s.split("\n")
-        binding.pry
-        if s.include? {|e| e.include? "Too many hops" }
-          m.reply "Cannot reach the host"
-        end
+        t2 = Time.now
+        m.reply "Used #{(t2 - t1).round(3)} seconds"
         so = s.select{|e| not e.include? "no reply" and e =~ /\A \d+: .+/}
         binding.pry
         @trace.unlock
-        s.each{|l| m.reply l; sleep 0.5}
+        duration = 0.3
+        s.each{|l| m.reply l; sleep duration; duration += 0.1}
       rescue # in error case
+        binding.pry
         @trace.unlock
       end
     else
