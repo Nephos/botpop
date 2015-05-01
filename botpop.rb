@@ -7,7 +7,7 @@ require 'net/ping'
 require 'pry'
 # require 'yaml'
 
-VERSION = "0.2"
+VERSION = "0.3"
 
 SEARCH_ENGINES = {
   "ddg" => "https://duckduckgo.com/?q=___MSG___",
