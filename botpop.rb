@@ -182,6 +182,18 @@ bot = Cinch::Bot.new do
     end
   end
 
+  on :message, /!poke #{TARGET}\Z/ do |m|
+    nick = get_ip m
+    ip = m.target.users.keys.find{|u| u.nick == nick rescue nil}.host rescue nil
+    return m.reply "User '#{nick}' doesn't exists" if ip.nil?
+    p = Net::Ping::External.new ip
+    str = "failed"
+    if p.ping?
+      str = "#{(p.duration*100.0).round 2}ms (#{p.host})"
+    end
+    m.reply "#{nick} poke> #{str}"
+  end
+
   on :message, "!cmds" do |m|
     help m
   end
