@@ -8,7 +8,7 @@ require 'pry'
 require_relative 'action'
 # require 'yaml'
 
-VERSION = "0.4"
+VERSION = "0.4.1"
 
 SEARCH_ENGINES = {
   "ddg" => "https://duckduckgo.com/?q=___MSG___",
@@ -42,7 +42,7 @@ def get_ip m
 end
 
 def help m
-  m.reply "!cmds, !help, !version, !code, !dos [ip], !fok [user], !ping, !ping [ip], !trace [ip], !troll [msg], !intra, !intra [on/off], #{SEARCH_ENGINES_HELP}"
+  m.reply "!cmds, !help, !version, !code, !dos [ip], !fok [nick], !ping, !ping [ip], !trace [ip], !poke [nick], !troll [msg], !intra, !intra [on/off], #{SEARCH_ENGINES_HELP}"
 end
 
 bot = Cinch::Bot.new do
