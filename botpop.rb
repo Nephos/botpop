@@ -24,7 +24,8 @@ SEARCH_ENGINES = {
   "map" => "https://www.google.fr/maps/search/___MSG___/",
   "actu" => "https://www.google.fr/search?hl=fr&gl=fr&tbm=nws&authuser=0&q=___MSG___",
   "news" => "https://www.google.fr/search?hl=fr&gl=fr&tbm=nws&authuser=0&q=___MSG___",
-  "tw" => "https://twitter.com/search?q=___MSG___"
+  "tw" => "https://twitter.com/search?q=___MSG___",
+  "buy" => "http://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313&_nkw=___MSG___&_sacat=0",
 }
 
 SEARCH_ENGINES_VALUES = SEARCH_ENGINES.values.map{|e|"!"+e}.join(', ')
