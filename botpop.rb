@@ -8,7 +8,7 @@ require 'pry'
 require_relative 'action'
 require_relative 'arguments'
 
-VERSION = "0.5"
+VERSION = IO.read('version')
 
 SEARCH_ENGINES = {
   "ddg" => "https://duckduckgo.com/?q=___MSG___",
