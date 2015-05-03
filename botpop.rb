@@ -5,9 +5,10 @@ require 'cinch'
 require 'uri'
 require 'net/ping'
 require 'pry'
-require_relative 'actio'n
+require_relative 'action'
+require_relative 'arguments'
 
-VERSION = "0.4.1"
+VERSION = "0.5"
 
 SEARCH_ENGINES = {
   "ddg" => "https://duckduckgo.com/?q=___MSG___",
@@ -46,19 +47,14 @@ def help m
 end
 
 bot = Cinch::Bot.new do
+  @argv = Arguments.new ARGV
   configure do |c|
-    if ARGV[0] == "pathwar"
-      c.server = "irc.pathwar.net"
-      c.channels = ["#pathwar-fr"]
-    else
-      c.server = "irc.freenode.org"
-      c.port = 7000
-      c.channels = ARGV[0] == "debug" ? ["#equilibres"] : ["#equilibre"]
-      c.ssl.use = true
-    end
-
-    c.user = "cotcot"
-    c.nick = "cotcot"
+    c.server = @argv.server
+    c.channels = @argv.channels
+    c.ssl.use = @argv.ssl
+    c.port = @argv.port
+    c.user = @argv.user
+    c.nick = @argv.nick
   end
 
  on :message, /!troll .+/ do |m|
