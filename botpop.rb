@@ -5,8 +5,7 @@ require 'cinch'
 require 'uri'
 require 'net/ping'
 require 'pry'
-require_relative 'action'
-# require 'yaml'
+require_relative 'actio'n
 
 VERSION = "0.4.1"
 
@@ -26,6 +25,7 @@ SEARCH_ENGINES = {
   "news" => "https://www.google.fr/search?hl=fr&gl=fr&tbm=nws&authuser=0&q=___MSG___",
   "tw" => "https://twitter.com/search?q=___MSG___",
   "buy" => "http://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313&_nkw=___MSG___&_sacat=0",
+  "buya" => "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=___MSG___",
 }
 
 SEARCH_ENGINES_VALUES = SEARCH_ENGINES.values.map{|e|"!"+e}.join(', ')
