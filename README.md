@@ -17,3 +17,4 @@ It has been tested with ruby 2.2.
 - --no-ssl : disable ssl (enabled by default)
 - -n : nickname
 - -u : username
+- --config : change the configuration file (default to ``modules_config.yml``)
