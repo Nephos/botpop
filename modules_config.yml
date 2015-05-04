@@ -17,3 +17,4 @@ search_engines:
   buya: http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=___MSG___
   g: https://encrypted.google.com/search?hl=en&q=___MSG___
   code: http://rosettacode.org/mw/index.php?search=___MSG___&title=Special%3ASearch
+  cpp: http://www.cplusplus.com/search.do?q=___MSG___
