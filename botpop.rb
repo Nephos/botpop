@@ -5,30 +5,14 @@ require 'cinch'
 require 'uri'
 require 'net/ping'
 require 'pry'
+require 'yaml'
+
 require_relative 'action'
 require_relative 'arguments'
 
 VERSION = IO.read('version')
 
-SEARCH_ENGINES = {
-  "ddg" => "https://duckduckgo.com/?q=___MSG___",
-  "yt" => "https://www.youtube.com/results?search_query=___MSG___",
-  "yp" => "https://www.youporn.com/search/?query=___MSG___",
-  "gh" => "https://github.com/search?q=___MSG___&type=Code&utf8=%E2%9C%93",
-  "w" => "https://en.wikipedia.org/wiki/Special:Search?&go=Go&search=___MSG___",
-  "wfr" => "https://fr.wikipedia.org/wiki/Special:Search?search=___MSG___&go=Go",
-  "tek" => "https://intra.epitech.eu/user/___MSG___",
-  "archfr" => "https://wiki.archlinux.fr/index.php?title=Sp%C3%A9cial%3ARecherche&search=___MSG___",
-  "arch" => "https://wiki.archlinux.org/index.php?title=Special%3ASearch&search=___MSG___&go=Go",
-  "gl" => "https://gitlab.com/search?utf8=%E2%9C%93&search=___MSG___&group_id=&repository_ref=",
-  "map" => "https://www.google.fr/maps/search/___MSG___/",
-  "actu" => "https://www.google.fr/search?hl=fr&gl=fr&tbm=nws&authuser=0&q=___MSG___",
-  "news" => "https://www.google.fr/search?hl=fr&gl=fr&tbm=nws&authuser=0&q=___MSG___",
-  "tw" => "https://twitter.com/search?q=___MSG___",
-  "buy" => "http://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313&_nkw=___MSG___&_sacat=0",
-  "buya" => "http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=___MSG___",
-}
-
+SEARCH_ENGINES = YAML.load_file(Arguments.new(ARGV).config_file)["search_engines"]
 SEARCH_ENGINES_VALUES = SEARCH_ENGINES.values.map{|e|"!"+e}.join(', ')
 SEARCH_ENGINES_KEYS = SEARCH_ENGINES.keys.map{|e|"!"+e}.join(', ')
 SEARCH_ENGINES_HELP = SEARCH_ENGINES.keys.map{|e|"!"+e+" [search]"}.join(', ')
