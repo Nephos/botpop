@@ -47,4 +47,11 @@ class Arguments
     return @argv[i + 1]
   end
 
+  DEFAULT_CONFIG = "modules_config.yml"
+  def config_file
+    i = @argv.index('--config')
+    return DEFAULT_CONFIG if i.nil?
+    return @argv[i + 1]
+  end
+  
 end
