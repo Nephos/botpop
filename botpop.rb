@@ -12,7 +12,7 @@ require_relative 'arguments'
 
 VERSION = IO.read('version')
 
-SEARCH_ENGINES = YAML.load_file('modules_config.yml')["search_engines"]
+SEARCH_ENGINES = YAML.load_file(Arguments.new(ARGV).config_file)["search_engines"]
 SEARCH_ENGINES_VALUES = SEARCH_ENGINES.values.map{|e|"!"+e}.join(', ')
 SEARCH_ENGINES_KEYS = SEARCH_ENGINES.keys.map{|e|"!"+e}.join(', ')
 SEARCH_ENGINES_HELP = SEARCH_ENGINES.keys.map{|e|"!"+e+" [search]"}.join(', ')
