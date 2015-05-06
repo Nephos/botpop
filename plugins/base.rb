@@ -4,11 +4,6 @@ module BotpopPlugins
   module Base
 
     VERSION = IO.read('version')
-
-    SEARCH_ENGINES = YAML.load_file(Arguments.new(ARGV).config_file)["search_engines"]
-    SEARCH_ENGINES_VALUES = SEARCH_ENGINES.values.map{|e|"!"+e}.join(', ')
-    SEARCH_ENGINES_KEYS = SEARCH_ENGINES.keys.map{|e|"!"+e}.join(', ')
-    SEARCH_ENGINES_HELP = SEARCH_ENGINES.keys.map{|e|"!"+e+" [search]"}.join(', ')
     TARGET = /[[:alnum:]_\-\.]+/
 
     def get_msg m
@@ -33,6 +28,13 @@ module BotpopPlugins
 
     def exec_help
       help m
+    end
+
+    def exec_troll m
+      # hours = (Time.now.to_i - Time.gm(2015, 04, 27, 9).to_i) / 60 / 60
+      s = get_msg m
+      url = "http://www.fuck-you-internet.com/delivery.php?text=#{s}"
+      m.reply url
     end
 
   end

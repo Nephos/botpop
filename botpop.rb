@@ -10,23 +10,20 @@ require 'yaml'
 require_relative 'action'
 require_relative 'arguments'
 
-# If you want, you can create your own plugins
-require_relative 'botpop_base'
-require_relative 'botpop_network'
-
 class Botpop
 
-  BotpopPlugins::constants.each{ |youknowwhatimeanplug| prepend BotpopPlugins::const_get(youknowwhatimeanplug)}
+  SEARCH_ENGINES = YAML.load_file(Arguments.new(ARGV).config_file)["search_engines"]
+  SEARCH_ENGINES_VALUES = SEARCH_ENGINES.values.map{|e|"!"+e}.join(', ')
+  SEARCH_ENGINES_KEYS = SEARCH_ENGINES.keys.map{|e|"!"+e}.join(', ')
+  SEARCH_ENGINES_HELP = SEARCH_ENGINES.keys.map{|e|"!"+e+" [search]"}.join(', ')
+
+  Dir[File.expand_path "plugins/*.rb"].each{|f| require_relative(f)}
+  BotpopPlugins::constants.each do |youknowwhatimeanplug|
+    prepend BotpopPlugins::const_get(youknowwhatimeanplug)
+  end
 
   def start
     @engine.start
-  end
-
-  def exec_troll m
-    # hours = (Time.now.to_i - Time.gm(2015, 04, 27, 9).to_i) / 60 / 60
-    s = get_msg m
-    url = "http://www.fuck-you-internet.com/delivery.php?text=#{s}"
-    m.reply url
   end
 
   def initialize argv
@@ -41,13 +38,14 @@ class Botpop
         c.nick = @argv.nick
       end
 
-      on :message, /\!(#{SEARCH_ENGINES.keys.join('|')}) .+/ do |m|
+      def exec_search m
         msg = get_msg m
         url = SEARCH_ENGINES[m.params[1..-1].join(' ').gsub(/\!([^ ]+) .+/, '\1')]
         url = url.gsub('___MSG___', msg)
         m.reply url
       end
 
+      on :message, /\!(#{SEARCH_ENGINES.keys.join('|')}) .+/ do |m| exec_search m end
       on :message, /!troll .+/ do |m| exec_troll m end
       on :message, "!version" do |m| exec_version m end
       on :message, "!code" do |m| exec_code m end
