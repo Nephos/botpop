@@ -18,3 +18,5 @@ search_engines:
   g: https://encrypted.google.com/search?hl=en&q=___MSG___
   code: http://rosettacode.org/mw/index.php?search=___MSG___&title=Special%3ASearch
   cpp: http://www.cplusplus.com/search.do?q=___MSG___
+  rb: ruby-doc.com/search.html?q=___MSG___&sa=Search
+  ror: https://github.com/rails?utf8=%E2%9C%93&query=___MSG___
