@@ -18,3 +18,6 @@ search_engines:
   g: https://encrypted.google.com/search?hl=en&q=___MSG___
   code: http://rosettacode.org/mw/index.php?search=___MSG___&title=Special%3ASearch
   cpp: http://www.cplusplus.com/search.do?q=___MSG___
+  xv: http://www.xvideos.com/?k=___MSG___
+  amazon: http://www.amazon.fr/s?url=search-alias=aps&field-keywords=___MSG___&tag=a2appw-21
+  pkmn: http://pokemondb.net/search?q=___MSG___
