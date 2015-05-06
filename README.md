@@ -17,7 +17,7 @@ It has been tested with ruby 2.2.
 - --no-ssl : disable ssl (enabled by default)
 - -n : nickname
 - -u : username
-- --config : change the plugin configuration file (default to ``plugins/config.yml``)
+- --config : change the plugin configuration file (default to ``modules_config.yml``)
 
 ## Plugins
 
