@@ -53,5 +53,5 @@ class Arguments
     return DEFAULT_CONFIG if i.nil?
     return @argv[i + 1]
   end
-  
+
 end

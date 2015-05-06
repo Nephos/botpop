@@ -17,4 +17,17 @@ It has been tested with ruby 2.2.
 - --no-ssl : disable ssl (enabled by default)
 - -n : nickname
 - -u : username
-- --config : change the configuration file (default to ``modules_config.yml``)
+- --config : change the plugin configuration file (default to ``modules_config.yml``)
+
+## Plugins
+
+You can easy create your own plugins. The documentation will be finished later.
+
+First, put your ruby code file in ``plugins/``, and put your code in the scope :
+```ruby
+module BotpopPlugins
+   ...code...
+end
+```
+
+You have to create your own match for now in the main ``botpop.rb`` file.
