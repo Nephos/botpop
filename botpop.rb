@@ -12,18 +12,11 @@ require_relative 'arguments'
 
 class Botpop
 
-  SEARCH_ENGINES = YAML.load_file(Arguments.new(ARGV).config_file)["search_engines"]
-  SEARCH_ENGINES_VALUES = SEARCH_ENGINES.values.map{|e|"!"+e}.join(', ')
-  SEARCH_ENGINES_KEYS = SEARCH_ENGINES.keys.map{|e|"!"+e}.join(', ')
-  SEARCH_ENGINES_HELP = SEARCH_ENGINES.keys.map{|e|"!"+e+" [search]"}.join(', ')
-
   VERSION = IO.read('version')
   TARGET = /[[:alnum:]_\-\.]+/
 
   Dir[File.expand_path "plugins/*.rb"].each{|f| require_relative(f)}
-  # BotpopPlugins::constants.each do |youknowwhatimeanplug|
-  #   prepend BotpopPlugins::const_get(youknowwhatimeanplug)
-  # end
+  prepend BotpopPlugins
 
   def start
     @engine.start
@@ -39,13 +32,6 @@ class Botpop
         c.port = @argv.port
         c.user = @argv.user
         c.nick = @argv.nick
-      end
-
-      def exec_search m
-        msg = get_msg m
-        url = SEARCH_ENGINES[m.params[1..-1].join(' ').gsub(/\!([^ ]+) .+/, '\1')]
-        url = url.gsub('___MSG___', msg)
-        m.reply url
       end
 
       on :message, /\!(#{SEARCH_ENGINES.keys.join('|')}) .+/ do |m| BotpopPlugins::exec_search m end
