@@ -14,10 +14,11 @@ search_engines:
   news: https://www.google.fr/search?hl=fr&gl=fr&tbm=nws&authuser=0&q=___MSG___
   tw: https://twitter.com/search?q=___MSG___
   buy: http://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313&_nkw=___MSG___&_sacat=0
-  buya: http://www.amazon.com/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=___MSG___
   g: https://encrypted.google.com/search?hl=en&q=___MSG___
   code: http://rosettacode.org/mw/index.php?search=___MSG___&title=Special%3ASearch
   cpp: http://www.cplusplus.com/search.do?q=___MSG___
   xv: http://www.xvideos.com/?k=___MSG___
   amazon: http://www.amazon.fr/s?url=search-alias=aps&field-keywords=___MSG___&tag=a2appw-21
   pkmn: http://pokemondb.net/search?q=___MSG___
+  rb: ruby-doc.com/search.html?q=___MSG___&sa=Search
+  ror: https://github.com/rails?utf8=%E2%9C%93&query=___MSG___
