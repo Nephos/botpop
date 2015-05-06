@@ -13,6 +13,7 @@ require_relative 'arguments'
 class Botpop
 
   VERSION = IO.read('version')
+  CONFIG = YAML.load_file(Arguments.new(ARGV).config_file)
   TARGET = /[[:alnum:]_\-\.]+/
 
   Dir[File.expand_path "plugins/*.rb"].each{|f| require_relative(f)}

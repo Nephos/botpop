@@ -2,7 +2,7 @@
 
 module BotpopPlugins
 
-    SEARCH_ENGINES = YAML.load_file(Arguments.new(ARGV).config_file)["search_engines"]
+    SEARCH_ENGINES = Botpop::CONFIG["search_engines"]
     SEARCH_ENGINES_VALUES = SEARCH_ENGINES.values.map{|e|"!"+e}.join(', ')
     SEARCH_ENGINES_KEYS = SEARCH_ENGINES.keys.map{|e|"!"+e}.join(', ')
     SEARCH_ENGINES_HELP = SEARCH_ENGINES.keys.map{|e|"!"+e+" [search]"}.join(', ')

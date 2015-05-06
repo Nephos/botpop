@@ -21,10 +21,13 @@ It has been tested with ruby 2.2.
 
 ## Plugins
 
-You can easy create your own plugins. The documentation will be done later.
+You can easy create your own plugins. The documentation will be finished later.
 
-For know, juste create a ruby code file, ``require_relative 'it'``, then put your plugin code in the scope
+First, put your ruby code file in ``plugins/``, and put your code in the scope :
 ```ruby
-BotpopPlugins::YouAwesomeNewPluginModule
+module BotpopPlugins
+   ...code...
+end
 ```
-You have to create your own match for know. The plugin system is in work.
+
+You have to create your own match for now in the main ``botpop.rb`` file.
