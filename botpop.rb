@@ -6,33 +6,41 @@ require 'uri'
 require 'net/ping'
 require 'pry'
 require 'yaml'
+require 'colorize'
 
 require_relative 'action'
 require_relative 'arguments'
 
+$botpod_arguments = ARGV
+
 class Botpop
 
+  ARGUMENTS = Arguments.new($botpod_arguments)
   VERSION = IO.read('version')
-  CONFIG = YAML.load_file(Arguments.new(ARGV).config_file)
+  CONFIG = YAML.load_file(ARGUMENTS.config_file)
   TARGET = /[[:alnum:]_\-\.]+/
 
-  Dir[File.expand_path "plugins/*.rb"].each{|f| require_relative(f)}
+  # Plugins loader
+  Dir[File.expand_path '*.rb', ARGUMENTS.plugin_directory].each do |f|
+    if !ARGUMENTS.disable_plugins.include? f
+      puts "Loading plugin ... " + f.green + " ... " + require_relative(f).to_s
+    end
+  end
   prepend BotpopPlugins
 
   def start
     @engine.start
   end
 
-  def initialize argv
+  def initialize
     @engine = Cinch::Bot.new do
-      @argv = Arguments.new argv
       configure do |c|
-        c.server = @argv.server
-        c.channels = @argv.channels
-        c.ssl.use = @argv.ssl
-        c.port = @argv.port
-        c.user = @argv.user
-        c.nick = @argv.nick
+        c.server = ARGUMENTS.server
+        c.channels = ARGUMENTS.channels
+        c.ssl.use = ARGUMENTS.ssl
+        c.port = ARGUMENTS.port
+        c.user = ARGUMENTS.user
+        c.nick = ARGUMENTS.nick
       end
 
       on :message, /\!(#{SEARCH_ENGINES.keys.join('|')}) .+/ do |m| BotpopPlugins::exec_search m end
@@ -57,5 +65,5 @@ class Botpop
 end
 
 if __FILE__ == $0
-  Botpop.new(ARGV).start
+  Botpop.new.start
 end

@@ -18,6 +18,8 @@ It has been tested with ruby 2.2.
 - -n : nickname
 - -u : username
 - --config : change the plugin configuration file (default to ``modules_config.yml``)
+- --plugin-directory : change the directory where the plugins are installed (default plugins/)
+- --plugin-disable : disable a plugin (can be specified many times)
 
 ## Plugins
 

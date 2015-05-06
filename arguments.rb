@@ -54,4 +54,27 @@ class Arguments
     return @argv[i + 1]
   end
 
+  DEFAULT_PLUGIN_DIR = 'plugins'
+  def plugin_directory
+    i = @argv.index('--plugin-directory')
+    return DEFAULT_PLUGIN_DIR if i.nil? or not Dir.exists?(@argv[i + 1])
+    return @argv[i + 1]
+  end
+
+  def disable_plugins
+    i = 0
+    plugins = []
+    argv = @argv.dup
+    while i
+      i = argv.index('--plugin-disable')
+      if i
+        plugin = argv[i + 1]
+        plugin = plugin + '.rb' if plugin[-4..-1] != '.rb'
+        plugins << File.expand_path(plugin, plugin_directory)
+        argv = argv[(i+2)..(-1)]
+      end
+    end
+    return plugins
+  end
+
 end
