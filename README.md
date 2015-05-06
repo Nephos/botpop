@@ -18,3 +18,13 @@ It has been tested with ruby 2.2.
 - -n : nickname
 - -u : username
 - --config : change the configuration file (default to ``modules_config.yml``)
+
+## Plugins
+
+You can easy create your own plugins. The documentation will be done later.
+
+For know, juste create a ruby code file, ``require_relative 'it'``, then put your plugin code in the scope
+```ruby
+BotpopPlugins::YouAwesomeNewPluginModule
+```
+You have to create your own match for know. The plugin system is in work.
