@@ -86,14 +86,15 @@ module BotpopPlugins
       begin
         ip = get_ip m
         m.reply "It can take time"
-        t1 = Time.now; s = Actio.trace; t2 = Time.now
+        t1 = Time.now; s = Action.trace ip; t2 = Time.now
         m.reply "Used #{(t2 - t1).round(3)} seconds"
         so = s.select{|e| not e.include? "no reply" and e =~ /\A \d+: .+/}
         @trace.unlock
         duration = 0.3
         so.each{|l| m.reply l; sleep duration; duration += 0.1}
         m.reply "Trace #{ip} done"
-      rescue # in error case
+      rescue => e
+        m.reply "Sorry, but the last author of this plugin is so stupid his mother is a tomato"
         @trace.unlock
       end
     else
