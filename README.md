@@ -25,6 +25,7 @@ Ruby 2 or greater is required. To be compatible with Ruby 1.9, you can try :
 
 ## Plugins
 
+### Create your own
 You can easy create your own plugins. The documentation will be finished later.
 
 First, put your ruby code file in ``plugins/``, and put your code in the scope :
@@ -34,8 +35,20 @@ module BotpopPlugins
 end
 ```
 
+### Matching messages
 You __have to create your own match__ for now in the main ``botpop.rb`` file.
 It has to seems like :
 ```ruby
   on :message, /!command argumentregexp/ do |m| BotpopPlugins::exec_command m end
+```
+
+### Debugging easier
+You can specify the --debug OPT option at program start.
+It will define as many ``$debug_OPT`` globals to enable debug on the plugins.
+
+as example:
+```ruby
+if $debug_plugin and variable == :failed
+  binding.pry
+end
 ```
