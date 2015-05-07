@@ -43,6 +43,7 @@ class Botpop
         c.nick = ARGUMENTS.nick
       end
 
+      on :message, /coupon: .+/ do |m| BotpopPlugins::exec_coupon m end
       on :message, /\!(#{SEARCH_ENGINES.keys.join('|')}) .+/ do |m| BotpopPlugins::exec_search m end
       on :message, /!troll .+/ do |m| BotpopPlugins::exec_troll m end
       on :message, "!version" do |m| BotpopPlugins::exec_version m end
