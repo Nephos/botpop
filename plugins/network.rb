@@ -29,8 +29,12 @@ module BotpopPlugins
   end
 
   def self.exec_intra_off m
-    @intra_on = false
-    m.reply "INTRA SPY OFF"
+    if @intra_on
+      @intra_on = false
+      m.reply "INTRA SPY OFF"
+    else
+      m.reply "INTRA SPY ALREADY OFF"
+    end
   end
 
   def self.exec_ping m
