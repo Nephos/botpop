@@ -44,11 +44,12 @@ It has to seems like :
 
 ### Debugging easier
 You can specify the --debug OPT option at program start.
-It will define as many ``$debug_OPT`` globals to enable debug on the plugins.
+It will define as many __$debug_OPT__ globals to enable debug on the plugins.
 
-as example:
+As example:
 ```ruby
-if $debug_plugin and variable == :failed
-  binding.pry
+if $debug_plugin and variable == :failed # If debug enabled for this options and error occured
+  binding.pry # user hand here
+  # Obsiously, it is usefull to trylock a mutex before because the bot use Thread and can call many times this binding.pry
 end
 ```
