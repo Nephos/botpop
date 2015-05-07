@@ -30,7 +30,7 @@ module BotpopPlugins
       request.body = {'coupon' => coupon, 'organization' => COUPON_ORGA}.to_json
       response = http.request(request)
       # `curl https://api.pathwar.net/organization-coupons/#{coupon} -u '#{USER}:#{PASS}' -X GET`
-      m.reply "#{coupon} " + (response.code == '200' ? 'validated' : "failed with #{response.code}")
+      m.reply "#{coupon} " + (response.code[0] == '2' ? 'validated' : "failed with #{response.code}")
     rescue => e
       m.reply "#{coupon} buggy"
     end
