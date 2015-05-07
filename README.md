@@ -3,8 +3,6 @@
 
 ## Usage
 
-Simply change in the code the channels / server (2 examples provided with the executable)
-
 Ruby 2 or greater is required. To be compatible with Ruby 1.9, you can try :
 ``sed 's/prepend/include/g' -i botpop.rb`` but no garanties...
 
