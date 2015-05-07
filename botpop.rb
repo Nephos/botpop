@@ -47,10 +47,9 @@ class Botpop
         c.nick = ARGUMENTS.nick
       end
 
+      # Load the matchs
       BotpopPlugins.constants.each do |const|
-        if const =~ /\AMATCH_/
-          BotpopPlugins.const_get(const).call(self)
-        end
+        BotpopPlugins.const_get(const).call(self) if const =~ /\AMATCH_/
       end
 
     end
