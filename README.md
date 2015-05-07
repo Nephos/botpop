@@ -12,15 +12,16 @@ Ruby 2 or greater is required. To be compatible with Ruby 1.9, you can try :
 
 ## Arguments
 
-- -c : list of channels (default equilibre)
-- -s : server ip (default to freenode)
-- -p : port (default 7000 or 6667 if no ssl)
+- -c <OPT> : list of channels (default equilibre)
+- -s <OPT> : server ip (default to freenode)
+- -p <OPT> : port (default 7000 or 6667 if no ssl)
 - --no-ssl : disable ssl (enabled by default)
-- -n : nickname
-- -u : username
-- --config : change the plugin configuration file (default to ``modules_config.yml``)
-- --plugin-directory : change the directory where the plugins are installed (default plugins/)
-- --plugin-disable : disable a plugin (can be specified many times)
+- -n <OPT> : nickname
+- -u <OPT> : username
+- --config <OPT> : change the plugin configuration file (default to ``modules_config.yml``)
+- --plugin-directory <OPT> : change the directory where the plugins are installed (default plugins/)
+- --plugin-disable <OPT> : disable a plugin (can be specified many times)
+- --debug <OPT> : enable the debug mod. It et a global $debug_<OPT> to true.
 
 ## Plugins
 

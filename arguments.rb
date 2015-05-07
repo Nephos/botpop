@@ -3,7 +3,18 @@ class Arguments
 
   def initialize argv
     @argv = argv
-    $debug = @argv.include?('--debug')
+
+    i = 0
+    debugvars = []
+    argv = @argv.dup
+    while i
+      i = argv.index('--debug')
+      if i
+        debugvars << argv[i + 1]
+        argv = argv[(i+2)..(-1)]
+      end
+    end
+    debugvars.each{|dv| eval("$debug_#{dv}=true")}
   end
 
   def server

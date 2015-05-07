@@ -31,7 +31,7 @@ module BotpopPlugins
     rescue => e
       m.reply "#{coupon} buggy"
     end
-    if $debug and @lockcoupon.try_lock
+    if $debug_coupons and @lockcoupon.try_lock
       binding.pry
       @lockcoupon.unlock
     end
