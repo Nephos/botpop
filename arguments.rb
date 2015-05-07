@@ -1,9 +1,24 @@
 # encoding: utf-8
 class Arguments
 
+  # @arg : name [String] the option to search
+  # @arg : name [Array] the options to search (multiples keys avaliables)
+  def get_one_argument(name, default_value)
+    if name.is_a? String
+      i = @argv.index(name)
+    elsif name.is_a? Array
+      i = nil
+      name.each{|n| i ||= @argv.index(n) }
+    else
+      raise ArgumentError, "name must be an Array or a String, not #{name.class}"
+    end
+    return default_value if i.nil?
+    value = @argv[i + 1]
+    return value.empty? ? default_value : value
+  end
+
   def initialize argv
     @argv = argv
-
     i = 0
     debugvars = []
     argv = @argv.dup
@@ -17,10 +32,9 @@ class Arguments
     debugvars.each{|dv| eval("$debug_#{dv}=true")}
   end
 
+  DEFAULT_SERVER = 'irc.freenode.org'
   def server
-    i = @argv.index('--ip') || @argv.index('-s')
-    return 'irc.freenode.org' if i.nil? or @argv.size <= i
-    return @argv[i + 1]
+    get_one_argument ['--ip', '-s'], DEFAULT_SERVER
   end
 
   def channels
@@ -47,30 +61,23 @@ class Arguments
     return !@argv.include?('--no-ssl')
   end
 
+  DEFAULT_NICK = 'cotcot'
   def nick
-    i = @argv.index('-n') || @argv.index('-u')
-    return 'cotcot' if i.nil?
-    return @argv[i + 1]
+    get_one_argument ['-n', '-u'], DEFAULT_NICK
   end
 
   def user
-    i = @argv.index('-u') || @argv.index('-n')
-    return 'cotcot' if i.nil?
-    return @argv[i + 1]
+    get_one_argument ['-u', '-n'], DEFAULT_NICK
   end
 
   DEFAULT_CONFIG = "modules_config.yml"
   def config_file
-    i = @argv.index('--config')
-    return DEFAULT_CONFIG if i.nil?
-    return @argv[i + 1]
+    get_one_argument ['--config'], DEFAULT_CONFIG
   end
 
   DEFAULT_PLUGIN_DIR = 'plugins'
   def plugin_directory
-    i = @argv.index('--plugin-directory')
-    return DEFAULT_PLUGIN_DIR if i.nil? or not Dir.exists?(@argv[i + 1])
-    return @argv[i + 1]
+    get_one_argument ['--plugin_directory'], DEFAULT_PLUGIN_DIR
   end
 
   def disable_plugins
