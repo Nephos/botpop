@@ -32,4 +32,8 @@ module BotpopPlugins
 end
 ```
 
-You have to create your own match for now in the main ``botpop.rb`` file.
+You __have to create your own match__ for now in the main ``botpop.rb`` file.
+It has to seems like :
+```ruby
+  on :message, /!command argumentregexp/ do |m| BotpopPlugins::exec_command m end
+```
