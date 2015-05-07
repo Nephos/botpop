@@ -48,8 +48,10 @@ It will define as many __$debug_OPT__ globals to enable debug on the plugins.
 
 As example:
 ```ruby
-if $debug_plugin and variable == :failed # If debug enabled for this options and error occured
+# If debug enabled for this options and error occured
+if $debug_plugin and variable == :failed
   binding.pry # user hand here
-  # Obsiously, it is usefull to trylock a mutex before because the bot use Thread and can call many times this binding.pry
+  # Obsiously, it is usefull to trylock a mutex before because the bot use
+  # Threads and can call many times this binding.pry
 end
 ```
