@@ -1,6 +1,10 @@
 #!/usr/bin/env ruby
 #encoding: utf-8
 
+if RUBY_VERSION.split('.').first.to_i == 1
+  raise RuntimeError, "#{__FILE__} is not compatible with Ruby 1.X."
+end
+
 require 'cinch'
 require 'uri'
 require 'net/ping'
