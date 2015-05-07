@@ -17,25 +17,25 @@ module BotpopPlugins
     end
 
     def self.exec_ping_target m
-      ip = Action.get_ip m
+      ip = Builtin.get_ip m
       p = Net::Ping::External.new ip
       str = p.ping(ip) ? "#{(p.duration*100.0).round 2}ms (#{p.host})" : 'failed'
       m.reply "#{ip} > ping > #{str}"
     end
 
     def self.exec_poke m
-      nick = Action.get_ip_from_nick(m)[:nick]
-      ip = Action.get_ip_from_nick(m)[:ip]
+      nick = Builtin.get_ip_from_nick(m)[:nick]
+      ip = Builtin.get_ip_from_nick(m)[:ip]
       return m.reply "User '#{nick}' doesn't exists" if ip.nil?
       # Display
-      response = Action.ping(ip) ? "#{(p.duration*100.0).round 2}ms (#{p.host})" : "failed"
+      response = Builtin.ping(ip) ? "#{(p.duration*100.0).round 2}ms (#{p.host})" : "failed"
       m.reply "#{nick} > poke > #{response}"
     end
 
     DOS_DURATION = "2s"
     DOS_WAIT = 5
     def self.exec_dos_check_ip(m, ip)
-      return true if Action.ping(ip)
+      return true if Builtin.ping(ip)
       m.reply "Cannot reach the host '#{ip}'"
       @dos.unlock
       return false
@@ -44,11 +44,11 @@ module BotpopPlugins
     def self.exec_dos m
       @dos ||= Mutex.new
       if @dos.try_lock
-        ip = Action.get_ip m
+        ip = Builtin.get_ip m
         return if not exec_dos_check_ip(m, ip)
         m.reply "Begin attack against #{ip}"
-        s = Action.dos(ip, DOS_DURATION).split("\n")[3].to_s rescue s = nil
-        m.reply (Action.ping(ip) ? "failed :(" : "down !!!") + " " + s if s
+        s = Builtin.dos(ip, DOS_DURATION).split("\n")[3].to_s rescue s = nil
+        m.reply (Builtin.ping(ip) ? "failed :(" : "down !!!") + " " + s if s
         sleep DOS_WAIT
         @dos.unlock
       else
@@ -57,12 +57,12 @@ module BotpopPlugins
     end
 
     def self.exec_fok m
-      nick = Action.get_ip_from_nick(m)[:nick]
-      ip = Action.get_ip_from_nick(m)[:ip]
+      nick = Builtin.get_ip_from_nick(m)[:nick]
+      ip = Builtin.get_ip_from_nick(m)[:ip]
       return m.reply "User '#{nick}' doesn't exists" if ip.nil?
-      return m.reply "Cannot reach the host '#{ip}'" if not Action.ping(ip)
-      s = Action.dos(ip, DOS_DURATION).split("\n")[3].to_s
-      m.reply "#{nick} : " + (Action.ping(ip) ? "failed :(" : "down !!!") + " " + s
+      return m.reply "Cannot reach the host '#{ip}'" if not Builtin.ping(ip)
+      s = Builtin.dos(ip, DOS_DURATION).split("\n")[3].to_s
+      m.reply "#{nick} : " + (Builtin.ping(ip) ? "failed :(" : "down !!!") + " " + s
     end
 
     # Trace is complexe. 3 functions used exec_trace_display_lines, exec_trace_with_time, exec_trace
@@ -81,7 +81,7 @@ module BotpopPlugins
 
     def self.exec_trace_with_time ip
       t1 = Time.now
-      s = Action.trace ip
+      s = Builtin.trace ip
       t2 = Time.now
       return [s, t1, t2]
     end
@@ -89,7 +89,7 @@ module BotpopPlugins
     def self.exec_trace m
       @trace ||= Mutex.new
       if @trace.try_lock
-        ip = Action.get_ip m
+        ip = Builtin.get_ip m
         m.reply "It can take time"
         begin
           # Calculations

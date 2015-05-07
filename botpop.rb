@@ -12,8 +12,8 @@ require 'pry'
 require 'yaml'
 require 'colorize'
 
-require_relative 'action'
 require_relative 'arguments'
+require_relative 'builtin'
 
 $botpod_arguments ||= ARGV
 

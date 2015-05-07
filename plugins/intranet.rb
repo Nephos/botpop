@@ -10,7 +10,7 @@ module BotpopPlugins
     end
 
     def self.exec_intra m
-      m.reply Action.intra_state rescue m.reply "I'm buggy. Sorry"
+      m.reply Builtin.intra_state rescue m.reply "I'm buggy. Sorry"
     end
 
     INTRA_PING_SLEEP = 30
@@ -20,7 +20,7 @@ module BotpopPlugins
         @intra_on = true
         m.reply "INTRANET SPY ON"
         while @intra_on
-          m.reply Action.intra_state rescue return @intra.unlock
+          m.reply Builtin.intra_state rescue return @intra.unlock
           sleep INTRA_PING_SLEEP
         end
         @intra.unlock
