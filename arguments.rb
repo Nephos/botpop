@@ -23,7 +23,9 @@ class Arguments
     debugvars = []
     argv = @argv.dup
     while i
-      i = argv.index('--debug')
+      i1 = argv.index('--debug')
+      i2 = argv.index('-d')
+      i = i1 ? i2 ? i1 < i2 ? i1 : i2 : i1 : i2
       if i
         debugvars << argv[i + 1]
         argv = argv[(i+2)..(-1)]
@@ -38,7 +40,7 @@ class Arguments
   end
 
   def channels
-    i = @argv.index '-c'
+    i = @argv.index('--channel') || @argv.index('-c')
     return ['#equilibre'] if i.nil?
     chans = @argv[(i+1)..-1]
     i = chans.index{|c| c[0] == '-'}
@@ -48,10 +50,10 @@ class Arguments
   end
 
   def port
-    if ssl and not @argv.index('-p')
+    if ssl and not @argv.index('--port') and not @argv.index('-p')
       return 7000
     else
-      i = @argv.index('-p')
+      i = @argv.index('--port') || @argv.index('-p')
       return 6667 if i.nil?
       return @argv[i + 1].to_i
     end
@@ -63,11 +65,11 @@ class Arguments
 
   DEFAULT_NICK = 'cotcot'
   def nick
-    get_one_argument ['-n', '-u'], DEFAULT_NICK
+    get_one_argument ['--nick', '-n', '--user', '-u'], DEFAULT_NICK
   end
 
   def user
-    get_one_argument ['-u', '-n'], DEFAULT_NICK
+    get_one_argument ['--user', '-u', '--nick', '-n'], DEFAULT_NICK
   end
 
   DEFAULT_CONFIG = "modules_config.yml"
