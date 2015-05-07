@@ -32,7 +32,9 @@ You can easy create your own plugins. The documentation will be finished later.
 First, put your ruby code file in ``plugins/``, and put your code in the scope :
 ```ruby
 module BotpopPlugins
-   ...code...
+  module MyPlugin
+    ...code...
+  end
 end
 ```
 
@@ -40,10 +42,12 @@ end
 To create a matching to respond to a message, you have to specifie in your plugin :
 ```ruby
 module BotpopPlugins
-  MATCH_BASE = lambda do |parent|
-    parent.on :message, /!command argumentregexp/ do |m| BotpopPlugins::exec_command m end
+  module MyPlugin
+    MATCH = lambda do |parent|
+      parent.on :message, /!command argumentregexp/ do |m| BotpopPlugins::exec_command m end
+    end
+    ...code...
   end
-  ...code
 end
 ```
 
