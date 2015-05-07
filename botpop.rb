@@ -27,10 +27,18 @@ class Botpop
   # Plugins loader
   Dir[File.expand_path '*.rb', ARGUMENTS.plugin_directory].each do |f|
     if !ARGUMENTS.disable_plugins.include? f
-      puts "Loading plugin ... " + f.green + " ... " + require_relative(f).to_s
+      puts "Loading plugin file ... " + f.green + " ... " + require_relative(f).to_s
     end
   end
-  prepend BotpopPlugins
+
+  @@plugins = []
+  BotpopPlugins.constants.each do |const|
+    plugin = BotpopPlugins.const_get(const)
+    next if not plugin.is_a? Module
+    puts "Load plugin #{plugin}".green
+    prepend plugin
+    @@plugins << plugin
+  end
 
   def start
     @engine.start
@@ -47,9 +55,9 @@ class Botpop
         c.nick = ARGUMENTS.nick
       end
 
-      # Load the matchs
-      BotpopPlugins.constants.each do |const|
-        BotpopPlugins.const_get(const).call(self) if const =~ /\AMATCH_/
+      @@plugins.each do |plugin|
+        puts "Load matchings of the plugin #{plugin}".green
+        plugin::MATCH.call(self, plugin) rescue puts "No matching found for #{plugin}".red
       end
 
     end
