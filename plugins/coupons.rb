@@ -23,11 +23,7 @@ module BotpopPlugins
 
       # `curl https://api.pathwar.net/organization-coupons/#{coupon} -u '#{USER}:#{PASS}' -X GET`
       STDERR.puts @rep.body
-      if @rep.code == '200'
-        m.reply "#{coupon} validated"
-      else
-        m.reply "#{coupon} missed"
-      end
+      m.reply "#{coupon} " + (@rep.code == '200' ? 'validated' : 'missed')
     rescue
       m.reply "#{coupon} buggy"
     end
