@@ -3,6 +3,7 @@ class Arguments
 
   def initialize argv
     @argv = argv
+    $debug = @argv.include?('--debug')
   end
 
   def server

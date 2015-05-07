@@ -14,6 +14,7 @@ module BotpopPlugins
   COUPON_URL = URI(COUPON_APIU)
 
   def self.exec_coupon m
+    @lockcoupon ||= Mutex.new
     coupon = m.params[1..-1].join(' ').gsub(/(coupon:)/, '').split.first
     coupon = coupon.gsub(/[^A-z0-9\.\-_]/, '') # secure a little
     begin
@@ -23,12 +24,16 @@ module BotpopPlugins
       request = Net::HTTP::Post.new(COUPON_URL)
       request.add_field('Content-Type', 'application/json')
       request.basic_auth COUPON_USER, COUPON_PASS
-      request.body = {'coupon' => coupon, 'organisation' => COUPON_ORGA}.to_json
+      request.body = {'coupon' => coupon, 'organization' => COUPON_ORGA}.to_json
       response = http.request(request)
       # `curl https://api.pathwar.net/organization-coupons/#{coupon} -u '#{USER}:#{PASS}' -X GET`
       m.reply "#{coupon} " + (response.code == '200' ? 'validated' : "failed with #{response.code}")
     rescue => e
       m.reply "#{coupon} buggy"
+    end
+    if $debug and @lockcoupon.try_lock
+      binding.pry
+      @lockcoupon.unlock
     end
   end
 
