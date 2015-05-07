@@ -44,13 +44,6 @@ class Botpop
     @engine.start
   end
 
-  def load_plugins_match
-    @@plugins.each do |plugin|
-      puts "Load matchings of the plugin #{plugin}".green
-      plugin::MATCH.call(self, plugin) rescue puts "No matching found for #{plugin}".red
-    end
-  end
-
   def initialize
     @engine = Cinch::Bot.new do
       configure do |c|
@@ -61,7 +54,10 @@ class Botpop
         c.user = ARGUMENTS.user
         c.nick = ARGUMENTS.nick
       end
-      load_plugins_match
+      @@plugins.each do |plugin|
+        puts "Load matchings of the plugin #{plugin}".green
+        plugin::MATCH.call(self, plugin) rescue puts "No matching found for #{plugin}".red
+      end
     end
   end
 

@@ -18,28 +18,46 @@ module BotpopPlugins
     APIU = CONFIG['api_coupon_url']
     URL = URI(APIU)
 
-    def self.exec_coupon m
-      @lockcoupon ||= Mutex.new
+    def self.exec_coupon_debug
+      if @lockcoupon.try_lock
+        binding.pry rescue return @lockcoupon.unlock
+        @lockcoupon.unlock
+      end
+    end
+
+    def self.get_coupon m
       coupon = m.params[1..-1].join(' ').gsub(/(coupon:)/, '').split.first
       coupon = coupon.gsub(/[^A-z0-9\.\-_]/, '') # secure a little
+      coupon
+    end
+
+    def self.send_coupon coupon
+      @http ||= Net::HTTP.new(URL.host, URL.port)
+      @http.use_ssl = true
+      # http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      request = Net::HTTP::Post.new(URL)
+      request.add_field('Content-Type', 'application/json')
+      request.basic_auth USER, PASS
+      request.body = {'coupon' => coupon, 'organization' => ORGA}.to_json
+      response = @http.request(request)
+      @response = response
+      @request = request
+      response
+    end
+
+    def self.exec_coupon m
+      @lockcoupon ||= Mutex.new if $debug_coupons
+      coupon = get_coupon m
       begin
-        http = Net::HTTP.new(URL.host, URL.port)
-        http.use_ssl = true
-        # http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-        request = Net::HTTP::Post.new(URL)
-        request.add_field('Content-Type', 'application/json')
-        request.basic_auth USER, PASS
-        request.body = {'coupon' => coupon, 'organization' => ORGA}.to_json
-        response = http.request(request)
+        response = send_coupon coupon
         # `curl https://api.pathwar.net/organization-coupons/#{coupon} -u '#{USER}:#{PASS}' -X GET`
         m.reply "#{coupon} " + (response.code[0] == '2' ? 'validated' : "failed with #{response.code}")
       rescue => e
         m.reply "#{coupon} buggy"
+        @err = e
+        exec_coupon_debug if $debug_coupons
       end
-      if $debug_coupons and @lockcoupon.try_lock
-        binding.pry
-        @lockcoupon.unlock
-      end
+      exec_coupon_debug if $debug_all_coupons
     end
 
   end
