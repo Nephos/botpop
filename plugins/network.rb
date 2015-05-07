@@ -1,6 +1,17 @@
 #encoding: utf-8
 
 module BotpopPlugins
+  MATCH_NETWORK = lambda do |parent|
+    parent.on :message, "!intra" do |m| BotpopPlugins::exec_intra m end
+    parent.on :message, "!intra on" do |m| BotpopPlugins::exec_intra_on m end
+    parent.on :message, "!intra off" do |m| BotpopPlugins::exec_intra_off m end
+    parent.on :message, "!ping" do |m| BotpopPlugins::exec_ping m end
+    parent.on :message, /!ping #{Botpop::TARGET}\Z/ do |m| BotpopPlugins::exec_ping_target m end
+    parent.on :message, /!dos #{Botpop::TARGET}\Z/ do |m| BotpopPlugins::exec_dos m end
+    parent.on :message, /!fok #{Botpop::TARGET}\Z/ do |m| BotpopPlugins::exec_fok m end
+    parent.on :message, /!trace #{Botpop::TARGET}\Z/ do |m| BotpopPlugins::exec_trace m end
+    parent.on :message, /!poke #{Botpop::TARGET}\Z/ do |m| BotpopPlugins::exec_poke m end
+  end
 
   def self.exec_intra m
     m.reply Action.intra_state rescue m.reply "I'm buggy. Sorry"

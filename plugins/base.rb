@@ -2,6 +2,14 @@
 
 module BotpopPlugins
 
+  MATCH_BASE = lambda do |parent|
+    parent.on :message, /!troll .+/ do |m| BotpopPlugins::exec_troll m end
+    parent.on :message, "!version" do |m| BotpopPlugins::exec_version m end
+    parent.on :message, "!code" do |m| BotpopPlugins::exec_code m end
+    parent.on :message, "!cmds" do |m| BotpopPlugins::exec_help m end
+    parent.on :message, "!help" do |m| BotpopPlugins::exec_help m end
+  end
+
   def self.get_msg m
     URI.encode(m.params[1..-1].join(' ').gsub(/\![^ ]+ /, ''))
   end

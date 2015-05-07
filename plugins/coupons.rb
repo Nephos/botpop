@@ -5,6 +5,9 @@ require 'net/http'
 require 'json'
 
 module BotpopPlugins
+  MATCH_COUPON = lambda do |parent|
+    parent.on :message, /coupon: .+/ do |m| BotpopPlugins::exec_coupon m end
+  end
 
   COUPON_CONFIG = YAML.load_file('plugins/coupon_login.yml')['creditentials']
   COUPON_USER = COUPON_CONFIG['username']
