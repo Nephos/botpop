@@ -40,7 +40,7 @@ class Arguments
   end
 
   def channels
-    i = @argv.index('--channel') || @argv.index('-c')
+    i = @argv.index('--channels') || @argv.index('-c')
     return ['#equilibre'] if i.nil?
     chans = @argv[(i+1)..-1]
     i = chans.index{|c| c[0] == '-'}
