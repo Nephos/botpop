@@ -1,0 +1,6 @@
+creditentials:
+  username: login
+  password: pass
+  organisation: orga
+  api_url: https://api.pathwar.net/
+  api_coupon_url: https://api.pathwar.net/organization-coupons/
