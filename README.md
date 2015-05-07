@@ -1,4 +1,5 @@
 # botpop
+[![Code Climate](https://codeclimate.com/github/pouleta/botpop/badges/gpa.svg)](https://codeclimate.com/github/pouleta/botpop)
 
 ## Usage
 
