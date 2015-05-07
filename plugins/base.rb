@@ -10,14 +10,6 @@ module BotpopPlugins
     parent.on :message, "!help" do |m| BotpopPlugins::exec_help m end
   end
 
-  def self.get_msg m
-    URI.encode(m.params[1..-1].join(' ').gsub(/\![^ ]+ /, ''))
-  end
-
-  def self.get_ip m
-    m.params[1..-1].join(' ').gsub(/\![^ ]+ /, '').gsub(/[^[:alnum:]\-\_\.]/, '')
-  end
-
   # This is the most creepy and ugly method ever see
   def self.help m
     m.reply "!cmds, !help, !version, !code, !dos [ip], !fok [nick], !ping, !ping [ip], !trace [ip], !poke [nick], !troll [msg], !intra, !intra [on/off], #{Botpop::SEARCH_ENGINES_HELP}"

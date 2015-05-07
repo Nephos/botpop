@@ -1,10 +1,8 @@
 #encoding: utf-8
 
 module BotpopPlugins
+
   MATCH_NETWORK = lambda do |parent|
-    parent.on :message, "!intra" do |m| BotpopPlugins::exec_intra m end
-    parent.on :message, "!intra on" do |m| BotpopPlugins::exec_intra_on m end
-    parent.on :message, "!intra off" do |m| BotpopPlugins::exec_intra_off m end
     parent.on :message, "!ping" do |m| BotpopPlugins::exec_ping m end
     parent.on :message, /!ping #{Botpop::TARGET}\Z/ do |m| BotpopPlugins::exec_ping_target m end
     parent.on :message, /!dos #{Botpop::TARGET}\Z/ do |m| BotpopPlugins::exec_dos m end
@@ -13,47 +11,23 @@ module BotpopPlugins
     parent.on :message, /!poke #{Botpop::TARGET}\Z/ do |m| BotpopPlugins::exec_poke m end
   end
 
-  def self.exec_intra m
-    m.reply Action.intra_state rescue m.reply "I'm buggy. Sorry"
-  end
-
-  INTRA_PING_SLEEP = 30
-  def self.exec_intra_on m
-    @intra ||= Mutex.new
-    if @intra.try_lock
-      @intra_on = true
-      m.reply "INTRANET SPY ON"
-      while @intra_on
-        m.reply Action.intra_state rescue return @intra.unlock
-        sleep INTRA_PING_SLEEP
-      end
-      @intra.unlock
-    else
-      m.reply "INTRA SPY ALREADY ON"
-    end
-  end
-
-  def self.exec_intra_off m
-    if @intra_on
-      @intra_on = false
-      m.reply "INTRA SPY OFF"
-    else
-      m.reply "INTRA SPY ALREADY OFF"
-    end
-  end
-
   def self.exec_ping m
-    m.reply "#{m.user} pong"
+    m.reply "#{m.user} > pong"
   end
 
   def self.exec_ping_target m
-    ip = get_ip m
-    p = Net::Ping::External.new ip
-    str = "failed"
-    if p.ping?
-      str = "#{(p.duration*100.0).round 2}ms (#{p.host})"
-    end
-    m.reply "#{ip} ping> #{str}"
+    ip = Action.get_ip m
+    str = Action.ping(ip) ? "#{(p.duration*100.0).round 2}ms (#{p.host})" : 'failed'
+    m.reply "#{ip} > ping > #{str}"
+  end
+
+  def self.exec_poke m
+    nick = Action.get_ip_from_nick(m)[:nick]
+    ip = Action.get_ip_from_nick(m)[:ip]
+    return m.reply "User '#{nick}' doesn't exists" if ip.nil?
+    # Display
+    response = Action.ping(ip) ? "#{(p.duration*100.0).round 2}ms (#{p.host})" : "failed"
+    m.reply "#{nick} > poke > #{response}"
   end
 
   DOS_DURATION = "2s"
@@ -61,7 +35,7 @@ module BotpopPlugins
   def self.exec_dos m
     @dos ||= Mutex.new
     if @dos.try_lock
-      ip = get_ip m
+      ip = Action.get_ip m
       begin
         if not Action.ping(ip)
           m.reply "Cannot reach the host '#{ip}'"
@@ -83,15 +57,9 @@ module BotpopPlugins
     end
   end
 
-  def self.get_ip_from_nick m
-    nick = get_ip m
-    ip = m.target.users.keys.find{|u| u.nick == nick rescue nil}.host rescue nil
-    return {nick: nick, ip: ip}
-  end
-
   def self.exec_fok m
-    nick = get_ip_from_nick(m)[:nick]
-    ip = get_ip_from_nick(m)[:ip]
+    nick = Action.get_ip_from_nick(m)[:nick]
+    ip = Action.get_ip_from_nick(m)[:ip]
     return m.reply "User '#{nick}' doesn't exists" if ip.nil?
     return m.reply "Cannot reach the host '#{ip}'" if not Action.ping(ip)
     s = Action.dos(ip, DOS_DURATION).split("\n")[3].to_s
@@ -122,7 +90,7 @@ module BotpopPlugins
   def self.exec_trace m
     @trace ||= Mutex.new
     if @trace.try_lock
-      ip = get_ip m
+      ip = Action.get_ip m
       m.reply "It can take time"
       begin
         # Calculations
@@ -138,17 +106,6 @@ module BotpopPlugins
     else
       m.reply "Please retry after when the last trace end"
     end
-  end
-
-  def self.exec_poke m
-    nick = get_ip_from_nick(m)[:nick]
-    ip = get_ip_from_nick(m)[:ip]
-    return m.reply "User '#{nick}' doesn't exists" if ip.nil?
-    # Calculations
-    p = Net::Ping::External.new ip
-    # Display
-    response = p.ping? ? "#{(p.duration*100.0).round 2}ms (#{p.host})" : "failed"
-    m.reply "#{nick} poke> #{response}"
   end
 
 end
