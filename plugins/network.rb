@@ -3,26 +3,20 @@
 module BotpopPlugins
 
   def self.exec_intra m
-    m.reply Action.intra_state
+    m.reply Action.intra_state rescue m.reply "I'm buggy. Sorry"
   end
 
-  INTRA_PING_SLEEP = 30
+  INTRA_PING_SLEEP = 1 #30
   def self.exec_intra_on m
     @intra ||= Mutex.new
     if @intra.try_lock
-      begin
-        m.reply "INTRANET SPY ON"
-        @intra_on = true
-        sleep 1
-        loop do
-          break if @intra_on == false
-          m.reply Action.intra_state
-          sleep INTRA_PING_SLEEP
-        end
-        @intra.unlock
-      rescue
-        @intra.unlock
+      @intra_on = true
+      m.reply "INTRANET SPY ON"
+      while @intra_on
+        m.reply Action.intra_state rescue return @intra.unlock
+        sleep INTRA_PING_SLEEP
       end
+      @intra.unlock
     else
       m.reply "INTRA SPY ALREADY ON"
     end
@@ -75,9 +69,15 @@ module BotpopPlugins
     end
   end
 
-  def self.exec_fok m
+  def self.get_ip_from_nick m
     nick = get_ip m
     ip = m.target.users.keys.find{|u| u.nick == nick rescue nil}.host rescue nil
+    return {nick: nick, ip: ip}
+  end
+
+  def self.exec_fok m
+    nick = get_ip_from_nick(m)[:nick]
+    ip = get_ip_from_nick(m)[:ip]
     return m.reply "User '#{nick}' doesn't exists" if ip.nil?
     return m.reply "Cannot reach the host '#{ip}'" if not Action.ping(ip)
     s = Action.dos(ip, DOS_DURATION).split("\n")[3].to_s
@@ -107,8 +107,8 @@ module BotpopPlugins
   end
 
   def self.exec_poke m
-    nick = get_ip m
-    ip = m.target.users.keys.find{|u| u.nick == nick rescue nil}.host rescue nil
+    nick = get_ip_from_nick(m)[:nick]
+    ip = get_ip_from_nick(m)[:ip]
     return m.reply "User '#{nick}' doesn't exists" if ip.nil?
     p = Net::Ping::External.new ip
     str = "failed"
