@@ -17,7 +17,8 @@ module BotpopPlugins
 
   def self.exec_ping_target m
     ip = Action.get_ip m
-    str = Action.ping(ip) ? "#{(p.duration*100.0).round 2}ms (#{p.host})" : 'failed'
+    p = Net::Ping::External.new ip
+    str = p.ping(ip) ? "#{(p.duration*100.0).round 2}ms (#{p.host})" : 'failed'
     m.reply "#{ip} > ping > #{str}"
   end
 
