@@ -37,10 +37,14 @@ end
 ```
 
 ### Matching messages
-You __have to create your own match__ for now in the main ``botpop.rb`` file.
-It has to seems like :
+To create a matching to respond to a message, you have to specifie in your plugin :
 ```ruby
-  on :message, /!command argumentregexp/ do |m| BotpopPlugins::exec_command m end
+module BotpopPlugins
+  MATCH_BASE = lambda do |parent|
+    parent.on :message, /!command argumentregexp/ do |m| BotpopPlugins::exec_command m end
+  end
+  ...code
+end
 ```
 
 ### Debugging easier
