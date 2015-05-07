@@ -33,26 +33,23 @@ module BotpopPlugins
 
   DOS_DURATION = "2s"
   DOS_WAIT = 5
+  def self.exec_dos_check_ip(m, ip)
+    return true if Action.ping(ip)
+    m.reply "Cannot reach the host '#{ip}'"
+    @dos.unlock
+    return false
+  end
+
   def self.exec_dos m
     @dos ||= Mutex.new
     if @dos.try_lock
       ip = Action.get_ip m
-      begin
-        if not Action.ping(ip)
-          m.reply "Cannot reach the host '#{ip}'"
-          raise "Unreachable host"
-        end
-        m.reply "Begin attack against #{ip}"
-        # Calculations
-        s = Action.dos(ip, DOS_DURATION).split("\n")[3].to_s
-        # Display
-        m.reply (Action.ping(ip) ? "failed :(" : "down !!!") + " " + s
-        # Wait a little before the next authorized attack
-        sleep DOS_WAIT
-        @dos.unlock
-      rescue
-        @dos.unlock
-      end
+      return if not exec_dos_check_ip(m, ip)
+      m.reply "Begin attack against #{ip}"
+      s = Action.dos(ip, DOS_DURATION).split("\n")[3].to_s rescue s = nil
+      m.reply (Action.ping(ip) ? "failed :(" : "down !!!") + " " + s if s
+      sleep DOS_WAIT
+      @dos.unlock
     else
       m.reply "Wait for the end of the last dos"
     end
