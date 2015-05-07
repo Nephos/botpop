@@ -25,3 +25,4 @@ search_engines:
   buy: http://www.ebay.com/sch/i.html?_from=R40&_trksid=m570.l1313&_nkw=___MSG___&_sacat=0
   amazon: http://www.amazon.fr/s?url=search-alias=aps&field-keywords=___MSG___&tag=a2appw-21
   pkmn: http://pokemondb.net/search?q=___MSG___
+  paste: pastebin.com/search?ie=UTF-8&q=___MSG___
