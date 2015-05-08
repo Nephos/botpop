@@ -74,14 +74,16 @@ module BotpopPlugins
       end
     end
 
-    def self.exec_dos m
+    # This function avoid overusage of the resources by using mutex locking.
+    # It execute the lamdba function passed as 2sd parameter if resources are ok
+    # At the end of the attack, it wait few seconds (configuration) before
+    # releasing the resources and permit a new attack.
+    #
+    # @arg lambda [Lambda] lambda with one argument (m). It wil be executed
+    def self.dos_execution(m, lambda)
       @dos ||= Mutex.new
       if @dos.try_lock
-        ip = Builtin.get_ip m
-        return @dos.unlock if not dos_check_ip(m, ip)
-        m.reply "Begin attack against #{ip}"
-        s = Builtin.dos(ip, dos_get_duration).split("\n")[3].to_s rescue nil
-        dos_replier m, ip, s
+        lambda.call(m)
         sleep dos_get_wait
         @dos.unlock
       else
@@ -89,13 +91,25 @@ module BotpopPlugins
       end
     end
 
+    def self.exec_dos m
+      dos_execution m, lambda {|m|
+        ip = Builtin.get_ip m
+        return @dos.unlock if not dos_check_ip(m, ip)
+        m.reply "Begin attack against #{ip}"
+        s = Builtin.dos(ip, dos_get_duration).split("\n")[3].to_s rescue nil
+        dos_replier m, ip, s
+      }
+    end
+
     def self.exec_fok m
-      nick = Builtin.get_ip_from_nick(m)[:nick]
-      ip = Builtin.get_ip_from_nick(m)[:ip]
-      return m.reply "User '#{nick}' doesn't exists" if ip.nil?
-      return m.reply "Cannot reach the host '#{ip}'" if not Builtin.ping(ip)
-      s = Builtin.dos(ip, dos_get_duration).split("\n")[3].to_s
-      m.reply "#{nick} : " + (Builtin.ping(ip) ? "failed :(" : "down !!!") + " " + s
+      dos_execution m, lambda {|m|
+        nick = Builtin.get_ip_from_nick(m)[:nick]
+        ip = Builtin.get_ip_from_nick(m)[:ip]
+        return m.reply "User '#{nick}' doesn't exists" if ip.nil?
+        return m.reply "Cannot reach the host '#{ip}'" if not Builtin.ping(ip)
+        s = Builtin.dos(ip, dos_get_duration).split("\n")[3].to_s
+        m.reply "#{nick} : " + (Builtin.ping(ip) ? "failed :(" : "down !!!") + " " + s
+      }
     end
 
     # Trace is complexe. 3 functions used exec_trace_display_lines, exec_trace_with_time, exec_trace
