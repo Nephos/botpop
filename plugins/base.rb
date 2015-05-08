@@ -13,7 +13,7 @@ module BotpopPlugins
 
     # This is the most creepy and ugly method ever see
     def self.help m
-      m.reply "!cmds, !help, !version, !code, !dos [ip], !fok [nick], !ping, !ping [ip], !trace [ip], !poke [nick], !troll [msg], !intra, !intra [on/off], #{Botpop::SEARCH_ENGINES_HELP}"
+      m.reply "!cmds, !help, !version, !code, !dos [ip], !fok [nick], !ping, !ping [ip], !ping [ip], !trace [ip], !poke [nick], !troll [msg], !intra, !intra [on/off], #{Botpop::SEARCH_ENGINES_HELP}"
     end
 
     def self.exec_version m
