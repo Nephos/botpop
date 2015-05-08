@@ -26,3 +26,7 @@ search_engines:
   amazon: http://www.amazon.fr/s?url=search-alias=aps&field-keywords=___MSG___&tag=a2appw-21
   pkmn: http://pokemondb.net/search?q=___MSG___
   paste: pastebin.com/search?ie=UTF-8&q=___MSG___
+
+network:
+  duration: 2s
+  wait: 5s      # Can be in ms or s
