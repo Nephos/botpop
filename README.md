@@ -45,12 +45,14 @@ Some official plugins are developped. You can propose your own creation by pull 
 - [Intranet](https://github.com/pouleta/botpop/blob/master/plugins/intranet.rb) : an useless plugin to check the intranet of epitech
 
 ## Create your own
-You can easy create your own plugins. The documentation will be finished later.
+You can easy create your own plugins.
+
 The bot is based on [Cinch framework](https://github.com/cinchrb/cinch/).
-You should take a' ride in their documentation before developping anything.
+You should take the time to read the documentation before developping anything.
 
 ### Example of new plugin
 A full example of plugin code is provided in the commented file : [Example of Fury Plugin](https://github.com/pouleta/botpop/blob/master/plugins/example.rb)
+
 First, put your ruby code file in ``plugins/``, and put your code in the scope :
 ```ruby
 module BotpopPlugins
@@ -78,8 +80,9 @@ end
 
 ### Add entry to the !help command
 The __official plugin__ [Base](https://github.com/pouleta/botpop/blob/master/plugins/base.rb) provides the command __!help__.
+
 It list the avaliable commands of the plugins. You can add your help to your plugin by providing a __HELP__ constant.
-It should be as short as possible.
+__The strings should be as short as possible.__
 You should write it like the following:
 ```ruby
 module BotpopPlugins
