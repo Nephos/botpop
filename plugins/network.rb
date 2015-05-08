@@ -48,7 +48,6 @@ module BotpopPlugins
     def self.dos_check_ip(m, ip)
       return true if Builtin.ping(ip)
       m.reply "Cannot reach the host '#{ip}'"
-      @dos.unlock
       return false
     end
 
@@ -66,7 +65,7 @@ module BotpopPlugins
       @dos ||= Mutex.new
       if @dos.try_lock
         ip = Builtin.get_ip m
-        return if not dos_check_ip(m, ip)
+        return @dos.unlock if not dos_check_ip(m, ip)
         m.reply "Begin attack against #{ip}"
         s = Builtin.dos(ip, DOS_DURATION).split("\n")[3].to_s rescue nil
         dos_replier m
