@@ -51,7 +51,7 @@ module BotpopPlugins
       return false
     end
 
-    def self.dos_replier m
+    def self.dos_replier m, ip, s
       if s.nil?
         m.reply "The dos has failed"
       elsif Builtin.ping(ip)
@@ -68,7 +68,7 @@ module BotpopPlugins
         return @dos.unlock if not dos_check_ip(m, ip)
         m.reply "Begin attack against #{ip}"
         s = Builtin.dos(ip, DOS_DURATION).split("\n")[3].to_s rescue nil
-        dos_replier m
+        dos_replier m, ip, s
         sleep DOS_WAIT
         @dos.unlock
       else
