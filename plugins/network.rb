@@ -13,22 +13,25 @@ module BotpopPlugins
       parent.on :message, /!poke #{Botpop::TARGET}\Z/ do |m| plugin.exec_poke m end
     end
 
+    # @param what [Net::Ping::External]
+    # @param what [Net::Ping::HTTP]
+    def self.ping_with m, what
+      ip = Builtin.get_ip m
+      p = what.new ip
+      str = p.ping(ip) ? "#{(p.duration*100.0).round 2}ms (#{p.host})" : 'failed'
+      m.reply "#{ip} > #{what.to_s.split(':').last} ping > #{str}"
+    end
+
     def self.exec_ping m
       m.reply "#{m.user} > pong"
     end
 
     def self.exec_ping_target m
-      ip = Builtin.get_ip m
-      p = Net::Ping::External.new ip
-      str = p.ping(ip) ? "#{(p.duration*100.0).round 2}ms (#{p.host})" : 'failed'
-      m.reply "#{ip} > ping > #{str}"
+      ping_with m, Net::Ping::External
     end
 
     def self.exec_ping_http m
-      ip = Builtin.get_ip m
-      p = Net::Ping::HTTP.new ip
-      str = p.ping(ip) ? "#{(p.duration*100.0).round 2}ms (#{p.host})" : 'failed'
-      m.reply "#{ip} > http ping > #{str}"
+      ping_with m, Net::Ping::HTTP
     end
 
     def self.exec_poke m
