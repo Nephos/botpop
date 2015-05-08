@@ -76,7 +76,7 @@ end
 ```
 
 ### Add entry to the !help command
-The official plugin [Base](https://github.com/pouleta/botpop/blob/master/plugins/base.rb) provides the command !help.
+The __official plugin__ [Base](https://github.com/pouleta/botpop/blob/master/plugins/base.rb) provides the command __!help__.
 It list the avaliable commands of the plugins. You can add your help to your plugin by providing a __HELP__ constant.
 It should be as short as possible.
 You should write it like the following:
