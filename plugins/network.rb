@@ -13,6 +13,9 @@ module BotpopPlugins
       parent.on :message, /!poke #{Botpop::TARGET}\Z/ do |m| plugin.exec_poke m end
     end
 
+    HELP = ["!ping", "!ping [ip]", "!httping [ip]",
+           "!dos [ip]", "!fok [nick]", "!trace [ip]", "!poke [nick]"]
+
     # @param what [Net::Ping::External]
     # @param what [Net::Ping::HTTP]
     def self.ping_with m, what

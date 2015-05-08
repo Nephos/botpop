@@ -11,6 +11,8 @@ module BotpopPlugins
       parent.on :message, /coupon: .+/ do |m| plugin.exec_coupon m end
     end
 
+    HELP = ["coupon: [...]"]
+
     CONFIG = YAML.load_file('plugins/coupon_login.yml')['creditentials']
     USER = CONFIG['username']
     PASS = CONFIG['password']

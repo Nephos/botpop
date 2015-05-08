@@ -9,6 +9,8 @@ module BotpopPlugins
       parent.on :message, "!intra off" do |m| plugin.exec_intra_off m end
     end
 
+    HELP = ["!intra <on, off>"]
+
     def self.exec_intra m
       m.reply Builtin.intra_state rescue m.reply "I'm buggy. Sorry"
     end

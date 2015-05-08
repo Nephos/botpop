@@ -11,9 +11,33 @@ module BotpopPlugins
       parent.on :message, "!help" do |m| plugin.exec_help m end
     end
 
-    # This is the most creepy and ugly method ever see
+    HELP = ["!troll [msg]", "!version", "!code", "!help", "!cmds"]
+
+    def self.help_wait_before_quit
+      HELP_WAIT_DURATION.times do
+        sleep 1
+        @help_time += 1
+      end
+    end
+
+    def self.help_get_plugins_str
+      ["Plugins found : " + Botpop.plugins.size.to_s] +
+        Botpop.plugins.map do |plugin|
+        plugin.to_s.split(':').last + ': ' + plugin::HELP.join(', ') rescue nil
+      end.compact
+    end
+
+    HELP_WAIT_DURATION = 120
     def self.help m
-      m.reply "!cmds, !help, !version, !code, !dos [ip], !fok [nick], !ping, !ping [ip], !ping [ip], !trace [ip], !poke [nick], !troll [msg], !intra, !intra [on/off], #{Botpop::SEARCH_ENGINES_HELP}"
+      @help_lock ||= Mutex.new
+      if @help_lock.try_lock
+        @help_time = 0
+        help_get_plugins_str().each{|str| m.reply str} # display
+        help_wait_before_quit rescue nil
+        @help_lock.unlock
+      else
+        m.reply "Help already sent #{@help_time} seconds ago. Wait #{HELP_WAIT_DURATION - @help_time} seconds more."
+      end
     end
 
     def self.exec_version m

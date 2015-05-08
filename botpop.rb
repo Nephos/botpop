@@ -31,6 +31,10 @@ class Botpop
     end
   end
 
+  def self.plugins
+    @@plugins.dup
+  end
+
   @@plugins = []
   BotpopPlugins.constants.each do |const|
     plugin = BotpopPlugins.const_get(const)
