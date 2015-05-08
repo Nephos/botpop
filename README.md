@@ -41,11 +41,11 @@ end
 Some official plugins are developped. You can propose your own creation by pull request, or add snippets link to the wiki.
 
 ## List
-- Base : this is a basic plugin, providing __version, code, help, and troll__
-- Network : an usefull plugin with commands __ping, ping ip, ping http, traceroute, dos attack and poke__
-- Searchable : a little plugin providing irc research with engines like __google, wikipedia, ruby-doc, etc...__
-- Coupon : the original aim of the bot. It get coupons for the challenge __pathwar__
-- Intranet : an useless plugin to check the intranet of epitech
+- [Base](https://github.com/pouleta/botpop/blob/master/plugins/base.rb) : this is a basic plugin, providing __version, code, help, and troll__
+- [Network](https://github.com/pouleta/botpop/blob/master/plugins/network.rb) : an usefull plugin with commands __ping, ping ip, ping http, traceroute, dos attack and poke__
+- [Searchable](https://github.com/pouleta/botpop/blob/master/plugins/searchable.rb) : a little plugin providing irc research with engines like __google, wikipedia, ruby-doc, etc...__
+- [Coupon](https://github.com/pouleta/botpop/blob/master/plugins/coupons.rb) : the original aim of the bot. It get coupons for the challenge __pathwar__
+- [Intranet](https://github.com/pouleta/botpop/blob/master/plugins/intranet.rb) : an useless plugin to check the intranet of epitech
 
 ## Create your own
 You can easy create your own plugins. The documentation will be finished later.
