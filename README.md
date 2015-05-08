@@ -50,6 +50,7 @@ The bot is based on [Cinch framework](https://github.com/cinchrb/cinch/).
 You should take a' ride in their documentation before developping anything.
 
 ### Example of new plugin
+A full example of plugin code is provided in the commented file : [Example of Fury Plugin](https://github.com/pouleta/botpop/blob/master/plugins/example.rb)
 First, put your ruby code file in ``plugins/``, and put your code in the scope :
 ```ruby
 module BotpopPlugins
