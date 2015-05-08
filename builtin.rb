@@ -35,3 +35,9 @@ module BotpopPlugins
 
   end
 end
+
+class MissingConfigurationZone < RuntimeError
+end
+
+class MissingConfigurationEntry < RuntimeError
+end

@@ -30,3 +30,6 @@ search_engines:
 network:
   duration: 2s
   wait: 5s      # Can be in ms or s
+
+iamalive:
+  database_file: plugins/iamalive.database.yaml
