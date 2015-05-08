@@ -38,7 +38,7 @@ module BotpopPlugins
     # Store in a database
     def self.exec_learn m
       line = m.params[1..-1].join(' ').to_yaml.gsub("--", "  ").gsub("...\n", "")
-      return if line.include?("VERSION") or line.match /\A"?!/ or line.match(/\Ahttp/)
+      return if line.include?("VERSION") or line.match /\A["']?!/ or line.match(/\Ahttp/)
       f = File.open(DATABASE_FILE, 'a')
       f.write(line)
       f.close
