@@ -2,10 +2,8 @@
 [![Code Climate](https://codeclimate.com/github/pouleta/botpop/badges/gpa.svg)](https://codeclimate.com/github/pouleta/botpop)
 
 ## Usage
-
 Ruby 2 or greater is required. To be compatible with Ruby 1.9, you can try :
 ``sed 's/prepend/include/g' -i botpop.rb`` but no garanties...
-
 ``bundle install`` to install the gems.
 
 
@@ -37,7 +35,6 @@ end
 ```
 
 # Plugins
-
 Some official plugins are developped. You can propose your own creation by pull request, or add snippets link to the wiki.
 
 ## List
