@@ -46,7 +46,7 @@ module BotpopPlugins
     end
 
     def self.exec_coupon m
-      @lockcoupon ||= Mutex.new if $debug_coupons
+      @lockcoupon ||= Mutex.new
       coupon = get_coupon m
       begin
         response = send_coupon coupon
