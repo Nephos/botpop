@@ -94,7 +94,7 @@ module BotpopPlugins
     def self.exec_dos m
       dos_execution m, lambda {|m|
         ip = Builtin.get_ip m
-        return @dos.unlock if not dos_check_ip(m, ip)
+        return if not dos_check_ip(m, ip)
         m.reply "Begin attack against #{ip}"
         s = Builtin.dos(ip, dos_get_duration).split("\n")[3].to_s rescue nil
         dos_replier m, ip, s
