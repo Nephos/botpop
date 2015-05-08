@@ -49,6 +49,8 @@ Some official plugins are developped. You can propose your own creation by pull 
 
 ## Create your own
 You can easy create your own plugins. The documentation will be finished later.
+The bot is based on [Cinch framework](https://github.com/cinchrb/cinch/).
+You should take a' ride in their documentation before developping anything.
 
 ### Example of new plugin
 First, put your ruby code file in ``plugins/``, and put your code in the scope :
