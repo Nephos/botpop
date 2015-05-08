@@ -54,7 +54,7 @@ First, put your ruby code file in ``plugins/``, and put your code in the scope :
 ```ruby
 module BotpopPlugins
   module MyFuryPlugin
-    def self.exec_whatkingofannimal m
+    def self.exec_whatkingofanimal m
       m.reply "Die you son of a + ["lion", "pig", "red panda"].shuffle.first + " !!"
     end
     ...code...
@@ -68,8 +68,22 @@ To create a matching to respond to a message, you have to specifie in your plugi
 module BotpopPlugins
   module MyFuryPlugin
     MATCH = lambda do |parent|
-      parent.on :message, /!whatkingofannimal.*/ do |m| BotpopPlugins::exec_whatkingofannimal m end
+      parent.on :message, /!whatkingofanimal.*/ do |m| BotpopPlugins::exec_whatkingofanimal m end
     end
+    ...code...
+  end
+end
+```
+
+### Add entry to the !help command
+The official plugin [Base](https://github.com/pouleta/botpop/blob/master/plugins/base.rb) provides the command !help.
+It list the avaliable commands of the plugins. You can add your help to your plugin by providing a __HELP__ constant.
+It should be as short as possible.
+You should write it like the following:
+```ruby
+module BotpopPlugins
+  module MyFuryPlugin
+    HELP = ["!whatkingofanimal", "!animallist", "!checkanimal [type]"]
     ...code...
   end
 end
