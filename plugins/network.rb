@@ -6,6 +6,7 @@ module BotpopPlugins
     MATCH = lambda do |parent, plugin|
       parent.on :message, "!ping" do |m| plugin.exec_ping m end
       parent.on :message, /!ping #{Botpop::TARGET}\Z/ do |m| plugin.exec_ping_target m end
+      parent.on :message, /!httping #{Botpop::TARGET}\Z/ do |m| plugin.exec_ping_http m end
       parent.on :message, /!dos #{Botpop::TARGET}\Z/ do |m| plugin.exec_dos m end
       parent.on :message, /!fok #{Botpop::TARGET}\Z/ do |m| plugin.exec_fok m end
       parent.on :message, /!trace #{Botpop::TARGET}\Z/ do |m| plugin.exec_trace m end
@@ -21,6 +22,13 @@ module BotpopPlugins
       p = Net::Ping::External.new ip
       str = p.ping(ip) ? "#{(p.duration*100.0).round 2}ms (#{p.host})" : 'failed'
       m.reply "#{ip} > ping > #{str}"
+    end
+
+    def self.exec_ping_http m
+      ip = Builtin.get_ip m
+      p = Net::Ping::HTTP.new ip
+      str = p.ping(ip) ? "#{(p.duration*100.0).round 2}ms (#{p.host})" : 'failed'
+      m.reply "#{ip} > http ping > #{str}"
     end
 
     def self.exec_poke m
