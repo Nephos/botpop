@@ -55,7 +55,7 @@ First, put your ruby code file in ``plugins/``, and put your code in the scope :
 module BotpopPlugins
   module MyFuryPlugin
     def self.exec_whatkingofanimal m
-      m.reply "Die you son of a + ["lion", "pig", "red panda"].shuffle.first + " !!"
+      m.reply "Die you son of a" + ["lion", "pig", "red panda"].shuffle.first + " !!"
     end
     ...code...
   end
