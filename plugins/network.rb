@@ -87,12 +87,16 @@ module BotpopPlugins
       end
     end
 
+    def self.dos_ip(ip)
+      return Builtin.dos(ip, DOS_DURATION).split("\n")[3].to_s rescue nil
+    end
+
     def self.exec_dos m
       dos_execution m, lambda {|m|
         ip = Builtin.get_ip m
         return if not dos_check_ip(m, ip)
         m.reply "Begin attack against #{ip}"
-        s = Builtin.dos(ip, DOS_DURATION).split("\n")[3].to_s rescue nil
+        s = dos_ip(ip)
         dos_replier m, ip, s
       }
     end
@@ -103,7 +107,7 @@ module BotpopPlugins
         ip = Builtin.get_ip_from_nick(m)[:ip]
         return m.reply "User '#{nick}' doesn't exists" if ip.nil?
         return m.reply "Cannot reach the host '#{ip}'" if not Builtin.ping(ip)
-        s = Builtin.dos(ip, DOS_DURATION).split("\n")[3].to_s
+        s = dos_ip(ip)
         m.reply "#{nick} : " + (Builtin.ping(ip) ? "failed :(" : "down !!!") + " " + s
       }
     end
