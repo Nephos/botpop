@@ -29,7 +29,6 @@ module BotpopPlugins
       begin
         @iamalive_db = YAML.load_file(DATABASE_FILE)['learn'].to_a
       rescue
-        binding.pry
         init_database
         retry
       end
