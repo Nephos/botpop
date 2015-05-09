@@ -92,3 +92,18 @@ module BotpopPlugins
   end
 end
 ```
+
+### Enable and disable plugin
+You can enable or disable plugin by using the constant __ENABLED__.
+It should be linked with the __Botpop::CONFIG__.
+The constant must be defined by the developper of the plugin.
+For example, you can implement it like :
+```ruby
+module BotpopPlugins
+  module MyFuryPlugin
+    CONFIG = Botpop::CONFIG['myfurry'] || raise(MissingConfigurationZone, 'myfurry')
+    ENABLED = CONFIG['enable'].nil? ? false : CONFIG['enable']
+  end
+end
+```
+Then, a simple line in the ``modules_configuration.yml`` file should be enough.
