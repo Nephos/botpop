@@ -54,9 +54,9 @@ module BotpopPlugins
       begin
         response = send_coupon coupon
         # `curl https://api.pathwar.net/organization-coupons/#{coupon} -u '#{USER}:#{PASS}' -X GET`
-        if $debug_display_coupons
-          m.reply "#{coupon} " + (response.code[0] == '2' ? 'validated' : "failed with #{response.code}")
-        end
+        valid_response = response.code[0] == '2'
+        str = "#{coupon} " + (valid_response ? 'validated' : "failed (#{response.code})")
+        m.reply if CONFIG['display_coupons']
       rescue => e
         m.reply "#{coupon} buggy"
         @err = e
