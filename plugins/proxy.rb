@@ -78,10 +78,7 @@ module BotpopPlugins
     end
 
     def self.add_user username, password
-      # users = database_users_read
-      # users[username] = password_encrypt(password)
-      # database_users_write users
-      p = HTAuth::PasswdFile.new(PASSWD_FILE) #HTAuth::File::STDOUT_FLAG
+      p = HTAuth::PasswdFile.new(PASSWD_FILE)
       p.add(username, password)
       p.save!
     end
