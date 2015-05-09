@@ -28,7 +28,7 @@ module BotpopPlugins
       end.compact
     end
 
-    HELP_WAIT_DURATION = 120
+    HELP_WAIT_DURATION = CONFIG['help_wait_duration'] || 120
     def self.help m
       @help_lock ||= Mutex.new
       if @help_lock.try_lock

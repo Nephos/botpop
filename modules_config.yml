@@ -29,7 +29,7 @@ searchable:
 
 base:
   enabled: true
-
+  help_wait_duration: 120
 network:
   duration: 2s
   wait: 5s      # Can be in ms or s
