@@ -2,12 +2,13 @@
 
 module BotpopPlugins
   module MyFuryPlugin
+    NAME = self.to_s.split(':').last
 
-    MATCH = lambda do |parent|
-      parent.on :message, /!whatkingofanimal.*/ do |m| BotpopPlugins::exec_whatkingofanimal m end
+    MATCH = lambda do |parent, plugin|
+      parent.on :message, /!whatkingofanimal.*/ do |m| plugin.exec_whatkingofanimal m end
     end
     HELP = ["!whatkingofanimal", "!animallist", "!checkanimal [type]"]
-    CONFIG = Botpop::CONFIG['example'] || raise(MissingConfigurationZone, 'example')
+    CONFIG = Botpop::CONFIG['example'] || raise(MissingConfigurationZone, NAME)
     ENABLED = CONFIG['enable'].nil? ? false : CONFIG['enable']
 
     def self.exec_whatkingofanimal m

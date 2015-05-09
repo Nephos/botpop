@@ -70,8 +70,8 @@ To create a matching to respond to a message, you have to specifie in your plugi
 ```ruby
 module BotpopPlugins
   module MyFuryPlugin
-    MATCH = lambda do |parent|
-      parent.on :message, /!whatkingofanimal.*/ do |m| BotpopPlugins::exec_whatkingofanimal m end
+    MATCH = lambda do |parent, plugin|
+      parent.on :message, /!whatkingofanimal.*/ do |m| plugin.exec_whatkingofanimal m end
     end
     ...code...
   end
