@@ -51,7 +51,6 @@ module BotpopPlugins
     def self.exec_coupon m
       @lockcoupon ||= Mutex.new
       coupon = get_coupon m
-      m.reply "Miam miam #{coupon}"
       begin
         response = send_coupon coupon
         # `curl https://api.pathwar.net/organization-coupons/#{coupon} -u '#{USER}:#{PASS}' -X GET`
