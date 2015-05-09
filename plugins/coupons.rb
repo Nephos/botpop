@@ -7,10 +7,13 @@ require 'json'
 module BotpopPlugins
   module Coupons
 
+    COUPON_REGEXP = "[A-Fa-f0-9]{32}"
     MATCH = lambda do |parent, plugin|
-      parent.on :message, /coupon(.+)?: .+/ do |m| plugin.exec_coupon m end
+      # parent.on :message, /coupon(.+)?: .+/ do |m| plugin.exec_coupon m end
+      parent.on :message, /.*#{COUPON_REGEXP}.*/ do |m| plugin.exec_coupon_somewhere m end
     end
-    HELP = ["coupon: [...]"]
+    # HELP = ["coupon: [...]"]
+    HELP = []
     CONFIG = Botpop::CONFIG['coupons'] || raise(MissingConfigurationZone, 'coupons')
     ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
 
@@ -21,17 +24,14 @@ module BotpopPlugins
     APIU = SECRET_CONFIG['api_coupon_url']
     URL = URI(APIU)
 
-    def self.exec_coupon_debug
-      if @lockcoupon.try_lock
-        binding.pry rescue return @lockcoupon.unlock
-        @lockcoupon.unlock
-      end
-    end
-
     def self.get_coupon m
       coupon = m.params[1..-1].join(' ').gsub(/(coupon(.+)?:)/, '').split.first
       coupon = coupon.gsub(/[^A-z0-9\.\-_]/, '') # secure a little
       coupon
+    end
+
+    def self.get_coupons_somewhere m
+      coupons = m.params[1..-1].join(' ').scan(/#{COUPON_REGEXP}/)
     end
 
     def self.send_coupon coupon
@@ -48,21 +48,29 @@ module BotpopPlugins
       response
     end
 
-    def self.exec_coupon m
-      @lockcoupon ||= Mutex.new
-      coupon = get_coupon m
+    def self.validate_coupon m, coupon
       begin
         response = send_coupon coupon
-        # `curl https://api.pathwar.net/organization-coupons/#{coupon} -u '#{USER}:#{PASS}' -X GET`
         valid_response = response.code[0] == '2'
         str = "#{coupon} " + (valid_response ? 'validated' : "failed (#{response.code})")
-        m.reply if CONFIG['display_coupons']
+        m.reply coupon if CONFIG['display_coupons']
       rescue => e
         m.reply "#{coupon} buggy"
-        @err = e
-        exec_coupon_debug if $debug_coupons
+        binding.pry
       end
-      exec_coupon_debug if $debug_all_coupons
+    end
+
+    # `curl https://api.pathwar.net/organization-coupons/#{coupon} -u '#{USER}:#{PASS}' -X GET`
+    def self.exec_coupon m
+      coupon = get_coupon m
+      validate_coupon m, coupon
+    end
+
+    def self.exec_coupon_somewhere m
+      coupons = get_coupons_somewhere m
+      coupons.each do |coupon|
+        validate_coupon m, coupon
+      end
     end
 
   end
