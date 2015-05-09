@@ -49,6 +49,13 @@ coupons:
   enabled: true
   display_coupons: true
 
+proxy:
+  enable: true
+  ip_addr: localhost
+  ip_port: 0
+  limit_users: 4
+  passwd_file: /tmp/squid3_passwords
+
 iamalive:
   enable: false
   database_file: plugins/iamalive.database.yaml
