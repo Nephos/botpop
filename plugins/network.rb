@@ -48,11 +48,11 @@ module BotpopPlugins
       m.reply "#{nick} > poke > #{response}"
     end
 
-    DURATION = CONFIG['duration'] || "2s"
-    WAIT_DURATION_STRING = CONFIG['wait'] || '5s'
-    WAIT_DURATION = WAIT_DURATION_STRING.match(/\d+ms\Z/) ?
-                      (WAIT_DURATION_STRING.to_i / 100.0) :
-                      (WAIT_DURATION_STRING.to_i)
+    DOS_DURATION = CONFIG['dos_duration'] || "2s"
+    DOS_WAIT_DURATION_STRING = CONFIG['dos_wait'] || '5s'
+    DOS_WAIT_DURATION = DOS_WAIT_DURATION_STRING.match(/\d+ms\Z/) ?
+                          (DOS_WAIT_DURATION_STRING.to_i / 100.0) :
+                          (DOS_WAIT_DURATION_STRING.to_i)
 
     def self.dos_check_ip(m, ip)
       return true if Builtin.ping(ip)
@@ -80,7 +80,7 @@ module BotpopPlugins
       @dos ||= Mutex.new
       if @dos.try_lock
         lambda.call(m)
-        sleep WAIT_DURATION
+        sleep DOS_WAIT_DURATION
         @dos.unlock
       else
         m.reply "Wait for the end of the last dos"
@@ -92,7 +92,7 @@ module BotpopPlugins
         ip = Builtin.get_ip m
         return if not dos_check_ip(m, ip)
         m.reply "Begin attack against #{ip}"
-        s = Builtin.dos(ip, DURATION).split("\n")[3].to_s rescue nil
+        s = Builtin.dos(ip, DOS_DURATION).split("\n")[3].to_s rescue nil
         dos_replier m, ip, s
       }
     end
@@ -103,7 +103,7 @@ module BotpopPlugins
         ip = Builtin.get_ip_from_nick(m)[:ip]
         return m.reply "User '#{nick}' doesn't exists" if ip.nil?
         return m.reply "Cannot reach the host '#{ip}'" if not Builtin.ping(ip)
-        s = Builtin.dos(ip, DURATION).split("\n")[3].to_s
+        s = Builtin.dos(ip, DOS_DURATION).split("\n")[3].to_s
         m.reply "#{nick} : " + (Builtin.ping(ip) ? "failed :(" : "down !!!") + " " + s
       }
     end

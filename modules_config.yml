@@ -39,6 +39,8 @@ intranet:
 
 network:
   enabled: true
+  dos_wait: 5s
+  dos_duration: 3s
 
 coupons:
   enabled: true
