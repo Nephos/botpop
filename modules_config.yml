@@ -27,16 +27,12 @@ searchable:
   pkmn: http://pokemondb.net/search?q=___MSG___
   paste: pastebin.com/search?ie=UTF-8&q=___MSG___
 
+base:
+  enabled: true
+
 network:
   duration: 2s
   wait: 5s      # Can be in ms or s
-
-iamalive:
-  enable: false
-  database_file: plugins/iamalive.database.yaml
-
-base:
-  enabled: true
 
 intranet:
   enabled: true
@@ -45,7 +41,11 @@ network:
   enabled: true
 
 coupons:
-  enabled: false
+  enabled: true
+
+iamalive:
+  enable: false
+  database_file: plugins/iamalive.database.yaml
 
 example:
   enabled: false
