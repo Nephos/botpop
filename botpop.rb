@@ -37,10 +37,10 @@ class Botpop
   BotpopPlugins.constants.each do |const|
     plugin = BotpopPlugins.const_get(const)
     next if not plugin.is_a? Module
-    if plugin::DISABLED
+    if plugin::ENABLED == false
       puts "Disabled plugin #{plugin}".yellow
       next
-      end rescue nil
+    end rescue nil
     puts "Load plugin #{plugin}".green
     prepend plugin
     @@plugins << plugin
