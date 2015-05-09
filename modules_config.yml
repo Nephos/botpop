@@ -32,4 +32,5 @@ network:
   wait: 5s      # Can be in ms or s
 
 iamalive:
+  enable: false
   database_file: plugins/iamalive.database.yaml

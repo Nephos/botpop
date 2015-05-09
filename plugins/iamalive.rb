@@ -8,8 +8,6 @@
 module BotpopPlugins
   module IAmAlive
 
-    DISABLED = true
-
     MATCH = lambda do |parent, plugin|
       parent.on :message, /.+/ do |m| plugin.exec_learn m end
       parent.on :message, /.+/ do |m| plugin.exec_speak m end
@@ -20,6 +18,8 @@ module BotpopPlugins
     CONFIG = Botpop::CONFIG['iamalive'] || raise(MissingConfigurationZone, 'iamalive')
     DATABASE_FILE = CONFIG['database_file'] || raise(MissingConfigurationEntry, 'iamalive::database_file')
     File.open(DATABASE_FILE, 'r') rescue init_database
+    # DISABLED MAY BE CONFIGURED, DEFAULT IS TRUE
+    DISABLED = CONFIG['enable'].nil? ? true : !CONFIG['enable']
 
     def self.init_database
       f = File.open(DATABASE_FILE, 'w')

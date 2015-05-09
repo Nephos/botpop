@@ -19,22 +19,20 @@ $botpod_arguments ||= ARGV
 
 class Botpop
 
+  # FIRST LOAD THE CONFIGURATION
   ARGUMENTS = Arguments.new($botpod_arguments)
   VERSION = IO.read('version')
   CONFIG = YAML.load_file(ARGUMENTS.config_file)
   TARGET = /[[:alnum:]_\-\.]+/
 
-  # Plugins loader
+  # THEN INCLUDE THE PLUGINS (STATE MAY BE DEFINED BY THE PREVIOUS CONFIG)
   Dir[File.expand_path '*.rb', ARGUMENTS.plugin_directory].each do |f|
     if !ARGUMENTS.disable_plugins.include? f
       puts "Loading plugin file ... " + f.green + " ... " + require_relative(f).to_s
     end
   end
 
-  def self.plugins
-    @@plugins.dup
-  end
-
+  # THEN LOAD / NOT THE PLUGINS
   @@plugins = []
   BotpopPlugins.constants.each do |const|
     plugin = BotpopPlugins.const_get(const)
@@ -46,6 +44,10 @@ class Botpop
     puts "Load plugin #{plugin}".green
     prepend plugin
     @@plugins << plugin
+  end
+
+  def self.plugins
+    @@plugins.dup
   end
 
   def start
