@@ -8,7 +8,7 @@ module BotpopPlugins
   module Coupons
 
     MATCH = lambda do |parent, plugin|
-      parent.on :message, /coupon: .+/ do |m| plugin.exec_coupon m end
+      parent.on :message, /coupon(alenvers)?: .+/ do |m| plugin.exec_coupon m end
     end
 
     HELP = ["coupon: [...]"]
@@ -30,7 +30,8 @@ module BotpopPlugins
     def self.get_coupon m
       coupon = m.params[1..-1].join(' ').gsub(/(coupon:)/, '').split.first
       coupon = coupon.gsub(/[^A-z0-9\.\-_]/, '') # secure a little
-      coupon
+      reverse = m.params[1..-1].join(' ').match(/\Acouponalenvers: .+/)
+      reverse ? coupon.reverse : coupon
     end
 
     def self.send_coupon coupon
