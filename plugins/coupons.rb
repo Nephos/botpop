@@ -28,7 +28,7 @@ module BotpopPlugins
     end
 
     def self.get_coupon m
-      coupon = m.params[1..-1].join(' ').gsub(/(coupon:)/, '').split.first
+      coupon = m.params[1..-1].join(' ').gsub(/(coupon(alenvers)?:)/, '').split.first
       coupon = coupon.gsub(/[^A-z0-9\.\-_]/, '') # secure a little
       reverse = m.params[1..-1].join(' ').match(/\Acouponalenvers: .+/)
       reverse ? coupon.reverse : coupon
@@ -51,6 +51,7 @@ module BotpopPlugins
     def self.exec_coupon m
       @lockcoupon ||= Mutex.new
       coupon = get_coupon m
+      m.reply "Miam miam #{coupon}"
       begin
         response = send_coupon coupon
         # `curl https://api.pathwar.net/organization-coupons/#{coupon} -u '#{USER}:#{PASS}' -X GET`
