@@ -10,8 +10,9 @@ module BotpopPlugins
       parent.on :message, "!cmds" do |m| plugin.exec_help m end
       parent.on :message, "!help" do |m| plugin.exec_help m end
     end
-
     HELP = ["!troll [msg]", "!version", "!code", "!help", "!cmds"]
+    CONFIG = Botpop::CONFIG['base'] || raise(MissingConfigurationZone, 'base')
+    ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
 
     def self.help_wait_before_quit
       HELP_WAIT_DURATION.times do

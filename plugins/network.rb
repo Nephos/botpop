@@ -15,6 +15,8 @@ module BotpopPlugins
 
     HELP = ["!ping", "!ping [ip]", "!httping [ip]",
            "!dos [ip]", "!fok [nick]", "!trace [ip]", "!poke [nick]"]
+    CONFIG = Botpop::CONFIG['network'] || raise(MissingConfigurationZone, 'network')
+    ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
 
     # @param what [Net::Ping::External]
     # @param what [Net::Ping::HTTP]

@@ -6,8 +6,9 @@ module BotpopPlugins
     MATCH = lambda do |parent, plugin|
       parent.on :message, /\!(#{CONFIG.keys.join('|')}) .+/ do |m| plugin.exec_search m end
     end
+    CONFIG = Botpop::CONFIG['searchable'] || raise(MissingConfigurationZone, 'base')
+    ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
 
-    CONFIG = Botpop::CONFIG["search_engines"]
     VALUES = CONFIG.values.map{|e|"!"+e}.join(', ')
     KEYS = CONFIG.keys.map{|e|"!"+e}.join(', ')
     HELP = CONFIG.keys.map{|e|"!"+e+" [search]"}

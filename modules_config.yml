@@ -1,4 +1,4 @@
-search_engines:
+searchable:
   yt: https://www.youtube.com/results?search_query=___MSG___
   xv: http://www.xvideos.com/?k=___MSG___
   yp: https://www.youporn.com/search/?query=___MSG___
@@ -34,3 +34,18 @@ network:
 iamalive:
   enable: false
   database_file: plugins/iamalive.database.yaml
+
+base:
+  enabled: true
+
+intranet:
+  enabled: true
+
+network:
+  enabled: true
+
+coupons:
+  enabled: false
+
+example:
+  enabled: false

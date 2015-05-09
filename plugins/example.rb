@@ -1,17 +1,18 @@
 #encoding: utf-8
 
-# module BotpopPlugins
-#   module MyFuryPlugin
+module BotpopPlugins
+  module MyFuryPlugin
 
-#     MATCH = lambda do |parent|
-#       parent.on :message, /!whatkingofanimal.*/ do |m| BotpopPlugins::exec_whatkingofanimal m end
-#     end
+    MATCH = lambda do |parent|
+      parent.on :message, /!whatkingofanimal.*/ do |m| BotpopPlugins::exec_whatkingofanimal m end
+    end
+    HELP = ["!whatkingofanimal", "!animallist", "!checkanimal [type]"]
+    CONFIG = Botpop::CONFIG['example'] || raise(MissingConfigurationZone, 'example')
+    ENABLED = CONFIG['enable'].nil? ? false : CONFIG['enable']
 
-#     HELP = ["!whatkingofanimal", "!animallist", "!checkanimal [type]"]
+    def self.exec_whatkingofanimal m
+      m.reply "Die you son of a" + ["lion", "pig", "red panda"].shuffle.first + " !!"
+    end
 
-#     def self.exec_whatkingofanimal m
-#       m.reply "Die you son of a" + ["lion", "pig", "red panda"].shuffle.first + " !!"
-#     end
-
-#   end
-# end
+  end
+end

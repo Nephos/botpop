@@ -8,8 +8,9 @@ module BotpopPlugins
       parent.on :message, "!intra on" do |m| plugin.exec_intra_on m end
       parent.on :message, "!intra off" do |m| plugin.exec_intra_off m end
     end
-
     HELP = ["!intra <on, off>"]
+    CONFIG = Botpop::CONFIG['intranet'] || raise(MissingConfigurationZone, 'intranet')
+    ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
 
     def self.exec_intra m
       m.reply Builtin.intra_state rescue m.reply "I'm buggy. Sorry"

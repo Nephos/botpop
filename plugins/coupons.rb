@@ -10,14 +10,15 @@ module BotpopPlugins
     MATCH = lambda do |parent, plugin|
       parent.on :message, /coupon(.+)?: .+/ do |m| plugin.exec_coupon m end
     end
-
     HELP = ["coupon: [...]"]
+    CONFIG = Botpop::CONFIG['coupons'] || raise(MissingConfigurationZone, 'coupons')
+    ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
 
-    CONFIG = YAML.load_file('plugins/coupon_login.yml')['creditentials']
-    USER = CONFIG['username']
-    PASS = CONFIG['password']
-    ORGA = CONFIG['organisation']
-    APIU = CONFIG['api_coupon_url']
+    SECRET_CONFIG = YAML.load_file('plugins/coupon_login.yml')['creditentials']
+    USER = SECRET_CONFIG['username']
+    PASS = SECRET_CONFIG['password']
+    ORGA = SECRET_CONFIG['organisation']
+    APIU = SECRET_CONFIG['api_coupon_url']
     URL = URI(APIU)
 
     def self.exec_coupon_debug
