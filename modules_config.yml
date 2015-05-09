@@ -41,6 +41,8 @@ network:
   enabled: true
   dos_wait: 5s
   dos_duration: 3s
+  trace_duration_init: 0.3s
+  trace_duration_incr: 0.1s
 
 coupons:
   enabled: true

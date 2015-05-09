@@ -48,11 +48,11 @@ module BotpopPlugins
       m.reply "#{nick} > poke > #{response}"
     end
 
-    DOS_DURATION = CONFIG['dos_duration'] || "2s"
+    DOS_DURATION = CONFIG['dos_duration'] || '2s'
     DOS_WAIT_DURATION_STRING = CONFIG['dos_wait'] || '5s'
     DOS_WAIT_DURATION = DOS_WAIT_DURATION_STRING.match(/\d+ms\Z/) ?
-                          (DOS_WAIT_DURATION_STRING.to_i / 100.0) :
-                          (DOS_WAIT_DURATION_STRING.to_i)
+                          (DOS_WAIT_DURATION_STRING.to_f / 100.0) :
+                          (DOS_WAIT_DURATION_STRING.to_f)
 
     def self.dos_check_ip(m, ip)
       return true if Builtin.ping(ip)
@@ -109,8 +109,14 @@ module BotpopPlugins
     end
 
     # Trace is complexe. 3 functions used exec_trace_display_lines, exec_trace_with_time, exec_trace
-    TRACE_DURATION_INIT = 0.3
-    TRACE_DURATION_INCR = 0.1
+    TRACE_DURATION_INIT_STRING = (CONFIG['trace_duration_init'] || "0.3s")
+    TRACE_DURATION_INCR_STRING = (CONFIG['trace_duration_incr'] || "0.1s")
+    TRACE_DURATION_INIT = TRACE_DURATION_INIT_STRING.match(/\d+ms\Z/) ?
+                            TRACE_DURATION_INIT_STRING.to_f / 100.0 :
+                            TRACE_DURATION_INIT_STRING.to_f
+    TRACE_DURATION_INCR = TRACE_DURATION_INCR_STRING.match(/\d+ms\Z/) ?
+                            TRACE_DURATION_INCR_STRING.to_f / 100.0 :
+                            TRACE_DURATION_INCR_STRING.to_f
     def self.trace_display_lines m, lines
       lines.select!{|e| not e.include? "no reply" and e =~ /\A \d+: .+/}
       duration = TRACE_DURATION_INIT
