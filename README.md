@@ -102,7 +102,7 @@ For example, you can implement it like :
 module BotpopPlugins
   module MyFuryPlugin
     CONFIG = Botpop::CONFIG['myfurry'] || raise(MissingConfigurationZone, 'myfurry')
-    ENABLED = CONFIG['enable'].nil? ? false : CONFIG['enable']
+    ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
   end
 end
 ```
