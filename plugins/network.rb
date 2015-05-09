@@ -135,25 +135,33 @@ module BotpopPlugins
       return [s, t1, t2]
     end
 
-    def self.exec_trace m
+    # see {trace_execution}. Seem system without sleep
+    #
+    # @arg lambda [Lambda] lambda with one argument (m). It wil be executed
+    def self.trace_execution(m, lambda)
       @trace ||= Mutex.new
       if @trace.try_lock
+        lambda.call(m) rescue nil
+        @trace.unlock
+      else
+        m.reply "A trace is still running"
+      end
+    end
+
+    def self.exec_trace m
+      trace_execution m, lambda {|m|
         ip = Builtin.get_ip m
         m.reply "It can take time"
         begin
           # Calculations
           s, t1, t2 = trace_with_time ip
           m.reply "Trace executed in #{(t2 - t1).round(3)} seconds"
-          @trace.unlock
         rescue => e
           m.reply "Sorry, but the last author of this plugin is so stupid his mother is a tomato"
-          @trace.unlock
         end
         # Display
         trace_display_lines m, s
-      else
-        m.reply "Please retry after when the last trace end"
-      end
+      }
     end
 
   end
