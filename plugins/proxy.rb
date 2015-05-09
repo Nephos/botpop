@@ -1,5 +1,10 @@
 #encoding: utf-8
 
+trap('SIGINT') {
+  BotpopPlugins::Proxy.database_users_write({})
+  exit
+}
+
 module BotpopPlugins
   module Proxy
 
@@ -53,7 +58,7 @@ module BotpopPlugins
 
     def self.database_users_write users
       database_users_reset
-      contents = (LOCKED_USERS + users.map{|u,p| "#{u}:#{p}"}).join("\n")
+      contents = (LOCKED_USERS + users.map{|u,p| "#{u}:#{p}"}).join("\n").chomp
       contents += "\n" if not contents.empty?
       File.write(PASSWD_FILE, contents)
     end

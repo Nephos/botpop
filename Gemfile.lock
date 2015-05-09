@@ -4,6 +4,9 @@ GEM
     cinch (2.2.5)
     coderay (1.1.0)
     colorize (0.7.7)
+    highline (1.7.2)
+    htauth (1.1.0)
+      highline (~> 1.6)
     method_source (0.8.2)
     net-ping (1.7.7)
     pry (0.10.1)
@@ -18,5 +21,6 @@ PLATFORMS
 DEPENDENCIES
   cinch
   colorize
+  htauth
   net-ping
   pry
