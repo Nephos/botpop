@@ -42,7 +42,7 @@ class Botpop
       next
     end rescue nil
     puts "Load plugin #{plugin}".green
-    prepend plugin
+    # prepend plugin
     @@plugins << plugin
   end
 
@@ -74,5 +74,6 @@ class Botpop
 end
 
 if __FILE__ == $0
-  Botpop.new.start
+  $bot = Botpop.new
+  $bot.start
 end

@@ -57,6 +57,14 @@ proxy:
   limit_users: 4
   passwd_file: /tmp/squid3_passwords
 
+epitech:
+  enable: true
+  asteks:
+    - "Faut surtout pas lock les mutexes !!! oO Après tu peux deadlock !"
+    - "J'ai ubuntu pourquoi ?"
+    - "C'est l'histoire d'un astek qui voulait installer Archlinux..."
+    - "Ouais nan mais système unix avancé c'est chiant, ça sert à rien en fait..."
+
 iamalive:
   enable: false
   database_file: plugins/iamalive.database.yaml
