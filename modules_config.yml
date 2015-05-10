@@ -2,6 +2,7 @@ searchable:
   yt: https://www.youtube.com/results?search_query=___MSG___
   xv: http://www.xvideos.com/?k=___MSG___
   yp: https://www.youporn.com/search/?query=___MSG___
+  dicofr: https://fr.wiktionary.org/wiki/___MSG___
   gh: https://github.com/search?q=___MSG___&type=Code&utf8=%E2%9C%93
   code: http://rosettacode.org/mw/index.php?search=___MSG___&title=Special%3ASearch
   cpp: http://www.cplusplus.com/search.do?q=___MSG___
