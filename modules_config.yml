@@ -60,7 +60,7 @@ proxy:
   passwd_file: /tmp/squid3_passwords
 
 epitech:
-  enable: true
+  enable: false
   asteks:
     - "Faut surtout pas lock les mutexes !!! oO Après tu peux deadlock !"
     - "J'ai ubuntu pourquoi ?"
