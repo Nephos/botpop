@@ -3,12 +3,12 @@ searchable:
   xv: http://www.xvideos.com/?k=___MSG___
   yp: https://www.youporn.com/search/?query=___MSG___
   dicofr: https://fr.wiktionary.org/wiki/___MSG___
-  paste: pastebin.com/search?ie=UTF-8&q=___MSG___
+  paste: https://pastebin.com/search?ie=UTF-8&q=___MSG___
   gh: https://github.com/search?q=___MSG___&type=Code&utf8=%E2%9C%93
   gl: https://gitlab.com/search?utf8=%E2%9C%93&search=___MSG___
   code: http://rosettacode.org/mw/index.php?search=___MSG___&title=Special%3ASearch
   cpp: http://www.cplusplus.com/search.do?q=___MSG___
-  rb: ruby-doc.com/search.html?q=___MSG___&sa=Search
+  rb: https://ruby-doc.com/search.html?q=___MSG___&sa=Search
   ror: https://github.com/rails?utf8=%E2%9C%93&query=___MSG___
   php: https://php.net/manual-lookup.php?pattern=___MSG___
   python: https://www.python.org/search/?q=___MSG___
