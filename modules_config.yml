@@ -67,6 +67,7 @@ epitech:
     - "J'ai ubuntu pourquoi ?"
     - "C'est l'histoire d'un astek qui voulait installer Archlinux..."
     - "Ouais nan mais système unix avancé c'est chiant, ça sert à rien en fait..."
+    - "Nan mais, on peut pas faire le 42sh et le Raytracer en même temps, c'est trop dur."
 
 iamalive:
   enable: false
@@ -83,6 +84,13 @@ chapui_s:
     - "chapui_s, j'ai mis register const int i en global ! :)"
     - "Chapuis, j'ai trouvé une faille dans gdb"
     - "Hey seb ! J'ai remis le t_server en global"
+    - "Chapuis ! J'ai recodé printf en asm"
+    - "Chapuis, mon pc il est en 32 ou 64 bits ?"
+    - "Chapui, tu me fais mon corewar stp ?"
+    - "Sebastien, comment on swap 2 int en version opti ?"
+    - "Seb, comment tu te fais respecter ?"
+    - "@chapui_s, viens on a besoin de toi"
+    - "@chapui_s t'as soutenance dans 15 minutes au fait"
 
 example:
   enable: false
