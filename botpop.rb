@@ -28,7 +28,15 @@ class Botpop
   # THEN INCLUDE THE PLUGINS (STATE MAY BE DEFINED BY THE PREVIOUS CONFIG)
   Dir[File.expand_path '*.rb', ARGUMENTS.plugin_directory].each do |f|
     if !ARGUMENTS.disable_plugins.include? f
-      puts "Loading plugin file ... " + f.green + " ... " + require_relative(f).to_s
+      begin
+        puts "Loading plugin file ... " + f.green + " ... " + require_relative(f).to_s
+      rescue => e
+        puts "Error during loading the file #{f}".red
+        puts "#{e.class}: #{e.message}".red.bold
+        puts "---- Trace ----"
+        puts e.backtrace.join("\n").black.bold
+        exit 1
+      end
     end
   end
 

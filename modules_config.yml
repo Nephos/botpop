@@ -91,6 +91,7 @@ chapui_s:
     - "Seb, comment tu te fais respecter ?"
     - "@chapui_s, viens on a besoin de toi"
     - "@chapui_s t'as soutenance dans 15 minutes au fait"
+    - "Chapuis, comment on fait un const cast"
 
 example:
   enable: false
