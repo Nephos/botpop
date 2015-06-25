@@ -16,10 +16,12 @@ module BotpopPlugins
     HELP = ["I'm learning from you"]
 
     CONFIG = Botpop::CONFIG['iamalive'] || raise(MissingConfigurationZone, 'iamalive')
-    DATABASE_FILE = CONFIG['database_file'] || raise(MissingConfigurationEntry, 'iamalive::database_file')
-    File.open(DATABASE_FILE, 'r') rescue init_database
-    # DISABLED MAY BE CONFIGURED, DEFAULT IS TRUE
     ENABLED = CONFIG['enable'].nil? ? false : CONFIG['enable']
+    if ENABLED
+      DATABASE_FILE = CONFIG['database_file'] || raise(MissingConfigurationEntry, 'iamalive::database_file')
+      File.open(DATABASE_FILE, 'r') rescue init_database
+      # DISABLED MAY BE CONFIGURED, DEFAULT IS TRUE
+    end
 
     def self.init_database
       f = File.open(DATABASE_FILE, 'w')

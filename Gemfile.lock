@@ -24,3 +24,6 @@ DEPENDENCIES
   htauth
   net-ping
   pry
+
+BUNDLED WITH
+   1.10.3

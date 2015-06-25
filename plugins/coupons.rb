@@ -17,12 +17,14 @@ module BotpopPlugins
     CONFIG = Botpop::CONFIG['coupons'] || raise(MissingConfigurationZone, 'coupons')
     ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
 
-    SECRET_CONFIG = YAML.load_file('plugins/coupon_login.yml')['creditentials']
-    USER = SECRET_CONFIG['username']
-    PASS = SECRET_CONFIG['password']
-    ORGA = SECRET_CONFIG['organisation']
-    APIU = SECRET_CONFIG['api_coupon_url']
-    URL = URI(APIU)
+    if ENABLED
+      SECRET_CONFIG = YAML.load_file('plugins/coupon_login.yml')['creditentials']
+      USER = SECRET_CONFIG['username']
+      PASS = SECRET_CONFIG['password']
+      ORGA = SECRET_CONFIG['organisation']
+      APIU = SECRET_CONFIG['api_coupon_url']
+      URL = URI(APIU)
+    end
 
     def self.get_coupon m
       coupon = m.params[1..-1].join(' ').gsub(/(coupon(.+)?:)/, '').split.first

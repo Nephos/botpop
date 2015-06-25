@@ -32,7 +32,7 @@ searchable:
   tek: https://intra.epitech.eu/user/___MSG___
 
 base:
-  enabled: true
+  enable: true
   help_wait_duration: 120
 
 network:
@@ -40,17 +40,17 @@ network:
   wait: 5s      # Can be in ms or s
 
 intranet:
-  enabled: true
+  enable: true
 
 network:
-  enabled: true
+  enable: true
   dos_wait: 10s
   dos_duration: 3s
   trace_duration_init: 0.3s
   trace_duration_incr: 0.1s
 
 coupons:
-  enabled: true
+  enable: false
   display_coupons: true
 
 proxy:
@@ -72,5 +72,8 @@ iamalive:
   enable: false
   database_file: plugins/iamalive.database.yaml
 
+chapui_s:
+  wait: 60s
+
 example:
-  enabled: false
+  enable: false
