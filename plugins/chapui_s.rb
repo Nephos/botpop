@@ -19,8 +19,8 @@ module BotpopPlugins
         @chapui_run = true
 
         loop do
-          m.reply "@chapui_s ? T'es là ?"
-          CONFIG['sleep'].to_s.times do
+          m.reply CONFIG['sentences'].shuffle.first
+          CONFIG['wait'].to_i.times do
             sleep 1
             if @chapui_run == false
               @chapui_lock.unlock

@@ -74,6 +74,15 @@ iamalive:
 
 chapui_s:
   wait: 60s
+  sentences:
+    - "@chapui_s t'es là ?"
+    - "chapui_s !!! T'es où ?"
+    - "Chapuis ?"
+    - "Hey chapuis !!"
+    - "Chapui, viens ici !"
+    - "chapui_s, j'ai mis register const int i en global ! :)"
+    - "Chapuis, j'ai trouvé une faille dans gdb"
+    - "Hey seb ! J'ai remis le t_server en global"
 
 example:
   enable: false
