@@ -9,7 +9,7 @@ module BotpopPlugins
       parent.on :message, /!bocal/ do |m| plugin.exec_bocal m end
       parent.on :message, /!astek/ do |m| plugin.exec_astek m end
     end
-    HELP = ["!admin", "!bocal"]
+    HELP = ["!admin", "!bocal", "!astek"]
     CONFIG = Botpop::CONFIG['epitech'] || raise(MissingConfigurationZone, NAME)
     ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
     ASTEKS = CONFIG['asteks'] || []
@@ -23,7 +23,7 @@ module BotpopPlugins
     end
 
     def self.exec_astek m
-      m.reply ASTEKS.shuffle.first
+      m.reply "Enculéééééééés !!"
     end
 
   end

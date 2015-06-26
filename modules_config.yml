@@ -62,12 +62,6 @@ proxy:
 
 epitech:
   enable: false
-  asteks:
-    - "Faut surtout pas lock les mutexes !!! oO Après tu peux deadlock !"
-    - "J'ai ubuntu pourquoi ?"
-    - "C'est l'histoire d'un astek qui voulait installer Archlinux..."
-    - "Ouais nan mais système unix avancé c'est chiant, ça sert à rien en fait..."
-    - "Nan mais, on peut pas faire le 42sh et le Raytracer en même temps, c'est trop dur."
 
 iamalive:
   enable: false
@@ -91,6 +85,12 @@ say_goodbye:
     - "@chapui_s, viens on a besoin de toi"
     - "@chapui_s t'as soutenance dans 15 minutes au fait"
     - "Chapuis, comment on fait un const cast"
+  asteks:
+    - "Faut surtout pas lock les mutexes !!! oO Après tu peux deadlock !"
+    - "J'ai ubuntu pourquoi ?"
+    - "C'est l'histoire d'un astek qui voulait installer Archlinux..."
+    - "Ouais nan mais système unix avancé c'est chiant, ça sert à rien en fait..."
+    - "Nan mais, on peut pas faire le 42sh et le Raytracer en même temps, c'est trop dur."
 
 example:
   enable: false
