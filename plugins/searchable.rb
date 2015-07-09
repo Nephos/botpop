@@ -1,7 +1,7 @@
 #encoding: utf-8
 
 module BotpopPlugins
-  module Searchabe
+  module Searchable
 
     MATCH = lambda do |parent, plugin|
       parent.on :message, /\!(#{CONFIG.keys.join('|')}) .+/ do |m| plugin.exec_search m end
