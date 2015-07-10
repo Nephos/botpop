@@ -25,20 +25,23 @@ class Botpop
   CONFIG = YAML.load_file(ARGUMENTS.config_file)
   TARGET = /[[:alnum:]_\-\.]+/
 
+  def self.plugin_include! f
+    begin
+      puts "Loading plugin file ... " + f.green + " ... " + require_relative(f).to_s
+    rescue => e
+      puts "Error during loading the file #{f}".red
+      puts "#{e.class}: #{e.message}".red.bold
+      puts "---- Trace ----"
+      puts e.backtrace.join("\n").black.bold
+      exit 1
+    end
+  end
 
   # THEN INCLUDE THE PLUGINS (STATE MAY BE DEFINED BY THE PREVIOUS CONFIG)
   def self.plugins_include!
     Dir[File.expand_path '*.rb', ARGUMENTS.plugin_directory].each do |f|
       if !ARGUMENTS.disable_plugins.include? f
-        begin
-          puts "Loading plugin file ... " + f.green + " ... " + require_relative(f).to_s
-        rescue => e
-          puts "Error during loading the file #{f}".red
-          puts "#{e.class}: #{e.message}".red.bold
-          puts "---- Trace ----"
-          puts e.backtrace.join("\n").black.bold
-          exit 1
-        end
+        plugin_include! f
       end
     end
   end

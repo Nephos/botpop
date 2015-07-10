@@ -108,7 +108,8 @@ module BotpopPlugins
         return m.reply "User '#{nick}' doesn't exists" if ip.nil?
         return m.reply "Cannot reach the host '#{ip}'" if not Builtin.ping(ip)
         s = dos_ip(ip)
-        m.reply "#{nick} : " + (Builtin.ping(ip) ? "failed :(" : "down !!!") + " " + s
+        r = Builtin.ping(ip) ? "failed :(" : "down !!!"
+        m.reply "#{nick} : #{r} #{s}"
       }
     end
 
