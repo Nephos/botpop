@@ -25,34 +25,41 @@ class Botpop
   CONFIG = YAML.load_file(ARGUMENTS.config_file)
   TARGET = /[[:alnum:]_\-\.]+/
 
+
   # THEN INCLUDE THE PLUGINS (STATE MAY BE DEFINED BY THE PREVIOUS CONFIG)
-  Dir[File.expand_path '*.rb', ARGUMENTS.plugin_directory].each do |f|
-    if !ARGUMENTS.disable_plugins.include? f
-      begin
-        puts "Loading plugin file ... " + f.green + " ... " + require_relative(f).to_s
-      rescue => e
-        puts "Error during loading the file #{f}".red
-        puts "#{e.class}: #{e.message}".red.bold
-        puts "---- Trace ----"
-        puts e.backtrace.join("\n").black.bold
-        exit 1
+  def self.plugins_include!
+    Dir[File.expand_path '*.rb', ARGUMENTS.plugin_directory].each do |f|
+      if !ARGUMENTS.disable_plugins.include? f
+        begin
+          puts "Loading plugin file ... " + f.green + " ... " + require_relative(f).to_s
+        rescue => e
+          puts "Error during loading the file #{f}".red
+          puts "#{e.class}: #{e.message}".red.bold
+          puts "---- Trace ----"
+          puts e.backtrace.join("\n").black.bold
+          exit 1
+        end
       end
     end
   end
+  plugins_include!
 
   # THEN LOAD / NOT THE PLUGINS
-  @@plugins = []
-  BotpopPlugins.constants.each do |const|
-    plugin = BotpopPlugins.const_get(const)
-    next if not plugin.is_a? Module
-    if plugin::ENABLED == false
-      puts "Disabled plugin #{plugin}".yellow
-      next
-    end rescue nil
-    puts "Load plugin #{plugin}".green
-    # prepend plugin
-    @@plugins << plugin
+  def self.plugins_load!
+    @@plugins = []
+    BotpopPlugins.constants.each do |const|
+      plugin = BotpopPlugins.const_get(const)
+      next if not plugin.is_a? Module
+      if plugin::ENABLED == false
+        puts "Disabled plugin #{plugin}".yellow
+        next
+      end rescue nil
+      puts "Load plugin #{plugin}".green
+      # prepend plugin
+      @@plugins << plugin
+    end
   end
+  plugins_load!
 
   def self.plugins
     @@plugins.dup
