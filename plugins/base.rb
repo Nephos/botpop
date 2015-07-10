@@ -9,8 +9,9 @@ module BotpopPlugins
       parent.on :message, "!code" do |m| plugin.exec_code m end
       parent.on :message, "!cmds" do |m| plugin.exec_help m end
       parent.on :message, "!help" do |m| plugin.exec_help m end
+      parent.on :message, /!help \w+/ do |m| plugin.exec_help_plugin m end
     end
-    HELP = ["!troll [msg]", "!version", "!code", "!help", "!cmds"]
+    HELP = ["!troll [msg]", "!version", "!code", "!help [plugin]", "!cmds"]
     CONFIG = Botpop::CONFIG['base'] || raise(MissingConfigurationZone, 'base')
     ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
 
@@ -51,6 +52,17 @@ module BotpopPlugins
 
     def self.exec_help m
       help m
+    end
+
+    def self.exec_help_plugin m
+      module_name = m.message.split(" ").last
+      i = Botpop.plugins.map{|e| e.to_s.split(":").last}.index(module_name)
+      if i.nil?
+        m.reply "No plugin #{module_name}"
+        return
+      end
+      plugin = Botpop.plugins[i]
+      m.reply plugin::HELP.join(', ')
     end
 
     def self.exec_troll m
