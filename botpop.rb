@@ -25,15 +25,19 @@ class Botpop
   CONFIG = YAML.load_file(ARGUMENTS.config_file)
   TARGET = /[[:alnum:]_\-\.]+/
 
+  def self.plugin_error_failure! e
+    STDERR.puts "Error during loading the file #{f}".red
+    STDERR.puts "#{e.class}: #{e.message}".red.bold
+    STDERR.puts "---- Trace ----"
+    STDERR.puts e.backtrace.join("\n").black.bold
+    exit 1
+  end
+
   def self.plugin_include! f
     begin
       puts "Loading plugin file ... " + f.green + " ... " + require_relative(f).to_s
     rescue => e
-      puts "Error during loading the file #{f}".red
-      puts "#{e.class}: #{e.message}".red.bold
-      puts "---- Trace ----"
-      puts e.backtrace.join("\n").black.bold
-      exit 1
+      plugin_include_failure! e
     end
   end
 
