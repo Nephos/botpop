@@ -15,6 +15,8 @@ require 'colorize'
 require_relative 'arguments'
 require_relative 'builtin'
 
+require_relative "botpop_plugin_inclusion"
+
 $botpod_arguments ||= ARGV
 
 class Botpop
@@ -25,31 +27,7 @@ class Botpop
   CONFIG = YAML.load_file(ARGUMENTS.config_file)
   TARGET = /[[:alnum:]_\-\.]+/
 
-  def self.plugin_error_failure! e
-    STDERR.puts "Error during loading the file #{f}".red
-    STDERR.puts "#{e.class}: #{e.message}".red.bold
-    STDERR.puts "---- Trace ----"
-    STDERR.puts e.backtrace.join("\n").black.bold
-    exit 1
-  end
-
-  def self.plugin_include! f
-    begin
-      puts "Loading plugin file ... " + f.green + " ... " + require_relative(f).to_s
-    rescue => e
-      plugin_include_failure! e
-    end
-  end
-
-  # THEN INCLUDE THE PLUGINS (STATE MAY BE DEFINED BY THE PREVIOUS CONFIG)
-  def self.plugins_include!
-    Dir[File.expand_path '*.rb', ARGUMENTS.plugin_directory].each do |f|
-      if !ARGUMENTS.disable_plugins.include? f
-        plugin_include! f
-      end
-    end
-  end
-  plugins_include!
+  PluginInclusion::plugins_include! ARGUMENTS
 
   # THEN LOAD / NOT THE PLUGINS
   def self.plugins_load!
