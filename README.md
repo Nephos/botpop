@@ -26,7 +26,7 @@ It will define as many __$debug_OPT__ globals to enable debug on the plugins.
 
 As example:
 ```ruby
-# If debug enabled for this options and error occured
+  # If debug enabled for this options and error occured
 if $debug_plugin and variable == :failed
   binding.pry # user hand here
   # Obsiously, it is usefull to trylock a mutex before because the bot use
@@ -80,7 +80,7 @@ end
 ```
 
 ### Add entry to the !help command
-The __official plugin__ [Base](https://github.com/pouleta/botpop/blob/master/plugins/base.rb) provides the command __!help__.
+The __official plugin__ [Base](https://github.com/pouleta/botpop/blob/master/plugins/base.rb) provides the command __!help__ and __!help plugin__.
 
 It list the avaliable commands of the plugins. You can add your help to your plugin by providing a __HELP__ constant.
 __The strings should be as short as possible.__
