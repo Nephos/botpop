@@ -10,4 +10,15 @@ class TestBotbot < Test::Unit::TestCase
     assert(`grep -R 'binding\\.pry' *.rb plugins/*.rb`.empty?)
   end
 
+  def test_classes_constants
+    assert(Botpop.class == Class)
+    assert(Botpop::ARGUMENTS)
+    assert(Botpop::VERSION)
+    assert(Botpop::CONFIG)
+    assert(Botpop::TARGET)
+    assert(Botpop::PluginInclusion.class == Module)
+    assert(BotpopBuiltins.class == Module)
+    assert(BotpopPlugins.class == Module)
+  end
+
 end
