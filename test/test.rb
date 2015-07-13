@@ -1,7 +1,8 @@
 #encoding: utf-8
 
-require 'pry'
 require "test/unit"
+$botpop_include_verbose = false
+require_relative "../botpop"
 
 class TestBotbot < Test::Unit::TestCase
 

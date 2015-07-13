@@ -15,7 +15,11 @@ class Botpop
 
     def self.plugin_include! f
       begin
-        puts "Loading plugin file ... " + f.green + " ... " + require_relative(f).to_s
+        if $botpop_include_verbose != false
+          puts "Loading plugin file ... " + f.green + " ... " + require_relative(f).to_s
+        else
+          require_relative(f)
+        end
       rescue => e
         plugin_include_failure! e
       end

@@ -36,10 +36,10 @@ class Botpop
       plugin = BotpopPlugins.const_get(const)
       next if not plugin.is_a? Module
       if plugin::ENABLED == false
-        puts "Disabled plugin #{plugin}".yellow
+        puts "Disabled plugin #{plugin}".yellow if $botpop_include_verbose != false
         next
       end rescue nil
-      puts "Load plugin #{plugin}".green
+      puts "Load plugin #{plugin}".green if $botpop_include_verbose != false
       # prepend plugin
       @@plugins << plugin
     end
