@@ -1,6 +1,7 @@
 # botpop
 [![Code Climate](https://codeclimate.com/github/pouleta/botpop/badges/gpa.svg)](https://codeclimate.com/github/pouleta/botpop)
 
+
 ## Usage
 Ruby 2 or greater is required. To be compatible with Ruby 1.9, you can try :
 ``sed 's/prepend/include/g' -i botpop.rb`` but no garanties... You better update ! ;)
@@ -20,6 +21,7 @@ By default, only the first occurence of the argument will be used, unless specif
 - --plugin-disable _OPTION_ : disable a plugin (can be specified many times)
 - --debug, -d _OPTION_ : enable the debug mod. It et a global __$debug_OPTION__ to true. (can be specified many times)
 
+
 ### Debugging easier
 You can specify the --debug OPT option at program start.
 It will define as many __$debug_OPT__ globals to enable debug on the plugins.
@@ -34,8 +36,11 @@ if $debug_plugin and variable == :failed
 end
 ```
 
+
+
 # Plugins
 Some official plugins are developped. You can propose your own creation by pull request, or add snippets link to the wiki.
+
 
 ## List
 - [Base](https://github.com/pouleta/botpop/blob/master/plugins/base.rb) : this is a basic plugin, providing __version, code, help, and troll__
@@ -45,11 +50,13 @@ Some official plugins are developped. You can propose your own creation by pull 
 - [Intranet](https://github.com/pouleta/botpop/blob/master/plugins/intranet.rb) : an useless plugin to check the intranet of epitech
 - [Proxy](https://github.com/pouleta/botpop/blob/master/plugins/proxy.rb) : an audacious plugin to create user access to a local proxy
 
+
 ## Create your own
 You can easy create your own plugins.
 
 The bot is based on [Cinch framework](https://github.com/cinchrb/cinch/).
 You should take the time to read the documentation before developping anything.
+
 
 ### Example of new plugin
 A full example of plugin code is provided in the commented file : [Example of Fury Plugin](https://github.com/pouleta/botpop/blob/master/plugins/example.rb)
@@ -66,6 +73,7 @@ module BotpopPlugins
 end
 ```
 
+
 ### Matching messages
 To create a matching to respond to a message, you have to specifie in your plugin :
 ```ruby
@@ -78,6 +86,7 @@ module BotpopPlugins
   end
 end
 ```
+
 
 ### Add entry to the !help command
 The __official plugin__ [Base](https://github.com/pouleta/botpop/blob/master/plugins/base.rb) provides the command __!help__ and __!help plugin__.
@@ -93,6 +102,7 @@ module BotpopPlugins
   end
 end
 ```
+
 
 ### Enable and disable plugin
 You can enable or disable plugin by using the constant __ENABLED__.
