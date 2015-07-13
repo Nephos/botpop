@@ -18,6 +18,25 @@ module BotpopPlugins
     CONFIG = Botpop::CONFIG['network'] || raise(MissingConfigurationZone, 'network')
     ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
 
+    private
+    # Conversion of the string to value in ms
+    def self.config_string_to_time(value)
+      value.match(/\d+ms\Z/) ? value.to_f / 100.0 : value.to_f
+    end
+    public
+
+    DOS_DURATION = CONFIG['dos_duration'] || '2s'
+    DOS_WAIT_DURATION_STRING = CONFIG['dos_wait'] || '5s'
+    DOS_WAIT_DURATION = config_string_to_time DOS_WAIT_DURATION_STRING
+
+    # Trace is complexe. 3 functions used exec_trace_display_lines, exec_trace_with_time, exec_trace
+    TRACE_DURATION_INIT_STRING_DEFAULT = "0.3s"
+    TRACE_DURATION_INIT_STRING = CONFIG['trace_duration_init'] || TRACE_DURATION_INIT_STRING_DEFAULT
+    TRACE_DURATION_INCR_STRING_DEFAULT = "0.1s"
+    TRACE_DURATION_INCR_STRING = CONFIG['trace_duration_incr'] || TRACE_DURATION_INCR_STRING_DEFAULT
+    TRACE_DURATION_INIT = config_string_to_time TRACE_DURATION_INIT_STRING
+    TRACE_DURATION_INCR = config_string_to_time TRACE_DURATION_INCR_STRING
+
     # @param what [Net::Ping::External]
     # @param what [Net::Ping::HTTP]
     def self.ping_with m, what
@@ -48,11 +67,6 @@ module BotpopPlugins
       m.reply "#{nick} > poke > #{response}"
     end
 
-    DOS_DURATION = CONFIG['dos_duration'] || '2s'
-    DOS_WAIT_DURATION_STRING = CONFIG['dos_wait'] || '5s'
-    DOS_WAIT_DURATION = DOS_WAIT_DURATION_STRING.match(/\d+ms\Z/) ?
-                          (DOS_WAIT_DURATION_STRING.to_f / 100.0) :
-                          (DOS_WAIT_DURATION_STRING.to_f)
 
     def self.dos_check_ip(m, ip)
       return true if BotpopBuiltins.ping(ip)
@@ -112,18 +126,6 @@ module BotpopPlugins
         m.reply "#{nick} : #{r} #{s}"
       }
     end
-
-    # Trace is complexe. 3 functions used exec_trace_display_lines, exec_trace_with_time, exec_trace
-    TRACE_DURATION_INIT_STRING_DEFAULT = "0.3s"
-    TRACE_DURATION_INIT_STRING = CONFIG['trace_duration_init'] || TRACE_DURATION_INIT_STRING_DEFAULT
-    TRACE_DURATION_INCR_STRING_DEFAULT = "0.1s"
-    TRACE_DURATION_INCR_STRING = CONFIG['trace_duration_incr'] || TRACE_DURATION_INCR_STRING_DEFAULT
-    # Conversion of the string to value in ms
-    def self.config_string_to_time(value)
-      value.match(/\d+ms\Z/) ? value.to_f / 100.0 : value.to_f
-    end
-    TRACE_DURATION_INIT = config_string_to_time TRACE_DURATION_INIT_STRING
-    TRACE_DURATION_INCR = config_string_to_time TRACE_DURATION_INCR_STRING
 
     def self.trace_display_lines m, lines
       lines.select!{|e| not e.include? "no reply" and e =~ /\A \d+: .+/}
