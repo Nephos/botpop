@@ -21,7 +21,7 @@ module BotpopPlugins
     # @param what [Net::Ping::External]
     # @param what [Net::Ping::HTTP]
     def self.ping_with m, what
-      ip = Builtin.get_ip m
+      ip = BotpopBuiltins.get_ip m
       p = what.new ip
       str = p.ping(ip) ? "#{(p.duration*100.0).round 2}ms (#{p.host})" : 'failed'
       m.reply "#{ip} > #{what.to_s.split(':').last} ping > #{str}"
@@ -40,11 +40,11 @@ module BotpopPlugins
     end
 
     def self.exec_poke m
-      nick = Builtin.get_ip_from_nick(m)[:nick]
-      ip = Builtin.get_ip_from_nick(m)[:ip]
+      nick = BotpopBuiltins.get_ip_from_nick(m)[:nick]
+      ip = BotpopBuiltins.get_ip_from_nick(m)[:ip]
       return m.reply "User '#{nick}' doesn't exists" if ip.nil?
       # Display
-      response = Builtin.ping(ip) ? "#{(p.duration*100.0).round 2}ms (#{p.host})" : "failed"
+      response = BotpopBuiltins.ping(ip) ? "#{(p.duration*100.0).round 2}ms (#{p.host})" : "failed"
       m.reply "#{nick} > poke > #{response}"
     end
 
@@ -55,7 +55,7 @@ module BotpopPlugins
                           (DOS_WAIT_DURATION_STRING.to_f)
 
     def self.dos_check_ip(m, ip)
-      return true if Builtin.ping(ip)
+      return true if BotpopBuiltins.ping(ip)
       m.reply "Cannot reach the host '#{ip}'"
       return false
     end
@@ -63,8 +63,8 @@ module BotpopPlugins
     def self.dos_replier m, ip, s
       if s.nil?
         m.reply "The dos has failed"
-      elsif Builtin.ping(ip)
-        m.reply "Sorry, the target is still up ! --- #{s}"
+      elsif BotpopBuiltins.ping(ip)
+        m.reply "Sorry, the target is still up !"
       else
         m.reply "Target down ! --- #{s}"
       end
@@ -88,12 +88,12 @@ module BotpopPlugins
     end
 
     def self.dos_ip(ip)
-      return Builtin.dos(ip, DOS_DURATION).split("\n")[3].to_s rescue nil
+      return BotpopBuiltins.dos(ip, DOS_DURATION).split("\n")[3].to_s rescue nil
     end
 
     def self.exec_dos m
       dos_execution m, lambda {|m|
-        ip = Builtin.get_ip m
+        ip = BotpopBuiltins.get_ip m
         return if not dos_check_ip(m, ip)
         m.reply "Begin attack against #{ip}"
         s = dos_ip(ip)
@@ -103,25 +103,28 @@ module BotpopPlugins
 
     def self.exec_fok m
       dos_execution m, lambda {|m|
-        nick = Builtin.get_ip_from_nick(m)[:nick]
-        ip = Builtin.get_ip_from_nick(m)[:ip]
+        nick = BotpopBuiltins.get_ip_from_nick(m)[:nick]
+        ip = BotpopBuiltins.get_ip_from_nick(m)[:ip]
         return m.reply "User '#{nick}' doesn't exists" if ip.nil?
-        return m.reply "Cannot reach the host '#{ip}'" if not Builtin.ping(ip)
+        return m.reply "Cannot reach the host '#{ip}'" if not BotpopBuiltins.ping(ip)
         s = dos_ip(ip)
-        r = Builtin.ping(ip) ? "failed :(" : "down !!!"
+        r = BotpopBuiltins.ping(ip) ? "failed :(" : "down !!!"
         m.reply "#{nick} : #{r} #{s}"
       }
     end
 
     # Trace is complexe. 3 functions used exec_trace_display_lines, exec_trace_with_time, exec_trace
-    TRACE_DURATION_INIT_STRING = (CONFIG['trace_duration_init'] || "0.3s")
-    TRACE_DURATION_INCR_STRING = (CONFIG['trace_duration_incr'] || "0.1s")
-    TRACE_DURATION_INIT = TRACE_DURATION_INIT_STRING.match(/\d+ms\Z/) ?
-                            TRACE_DURATION_INIT_STRING.to_f / 100.0 :
-                            TRACE_DURATION_INIT_STRING.to_f
-    TRACE_DURATION_INCR = TRACE_DURATION_INCR_STRING.match(/\d+ms\Z/) ?
-                            TRACE_DURATION_INCR_STRING.to_f / 100.0 :
-                            TRACE_DURATION_INCR_STRING.to_f
+    TRACE_DURATION_INIT_STRING_DEFAULT = "0.3s"
+    TRACE_DURATION_INIT_STRING = CONFIG['trace_duration_init'] || TRACE_DURATION_INIT_STRING_DEFAULT
+    TRACE_DURATION_INCR_STRING_DEFAULT = "0.1s"
+    TRACE_DURATION_INCR_STRING = CONFIG['trace_duration_incr'] || TRACE_DURATION_INCR_STRING_DEFAULT
+    # Conversion of the string to value in ms
+    def self.config_string_to_time(value)
+      value.match(/\d+ms\Z/) ? value.to_f / 100.0 : value.to_f
+    end
+    TRACE_DURATION_INIT = config_string_to_time TRACE_DURATION_INIT_STRING
+    TRACE_DURATION_INCR = config_string_to_time TRACE_DURATION_INCR_STRING
+
     def self.trace_display_lines m, lines
       lines.select!{|e| not e.include? "no reply" and e =~ /\A \d+: .+/}
       duration = TRACE_DURATION_INIT
@@ -135,7 +138,7 @@ module BotpopPlugins
 
     def self.trace_with_time ip
       t1 = Time.now
-      s = Builtin.trace ip
+      s = BotpopBuiltins.trace ip
       t2 = Time.now
       return [s, t1, t2]
     end
@@ -155,7 +158,7 @@ module BotpopPlugins
 
     def self.exec_trace m
       trace_execution m, lambda {|m|
-        ip = Builtin.get_ip m
+        ip = BotpopBuiltins.get_ip m
         m.reply "It can take time"
         begin
           # Calculations

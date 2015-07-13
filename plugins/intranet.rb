@@ -13,7 +13,7 @@ module BotpopPlugins
     ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
 
     def self.exec_intra m
-      m.reply Builtin.intra_state rescue m.reply "I'm buggy. Sorry"
+      m.reply BotpopBuiltins.intra_state rescue m.reply "I'm buggy. Sorry"
     end
 
     INTRA_PING_SLEEP = 30
@@ -23,7 +23,7 @@ module BotpopPlugins
         @intra_on = true
         m.reply "INTRANET SPY ON"
         while @intra_on
-          m.reply Builtin.intra_state rescue return @intra.unlock
+          m.reply BotpopBuiltins.intra_state rescue return @intra.unlock
           sleep INTRA_PING_SLEEP
         end
         @intra.unlock

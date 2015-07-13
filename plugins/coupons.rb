@@ -58,7 +58,6 @@ module BotpopPlugins
         m.reply coupon if CONFIG['display_coupons']
       rescue => e
         m.reply "#{coupon} buggy"
-        binding.pry
       end
     end
 
