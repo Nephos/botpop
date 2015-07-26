@@ -41,7 +41,6 @@ end
 # Plugins
 Some official plugins are developped. You can propose your own creation by pull request, or add snippets link to the wiki.
 
-
 ## List
 - [Base](https://github.com/pouleta/botpop/blob/master/plugins/base.rb) : this is a basic plugin, providing __version, code, help, and troll__
 - [Network](https://github.com/pouleta/botpop/blob/master/plugins/network.rb) : an usefull plugin with commands __ping, ping ip, ping http, traceroute, dos attack and poke__
@@ -117,4 +116,6 @@ module BotpopPlugins
   end
 end
 ```
+
 Then, a simple line in the ``modules_configuration.yml`` file should be enough.
+
