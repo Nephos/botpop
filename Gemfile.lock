@@ -1,11 +1,11 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    cinch (2.2.5)
+    cinch (2.2.6)
     coderay (1.1.0)
     colorize (0.7.7)
     highline (1.7.2)
-    htauth (1.1.0)
+    htauth (1.2.0)
       highline (~> 1.6)
     method_source (0.8.2)
     net-ping (1.7.7)
@@ -26,4 +26,4 @@ DEPENDENCIES
   pry
 
 BUNDLED WITH
-   1.10.3
+   1.10.5
