@@ -4,8 +4,17 @@
 
 ## Usage
 Ruby 2 or greater is required. To be compatible with Ruby 1.9, you can try :
-``sed 's/prepend/include/g' -i botpop.rb`` but no garanties... You better update ! ;)
-``bundle install`` to install the gems.
+
+```bash
+sed 's/prepend/include/g' -i botpop.rb
+```
+but i did never try... You better update ruby ! ;)
+
+```bash
+bundle install
+```
+
+to install the gems.
 
 
 ## Arguments
