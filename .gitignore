@@ -1,2 +1,4 @@
 *.swp
 *~
+.log
+plugins/logger_user.yml
