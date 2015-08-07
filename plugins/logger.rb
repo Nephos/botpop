@@ -8,10 +8,11 @@ module BotpopPlugins
       parent.on :message, /!log users/ do |m| plugin.exec_list_user m end
       parent.on :message, /!log remove .+/ do |m| plugin.exec_remove_user m end
       parent.on :message, /!log add .+/ do |m| plugin.exec_add_user m end
+      parent.on :message, /!log clean/ do |m| plugin.exec_clean m end
       parent.on :message, /!log\Z/ do |m| plugin.exec_log_enable m end
       parent.on :message, /.+/ do |m| plugin.exec_log m end
     end
-    HELP = ["!log", "!log add", "!log remove", "!log users"]
+    HELP = ["!log", "!log add", "!log remove", "!log users", "!log clean"]
     CONFIG = Botpop::CONFIG['logger'] || raise(MissingConfigurationZone, NAME)
     ENABLED = CONFIG['enable'].nil? ? false : CONFIG['enable']
     USER_CONFIG = "plugins/logger_user.yml"
@@ -41,6 +42,11 @@ module BotpopPlugins
     def self.exec_log_enable m
       @@logger_enabled = !@@logger_enabled
       m.reply "Logger #{@@logger_enabled ? :enabled : :disabled}"
+    end
+
+    def self.exec_clean m
+      return unless is_admin? m
+      File.delete(CONFIG["file"]) rescue nil
     end
 
     def self.exec_log m
