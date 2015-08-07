@@ -41,6 +41,10 @@ base:
   enable: true
   help_wait_duration: 120
 
+logger:
+  enable: true
+  file: logger.log
+
 intranet:
   enable: true
 
