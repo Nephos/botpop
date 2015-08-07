@@ -5,7 +5,7 @@ class Botpop
 
   module PluginInclusion
 
-    def self.plugin_error_failure! e
+    def self.plugin_error_failure! e, f
       STDERR.puts "Error during loading the file #{f}".red
       STDERR.puts "#{e.class}: #{e.message}".red.bold
       STDERR.puts "---- Trace ----"
@@ -21,7 +21,7 @@ class Botpop
           require_relative(f)
         end
       rescue => e
-        plugin_include_failure! e
+        plugin_error_failure! e, f
       end
     end
 
