@@ -60,7 +60,10 @@ module BotpopPlugins
 
     private
     def self.log m
-      File.open(CONFIG["file"], 'a') {|f| f << (m.user.to_s + ": " + m.message + "\n")}
+      @@logger_lock ||= Mutex.new
+      @@logger_lock.lock
+      File.open(CONFIG["file"], 'a') {|f| f << (m.user.to_s + ": " + m.message + "\n")} rescue nil
+      @@logger_lock.unlock
     end
 
     def self.is_admin? m
