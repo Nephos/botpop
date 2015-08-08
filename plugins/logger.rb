@@ -50,7 +50,6 @@ module BotpopPlugins
     end
 
     def self.exec_log m
-      return unless is_admin? m
       log(m) if @@logger_enabled
     end
 
