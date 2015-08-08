@@ -1,0 +1,4 @@
+poulet_a: !log
+cotcot: Logger disabled
+poulet_a: !log status
+poulet_a: !log
