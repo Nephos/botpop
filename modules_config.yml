@@ -2,4 +2,5 @@ base:
   enable: true
   help_wait_duration: 120
 
-
+log:
+  enable: true
