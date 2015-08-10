@@ -1,7 +1,0 @@
-# This file is independent of /modules_config.yml because it should stay private
-creditentials:
-  username: login
-  password: pass
-  organisation: orga
-  api_url: https://api.pathwar.net/
-  api_coupon_url: https://api.pathwar.net/organization-coupons/
