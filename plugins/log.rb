@@ -1,6 +1,6 @@
 #encoding: utf-8
 
-class Log
+class Log < BotpopPlugin
   include Cinch::Plugin
 
   match /users/, use_prefix: true, method: :exec_list_user

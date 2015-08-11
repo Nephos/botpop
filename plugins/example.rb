@@ -1,4 +1,4 @@
-class MyFury
+class MyFury < BotpopPlugin
   include Cinch::Plugin
 
   match(/!whatkingofanimal.*/, use_prefix: false, method: :exec_whatkingofanimal)
@@ -12,4 +12,3 @@ class MyFury
   end
 
 end
-

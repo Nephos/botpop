@@ -42,7 +42,8 @@ class Botpop
           (m = Module.const_get(m) rescue false) and
             (m.is_a?(Class)) and
             (m.ancestors.include?(BotpopPlugin)) and
-            (m != BotpopPlugin)
+            (m != BotpopPlugin) and
+            (m.included_modules.include?(Cinch::Plugin))
     }.map{|m| Module.const_get(m)}
   end
 
