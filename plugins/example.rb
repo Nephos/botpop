@@ -1,7 +1,7 @@
 class MyFury
   include Cinch::Plugin
 
-  match(/!whatkingofanimal.*/, use_prefix: false, method: exec_whatkingofanimal)
+  match(/!whatkingofanimal.*/, use_prefix: false, method: :exec_whatkingofanimal)
 
   HELP = ["!whatkingofanimal", "!animallist", "!checkanimal [type]"]
   CONFIG = Botpop::CONFIG['example'] || raise(MissingConfigurationZone, self.to_s)
