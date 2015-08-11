@@ -1,6 +1,8 @@
 #encoding: utf-8
 
 class SayGoodBye
+  include Cinch::Plugin
+
   match(/^!sg [\w\-\.].+/, use_prefix: false, method: :exec_sg)
 
   HELP = ["!sg src_name"]
