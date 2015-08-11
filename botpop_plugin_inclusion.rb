@@ -11,6 +11,7 @@ module PluginInclusion
   end
 
   def self.plugin_include! f
+    return false if File.basename(f) == "example.rb"
     begin
       if $botpop_include_verbose != false
         puts "Loading plugin file ... " + f.green + " ... " + require_relative(f).to_s
