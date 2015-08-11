@@ -57,6 +57,7 @@ Some official plugins are developped. You can propose your own creation by pull 
 - [Coupon](https://github.com/pouleta/botpop/blob/master/plugins/coupons.rb) : the original aim of the bot. It get coupons for the challenge __pathwar__
 - [Intranet](https://github.com/pouleta/botpop/blob/master/plugins/intranet.rb) : an useless plugin to check the intranet of epitech
 - [Proxy](https://github.com/pouleta/botpop/blob/master/plugins/proxy.rb) : an audacious plugin to create user access to a local proxy
+- [Log](https://github.com/pouleta/botpop/blob/master/plugins/log.rb) : simple logger
 
 
 ## Create your own
