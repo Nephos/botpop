@@ -65,7 +65,7 @@ class Base < Botpop::Plugin
 
   def exec_troll m
     # hours = (Time.now.to_i - Time.gm(2015, 04, 27, 9).to_i) / 60 / 60
-    s = BotpopBuiltins.get_msg m
+    s = Botpop::Builtins.get_msg m
     url = "http://www.fuck-you-internet.com/delivery.php?text=#{s}"
     m.reply url
   end

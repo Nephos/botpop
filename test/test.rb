@@ -17,7 +17,7 @@ class TestBotbot < Test::Unit::TestCase
     assert(Botpop::CONFIG)
     assert(Botpop::TARGET)
     assert(Botpop::PluginInclusion.class == Module)
-    assert(BotpopBuiltins.class == Module)
+    assert(Botpop::Builtins.class == Module)
     assert(Botpop::Plugin.class == Class)
   end
 
