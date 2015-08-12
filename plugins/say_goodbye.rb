@@ -1,6 +1,6 @@
 #encoding: utf-8
 
-class SayGoodBye < BotpopPlugin
+class SayGoodBye < Botpop::Plugin
   include Cinch::Plugin
 
   match(/^!sg [\w\-\.].+/, use_prefix: false, method: :exec_sg)

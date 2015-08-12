@@ -1,6 +1,6 @@
 #encoding: utf-8
 
-class Searchable < BotpopPlugin
+class Searchable < Botpop::Plugin
   include Cinch::Plugin
 
   CONFIG = Botpop::CONFIG['searchable'] || raise(MissingConfigurationZone, self.to_s)

@@ -1,11 +1,11 @@
 #encoding: utf-8
 
 trap('SIGINT') {
-  BotpopPlugins::Proxy.database_users_write({})
+  Botpop::Plugins::Proxy.database_users_write({})
   exit
 }
 
-class Proxy < BotpopPlugin
+class Proxy < Botpop::Plugin
   include Cinch::Plugin
 
   match("!proxy list", use_prefix: false, method: :exec_proxy_list)

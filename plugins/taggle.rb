@@ -1,6 +1,6 @@
 #encoding: utf-8
 
-class Taggle < BotpopPlugin
+class Taggle < Botpop::Plugin
   include Cinch::Plugin
 
   match(/!tg (.+)/, use_prefix: false, method: :exec_tg)

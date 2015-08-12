@@ -1,6 +1,6 @@
 #encoding: utf-8
 
-class Network < BotpopPlugin
+class Network < Botpop::Plugin
   include Cinch::Plugin
 
   match("!ping", use_prefix: false, method: :exec_ping)

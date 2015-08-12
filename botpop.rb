@@ -16,13 +16,14 @@ require_relative 'arguments'
 require_relative 'botpop_plugin_inclusion'
 require_relative 'builtins'
 
-class BotpopPlugin
-  def config
-    Botpop::CONFIG[self.class.to_s]
-  end
-end
 
 class Botpop
+
+  class Plugin
+    def config
+      Botpop::CONFIG[self.class.to_s]
+    end
+  end
 
   def self.load_version
     begin
@@ -41,8 +42,7 @@ class Botpop
     Module.constants.select{ |m|
           (m = Module.const_get(m) rescue false) and
             (m.is_a?(Class)) and
-            (m.ancestors.include?(BotpopPlugin)) and
-            (m != BotpopPlugin) and
+            (m.ancestors.include?(Plugin)) and
             (m.included_modules.include?(Cinch::Plugin))
     }.map{|m| Module.const_get(m)}
   end

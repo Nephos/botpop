@@ -1,6 +1,6 @@
 #encoding: utf-8
 
-class Base < BotpopPlugin
+class Base < Botpop::Plugin
   include Cinch::Plugin
 
   match /^!troll .+/ , use_prefix: false, method: :exec_troll

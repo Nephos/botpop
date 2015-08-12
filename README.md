@@ -72,7 +72,7 @@ A full example of plugin code is provided in the commented file : [Example of Fu
 
 First, put your ruby code file in ``plugins/``, and put your code in the scope :
 ```ruby
-class MyFuryPlugin < BotpopPlugin
+class MyFuryPlugin < Botpop::Plugin
   include Cinch::Plugin
 
   def exec_whatkingofanimal m
@@ -86,7 +86,7 @@ end
 ### Matching messages
 To create a matching to respond to a message, you have to specifie in your plugin :
 ```ruby
-class MyFuryPlugin < BotpopPlugin
+class MyFuryPlugin < Botpop::Plugin
   include Cinch::Plugin
   match(/!whatkingofanimal.*/, use_prefix: false, method: :exec_whatkingofanimal)
   ...code...
@@ -101,7 +101,7 @@ It list the avaliable commands of the plugins. You can add your help to your plu
 __The strings should be as short as possible.__
 You should write it like the following:
 ```ruby
-class MyFuryPlugin < BotpopPlugin
+class MyFuryPlugin < Botpop::Plugin
   HELP = ["!whatkingofanimal", "!animallist", "!checkanimal [type]"]
   ...code...
 end
@@ -114,7 +114,7 @@ It should be linked with the __Botpop::CONFIG__.
 The constant must be defined by the developper of the plugin.
 For example, you can implement it like :
 ```ruby
-class MyFuryPlugin < BotpopPlugin
+class MyFuryPlugin < Botpop::Plugin
   CONFIG = Botpop::CONFIG['myfurry'] || raise(MissingConfigurationZone, 'myfurry')
   ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
 end
