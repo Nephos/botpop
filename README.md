@@ -56,6 +56,7 @@ Some official plugins are developped. You can propose your own creation by pull 
 - [Searchable](https://github.com/pouleta/botpop/blob/master/plugins/searchable.rb) : a little plugin providing irc research with engines like __google, wikipedia, ruby-doc, etc...__
 - [Proxy](https://github.com/pouleta/botpop/blob/master/plugins/proxy.rb) : an audacious plugin to create user access to a local proxy
 - [Log](https://github.com/pouleta/botpop/blob/master/plugins/log.rb) : simple logger
+- [IAmAlive](https://github.com/pouleta/botpop/tree/master/plugins/iamalive) : a plugin to learn how to respond to the users. Fucking machine learning, oh yearh.
 
 ### In version 0.X, not upgraded to v1
 - [Coupon](https://github.com/pouleta/botpop/blob/master/plugins/coupons.rb) : the original aim of the bot. It get coupons for the challenge __pathwar__
