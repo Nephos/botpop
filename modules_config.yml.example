@@ -68,7 +68,7 @@ epitech:
 
 iamalive:
   enable: false
-  database_file: plugins/iamalive.database.yaml
+  database: db.sqlite3
 
 saygoodbye:
   chapui_s:
