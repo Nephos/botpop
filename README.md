@@ -54,10 +54,12 @@ Some official plugins are developped. You can propose your own creation by pull 
 - [Base](https://github.com/pouleta/botpop/blob/master/plugins/base.rb) : this is a basic plugin, providing __version, code, help, and troll__
 - [Network](https://github.com/pouleta/botpop/blob/master/plugins/network.rb) : an usefull plugin with commands __ping, ping ip, ping http, traceroute, dos attack and poke__
 - [Searchable](https://github.com/pouleta/botpop/blob/master/plugins/searchable.rb) : a little plugin providing irc research with engines like __google, wikipedia, ruby-doc, etc...__
-x- [Coupon](https://github.com/pouleta/botpop/blob/master/plugins/coupons.rb) : the original aim of the bot. It get coupons for the challenge __pathwar__
-x- [Intranet](https://github.com/pouleta/botpop/blob/master/plugins/intranet.rb) : an useless plugin to check the intranet of epitech
 - [Proxy](https://github.com/pouleta/botpop/blob/master/plugins/proxy.rb) : an audacious plugin to create user access to a local proxy
 - [Log](https://github.com/pouleta/botpop/blob/master/plugins/log.rb) : simple logger
+
+### In version 0.X, not upgraded to v1
+- [Coupon](https://github.com/pouleta/botpop/blob/master/plugins/coupons.rb) : the original aim of the bot. It get coupons for the challenge __pathwar__
+- [Intranet](https://github.com/pouleta/botpop/blob/master/plugins/intranet.rb) : an useless plugin to check the intranet of epitech
 
 
 ## Create your own
@@ -110,7 +112,6 @@ end
 
 ### Enable and disable plugin
 You can enable or disable plugin by using the constant __ENABLED__.
-It should be linked with the __Botpop::CONFIG__.
 The constant must be defined by the developper of the plugin.
 For example, you can implement it like :
 ```ruby
@@ -125,17 +126,19 @@ Then, a simple line in the ``modules_configuration.yml`` file should be enough.
 ### Plugin Configuration
 You can configure your plugins via the file ``modules_configuration.yml``.
 If you considere that your plugin needs a particular configuration file, then create a new one il the ``plugins`` directory.
+
 To use the configuration loaded by ``modules_configuration.yml``, use the method ``config``.
 
-Config takes an optionnal Hash as argument. It can take:
+``config`` takes an optionnal Hash as argument. It can take:
 
 - ``:safe => (true or false)``
 - ``:name => (string or symbol)``
 
 This method returns a Hash with configuration.
 
-The configuration file ``modules_configuration.yml`` must seems like :
+By default, the method raise a ``MissingConfigurationZone`` error if no entry in the ``modules_configuration.yml`` file.
 
+The configuration file ``modules_configuration.yml`` must seems like :
 ```yaml
 name:
   entry: "string"
@@ -145,5 +148,6 @@ name:
 	- "ohoh"
 	- nextelement:
 	  - oh oh !
-...
 ```
+
+By default, the ``modules_configuration.yml`` file is configured for default plugins.
