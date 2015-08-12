@@ -30,12 +30,19 @@ class IAmAlive < Botpop::Plugin
     return if @@mode != :live
     e = Entry.where(message: m.message).to_a.map(&:id).map{|x| x+1}
     if rand(1..100) > @@reactivity
-      a = Entry.where(id: e).to_a.shuffle.first
-      return if a.nil?
+      answer_to(m, e)
+    end
+  end
+
+  private
+  def answer_to m, e
+    a = Entry.where(id: e).to_a.shuffle.first
+    if not a.nil?
       m.reply a.message
       Entry.create(user: "self", message: a.message)
     end
   end
+  public
 
   def get_reactivity m
     m.reply "Current reactivity: #{@@reactivity}"
