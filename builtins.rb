@@ -34,8 +34,10 @@ module BotpopBuiltins
 
 end
 
-module BotpopPlugins
-  prepend BotpopBuiltins
+class Botpop
+  class Plugin
+    prepend BotpopBuiltins
+  end
 end
 
 class MissingConfigurationZone < RuntimeError
