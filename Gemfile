@@ -1,7 +1,18 @@
 source 'https://rubygems.org'
 
-gem 'net-ping'
+#irc
 gem 'cinch'
+
+# debug
 gem 'pry'
 gem 'colorize'
+
+#network
+gem 'net-ping'
+
+#proxy
 gem 'htauth'
+
+#iamalive
+gem 'sequel'
+gem 'sqlite3'
