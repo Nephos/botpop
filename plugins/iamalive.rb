@@ -45,15 +45,15 @@ class IAmAlive < Botpop::Plugin
     @@reactivity = m.message.split[2].to_i
   end
 
-  def set_mode_learn
+  def set_mode_learn m
     @@mode = :learn
   end
 
-  def set_mode_live
+  def set_mode_live m
     @@mode = :live
   end
 
-  def get_mode
+  def get_mode m
     m.reply "Current mode: #{@@mode}"
   end
 
