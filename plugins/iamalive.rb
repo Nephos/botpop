@@ -1,8 +1,8 @@
 class IAmAlive < Botpop::Plugin
   include Cinch::Plugin
 
-  match(/.+/, use_prefix: false, method: :register_entry)
-  match(/.+/, use_prefix: false, method: :react_on_entry)
+  match(/^[^!].*/, use_prefix: false, method: :register_entry)
+  match(/^[^!].*/, use_prefix: false, method: :react_on_entry)
   CONFIG = config(:safe => true)
   ENABLED = CONFIG['enable'] || false
   DATABASE_FILE = (Dir.pwd + "/plugins/iamalive/" + (CONFIG['database'] || "db.sqlite3"))
