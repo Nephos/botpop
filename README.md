@@ -54,9 +54,10 @@ Some official plugins are developped. You can propose your own creation by pull 
 - [Base](https://github.com/pouleta/botpop/blob/master/plugins/base.rb) : this is a basic plugin, providing __version, code, help, and troll__
 - [Network](https://github.com/pouleta/botpop/blob/master/plugins/network.rb) : an usefull plugin with commands __ping, ping ip, ping http, traceroute, dos attack and poke__
 - [Searchable](https://github.com/pouleta/botpop/blob/master/plugins/searchable.rb) : a little plugin providing irc research with engines like __google, wikipedia, ruby-doc, etc...__
-- [Coupon](https://github.com/pouleta/botpop/blob/master/plugins/coupons.rb) : the original aim of the bot. It get coupons for the challenge __pathwar__
-- [Intranet](https://github.com/pouleta/botpop/blob/master/plugins/intranet.rb) : an useless plugin to check the intranet of epitech
+x- [Coupon](https://github.com/pouleta/botpop/blob/master/plugins/coupons.rb) : the original aim of the bot. It get coupons for the challenge __pathwar__
+x- [Intranet](https://github.com/pouleta/botpop/blob/master/plugins/intranet.rb) : an useless plugin to check the intranet of epitech
 - [Proxy](https://github.com/pouleta/botpop/blob/master/plugins/proxy.rb) : an audacious plugin to create user access to a local proxy
+- [Log](https://github.com/pouleta/botpop/blob/master/plugins/log.rb) : simple logger
 
 
 ## Create your own
@@ -71,13 +72,13 @@ A full example of plugin code is provided in the commented file : [Example of Fu
 
 First, put your ruby code file in ``plugins/``, and put your code in the scope :
 ```ruby
-module BotpopPlugins
-  module MyFuryPlugin
-    def self.exec_whatkingofanimal m
-      m.reply "Die you son of a" + ["lion", "pig", "red panda"].shuffle.first + " !!"
-    end
-    ...code...
+class MyFuryPlugin < BotpopPlugin
+  include Cinch::Plugin
+
+  def exec_whatkingofanimal m
+    m.reply "Die you son of a" + ["lion", "pig", "red panda"].shuffle.first + " !!"
   end
+  ...code...
 end
 ```
 
@@ -85,13 +86,10 @@ end
 ### Matching messages
 To create a matching to respond to a message, you have to specifie in your plugin :
 ```ruby
-module BotpopPlugins
-  module MyFuryPlugin
-    MATCH = lambda do |parent, plugin|
-      parent.on :message, /!whatkingofanimal.*/ do |m| plugin.exec_whatkingofanimal m end
-    end
-    ...code...
-  end
+class MyFuryPlugin < BotpopPlugin
+  include Cinch::Plugin
+  match(/!whatkingofanimal.*/, use_prefix: false, method: :exec_whatkingofanimal)
+  ...code...
 end
 ```
 
@@ -103,11 +101,9 @@ It list the avaliable commands of the plugins. You can add your help to your plu
 __The strings should be as short as possible.__
 You should write it like the following:
 ```ruby
-module BotpopPlugins
-  module MyFuryPlugin
-    HELP = ["!whatkingofanimal", "!animallist", "!checkanimal [type]"]
-    ...code...
-  end
+class MyFuryPlugin < BotpopPlugin
+  HELP = ["!whatkingofanimal", "!animallist", "!checkanimal [type]"]
+  ...code...
 end
 ```
 
@@ -118,11 +114,9 @@ It should be linked with the __Botpop::CONFIG__.
 The constant must be defined by the developper of the plugin.
 For example, you can implement it like :
 ```ruby
-module BotpopPlugins
-  module MyFuryPlugin
-    CONFIG = Botpop::CONFIG['myfurry'] || raise(MissingConfigurationZone, 'myfurry')
-    ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
-  end
+class MyFuryPlugin < BotpopPlugin
+  CONFIG = Botpop::CONFIG['myfurry'] || raise(MissingConfigurationZone, 'myfurry')
+  ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
 end
 ```
 

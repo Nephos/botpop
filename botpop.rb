@@ -13,42 +13,47 @@ require 'yaml'
 require 'colorize'
 
 require_relative 'arguments'
-require_relative 'builtin'
+require_relative 'botpop_plugin_inclusion'
+require_relative 'builtins'
 
-require_relative "botpop_plugin_inclusion"
-
-$botpod_arguments ||= ARGV
+class BotpopPlugin
+  def config
+    Botpop::CONFIG[self.class.to_s]
+  end
+end
 
 class Botpop
 
-  # FIRST LOAD THE CONFIGURATION
-  ARGUMENTS = Arguments.new($botpod_arguments)
-  VERSION = IO.read('version')
-  CONFIG = YAML.load_file(ARGUMENTS.config_file)
-  TARGET = /[[:alnum:]_\-\.]+/
-
-  PluginInclusion::plugins_include! ARGUMENTS
-
-  # THEN LOAD / NOT THE PLUGINS
-  def self.plugins_load!
-    @@plugins = []
-    BotpopPlugins.constants.each do |const|
-      plugin = BotpopPlugins.const_get(const)
-      next if not plugin.is_a? Module
-      if plugin::ENABLED == false
-        puts "Disabled plugin #{plugin}".yellow if $botpop_include_verbose != false
-        next
-      end rescue nil
-      puts "Load plugin #{plugin}".green if $botpop_include_verbose != false
-      # prepend plugin
-      @@plugins << plugin
+  def self.load_version
+    begin
+      return IO.read('version')
+    rescue Errno::ENOENT
+      puts "No version specified".red
+      return "???"
     end
   end
-  plugins_load!
 
-  def self.plugins
-    @@plugins.dup
+  def self.include_plugins
+    PluginInclusion.plugins_include! ARGUMENTS
   end
+
+  def self.load_plugins
+    Module.constants.select{ |m|
+          (m = Module.const_get(m) rescue false) and
+            (m.is_a?(Class)) and
+            (m.ancestors.include?(BotpopPlugin)) and
+            (m != BotpopPlugin) and
+            (m.included_modules.include?(Cinch::Plugin))
+    }.map{|m| Module.const_get(m)}
+  end
+
+  # FIRST LOAD THE CONFIGURATION
+  ARGUMENTS = Arguments.new(ARGV)
+  VERSION = load_version()
+  CONFIG = YAML.load_file(ARGUMENTS.config_file)
+  TARGET = /[[:alnum:]_\-\.]+/
+  include_plugins()
+  PLUGINS = load_plugins()
 
   def start
     @engine.start
@@ -63,10 +68,7 @@ class Botpop
         c.port = ARGUMENTS.port
         c.user = ARGUMENTS.user
         c.nick = ARGUMENTS.nick
-      end
-      @@plugins.each do |plugin|
-        puts "Load matchings of the plugin #{plugin}".green
-        plugin::MATCH.call(self, plugin) rescue puts "No matching found for #{plugin}".red
+        c.plugins.plugins = PLUGINS
       end
     end
   end
@@ -75,5 +77,10 @@ end
 
 if __FILE__ == $0
   $bot = Botpop.new
+  trap("SIGINT") do
+    puts "\b"
+    puts "SIGINT Catched"
+    exit
+  end
   $bot.start
 end

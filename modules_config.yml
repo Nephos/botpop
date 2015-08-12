@@ -1,3 +1,15 @@
+base:
+  enable: true
+  help_wait_duration: 120
+
+log:
+  enable: true
+
+taggle:
+  enable: true
+  ntimes: 10
+  wait: 0.3
+
 searchable:
   yt: https://www.youtube.com/results?search_query=___MSG___
   xv: http://www.xvideos.com/?k=___MSG___
@@ -37,27 +49,12 @@ searchable:
   pkmn: http://pokemondb.net/search?q=___MSG___
   tek: https://intra.epitech.eu/user/___MSG___
 
-base:
-  enable: true
-  help_wait_duration: 120
-
-logger:
-  enable: true
-  file: logger.log
-
-intranet:
-  enable: true
-
 network:
   enable: true
   dos_wait: 10s
   dos_duration: 3s
   trace_duration_init: 0.3s
   trace_duration_incr: 0.1s
-
-coupons:
-  enable: false
-  display_coupons: true
 
 proxy:
   enable: false
@@ -103,5 +100,3 @@ say_goodbye:
   poulet_a:
     - "Nan mais c'est un scandale ! Pourquoi j'ai grade A ?"
 
-example:
-  enable: false
