@@ -115,10 +115,35 @@ The constant must be defined by the developper of the plugin.
 For example, you can implement it like :
 ```ruby
 class MyFuryPlugin < Botpop::Plugin
-  CONFIG = Botpop::CONFIG['myfurry'] || raise(MissingConfigurationZone, 'myfurry')
-  ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
+  ENABLED = config['enable'].nil? ? true : config['enable']
 end
 ```
 
 Then, a simple line in the ``modules_configuration.yml`` file should be enough.
 
+
+### Plugin Configuration
+You can configure your plugins via the file ``modules_configuration.yml``.
+If you considere that your plugin needs a particular configuration file, then create a new one il the ``plugins`` directory.
+To use the configuration loaded by ``modules_configuration.yml``, use the method ``config``.
+
+Config takes an optionnal Hash as argument. It can take:
+
+- ``:safe => (true or false)``
+- ``:name => (string or symbol)``
+
+This method returns a Hash with configuration.
+
+The configuration file ``modules_configuration.yml`` must seems like :
+
+```yaml
+name:
+  entry: "string"
+  entry2:
+    - 1
+    - 2.2
+	- "ohoh"
+	- nextelement:
+	  - oh oh !
+...
+```
