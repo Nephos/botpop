@@ -12,8 +12,7 @@ class Log < Botpop::Plugin
   match /.+/, use_prefix: false, method: :exec_log
 
   HELP = ["!log enable", "!log add", "!log remove", "!log users", "!log clean", "!log status"]
-  CONFIG = Botpop::CONFIG['log'] || raise(MissingConfigurationZone, self.to_s)
-  ENABLED = CONFIG['enable'].nil? ? false : CONFIG['enable']
+  ENABLED = config['enable'].nil? ? false : config['enable']
   USER_CONFIG = "plugins/log_user.yml"
   USERS = YAML.load_file(USER_CONFIG) || raise(MissingConfigurationZone, USER_CONFIG)
 
@@ -49,7 +48,7 @@ class Log < Botpop::Plugin
 
   def exec_clean m
     return unless is_admin? m
-    File.delete(CONFIG["file"]) rescue nil
+    File.delete(config["file"]) rescue nil
   end
 
   def exec_log m
@@ -58,7 +57,7 @@ class Log < Botpop::Plugin
 
   private
   def log m
-    File.open(CONFIG["file"], 'a') {|f| f << (m.user.to_s + ": " + m.message + "\n")}
+    File.open(config["file"], 'a') {|f| f << (m.user.to_s + ": " + m.message + "\n")}
   end
 
   def is_admin? m

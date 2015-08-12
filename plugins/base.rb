@@ -11,8 +11,7 @@ class Base < Botpop::Plugin
   match /^!help \w+/ , use_prefix: false, method: :exec_help_plugin
 
   HELP = ["!troll [msg]", "!version", "!code", "!help [plugin]", "!cmds"]
-  CONFIG = Botpop::CONFIG['base'] || raise(MissingConfigurationZone, self.to_s)
-  ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
+  ENABLED = config['enable'].nil? ? true : config['enable']
 
   def help_wait_before_quit
     HELP_WAIT_DURATION.times do
@@ -28,7 +27,7 @@ class Base < Botpop::Plugin
     end.compact
   end
 
-  HELP_WAIT_DURATION = CONFIG['help_wait_duration'] || 120
+  HELP_WAIT_DURATION = config['help_wait_duration'] || 120
   def help m
     @@help_lock ||= Mutex.new
     if @@help_lock.try_lock

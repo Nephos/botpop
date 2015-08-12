@@ -6,8 +6,8 @@ class Taggle < Botpop::Plugin
   match(/!tg (.+)/, use_prefix: false, method: :exec_tg)
 
   HELP = ["!tg [nick]"]
-  CONFIG = Botpop::CONFIG['taggle'] || {} || raise(MissingConfigurationZone, self.to_s)
-  ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable'] rescue true
+  CONFIG = config(safe: true) || {}
+  ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
   NTIMES = CONFIG['ntimes'] || 10
   WAIT = CONFIG['wait'] || 0.3
 

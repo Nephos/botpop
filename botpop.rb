@@ -20,8 +20,10 @@ require_relative 'builtins'
 class Botpop
 
   class Plugin
-    def config
-      Botpop::CONFIG[self.class.to_s]
+    def self.config(infos={})
+      name = (infos[:name] || self.to_s.downcase).to_s
+      config = Botpop::CONFIG[name]
+      return config || (raise(MissingConfigurationZone, self.to_s) unless infos[:safe])
     end
   end
 

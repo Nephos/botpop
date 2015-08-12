@@ -13,8 +13,7 @@ class Network < Botpop::Plugin
 
   HELP = ["!ping", "!ping [ip]", "!httping [ip]",
           "!dos [ip]", "!fok [nick]", "!trace [ip]", "!poke [nick]"]
-  CONFIG = Botpop::CONFIG['network'] || raise(MissingConfigurationZone, self.to_s)
-  ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
+  ENABLED = config['enable'].nil? ? true : config['enable']
 
   private
   # Conversion of the string to value in ms
@@ -23,15 +22,15 @@ class Network < Botpop::Plugin
   end
   public
 
-  DOS_DURATION = CONFIG['dos_duration'] || '2s'
-  DOS_WAIT_DURATION_STRING = CONFIG['dos_wait'] || '5s'
+  DOS_DURATION = config['dos_duration'] || '2s'
+  DOS_WAIT_DURATION_STRING = config['dos_wait'] || '5s'
   DOS_WAIT_DURATION = config_string_to_time DOS_WAIT_DURATION_STRING
 
   # Trace is complexe. 3 functions used exec_trace_display_lines, exec_trace_with_time, exec_trace
   TRACE_DURATION_INIT_STRING_DEFAULT = "0.3s"
-  TRACE_DURATION_INIT_STRING = CONFIG['trace_duration_init'] || TRACE_DURATION_INIT_STRING_DEFAULT
+  TRACE_DURATION_INIT_STRING = config['trace_duration_init'] || TRACE_DURATION_INIT_STRING_DEFAULT
   TRACE_DURATION_INCR_STRING_DEFAULT = "0.1s"
-  TRACE_DURATION_INCR_STRING = CONFIG['trace_duration_incr'] || TRACE_DURATION_INCR_STRING_DEFAULT
+  TRACE_DURATION_INCR_STRING = config['trace_duration_incr'] || TRACE_DURATION_INCR_STRING_DEFAULT
   TRACE_DURATION_INIT = config_string_to_time TRACE_DURATION_INIT_STRING
   TRACE_DURATION_INCR = config_string_to_time TRACE_DURATION_INCR_STRING
 

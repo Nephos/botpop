@@ -14,18 +14,17 @@ class Proxy < Botpop::Plugin
   match("!proxy drop", use_prefix: false, method: :exec_proxy_drop)
 
   HELP = ["!proxy list", "!proxy ip", "!proxy get", "!proxy drop"]
-  CONFIG = Botpop::CONFIG['proxy'] || raise(MissingConfigurationZone, 'proxy')
-  ENABLED = CONFIG['enable'].nil? ? true : CONFIG['enable']
+  ENABLED = config['enable'].nil? ? true : config['enable']
 
   if ENABLED
     require 'htauth'
     require 'digest'
   end
 
-  LIMIT_USERS = CONFIG['limit_users'] || 1
-  PASSWD_FILE = CONFIG['passwd_file'] || '/etc/squid3/passwords'
-  IP = CONFIG['ip_addr'] || raise(MissingConfigurationEntry, 'ip_addr')
-  PORT = CONFIG['ip_port'] || raise(MissingConfigurationEntry, 'ip_port')
+  LIMIT_USERS = config['limit_users'] || 1
+  PASSWD_FILE = config['passwd_file'] || '/etc/squid3/passwords'
+  IP = config['ip_addr'] || raise(MissingConfigurationEntry, 'ip_addr')
+  PORT = config['ip_port'] || raise(MissingConfigurationEntry, 'ip_port')
 
   File.open(PASSWD_FILE, 'a') {}
   LOCKED_USERS = File.readlines(PASSWD_FILE)

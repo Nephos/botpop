@@ -70,7 +70,7 @@ iamalive:
   enable: false
   database_file: plugins/iamalive.database.yaml
 
-say_goodbye:
+saygoodbye:
   chapui_s:
     - "@chapui_s t'es là ?"
     - "chapui_s !!! T'es où ?"
