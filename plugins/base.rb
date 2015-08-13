@@ -53,8 +53,8 @@ class Base < Botpop::Plugin
   end
 
   def exec_help_plugin m
-    module_name = m.message.split(" ").last
-    i = Botpop::PLUGINS.map{|e| e.to_s.split(":").last}.index(module_name)
+    module_name = m.message.split(" ").last.downcase
+    i = Botpop::PLUGINS.map{|e| e.to_s.split(":").last.downcase}.index(module_name)
     if i.nil?
       m.reply "No plugin #{module_name}"
       return
