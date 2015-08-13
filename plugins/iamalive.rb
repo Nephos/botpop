@@ -13,6 +13,7 @@ class IAmAlive < Botpop::Plugin
   CONFIG = config(:safe => true)
   ENABLED = CONFIG['enable'] || false
   DATABASE_FILE = (Dir.pwd + "/plugins/iamalive/" + (CONFIG['database'] || "db.sqlite3"))
+  HELP = ["!iaa reac", "!iaa reac P", "!iaa learn", "!iaa live", "!iaa mode", "!iaa stats"]
 
   @@mode = :learn
   @@reactivity = config['reactivity'] || 50
