@@ -8,6 +8,7 @@ class IAmAlive < Botpop::Plugin
   match(/^!iaa learn$/, use_prefix: false, method: :set_mode_learn)
   match(/^!iaa live$/, use_prefix: false, method: :set_mode_live)
   match(/^!iaa mode$/, use_prefix: false, method: :get_mode)
+  match(/^!iaa stats?$/, use_prefix: false, method: :get_stats)
 
   CONFIG = config(:safe => true)
   ENABLED = CONFIG['enable'] || false
@@ -62,6 +63,10 @@ class IAmAlive < Botpop::Plugin
 
   def get_mode m
     m.reply "Current mode: #{@@mode}"
+  end
+
+  def get_stats m
+    m.reply "Registred sentences: #{Entry.count}"
   end
 
 end
