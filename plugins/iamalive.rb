@@ -9,11 +9,14 @@ class IAmAlive < Botpop::Plugin
   match(/^!iaa live$/, use_prefix: false, method: :set_mode_live)
   match(/^!iaa mode$/, use_prefix: false, method: :get_mode)
   match(/^!iaa stats?$/, use_prefix: false, method: :get_stats)
+  match(/^!iaa user add (\w+)$/, use_prefix: false, method: :user_add)
+  match(/^!iaa user remove (\w+)$/, use_prefix: false, method: :user_remove)
+  match(/^!iaa user list$/, use_prefix: false, method: :user_list)
 
   CONFIG = config(:safe => true)
   ENABLED = CONFIG['enable'] || false
   DATABASE_FILE = (Dir.pwd + "/plugins/iamalive/" + (CONFIG['database'] || "db.sqlite3"))
-  HELP = ["!iaa reac", "!iaa reac P", "!iaa learn", "!iaa live", "!iaa mode", "!iaa stats"]
+  HELP = ["!iaa reac", "!iaa reac P", "!iaa learn", "!iaa live", "!iaa mode", "!iaa stats", "!iaa user [add/remove/list]"]
 
   @@mode = config['default_mode'].to_sym
   @@reactivity = config['reactivity'] || 50
@@ -22,6 +25,7 @@ class IAmAlive < Botpop::Plugin
     require 'sequel'
     DB = Sequel.sqlite(DATABASE_FILE)
     require_relative 'iamalive/entry'
+    require_relative 'iamalive/admin'
     @@db_lock = Mutex.new
   end
 
@@ -51,6 +55,10 @@ class IAmAlive < Botpop::Plugin
       @@db_lock.unlock
     end
   end
+
+  def allowed(m)
+    Admin.find(user: m.user.to_s)
+  end
   public
 
   def get_reactivity m
@@ -58,14 +66,17 @@ class IAmAlive < Botpop::Plugin
   end
 
   def set_reactivity m
+    return if not allowed? m
     @@reactivity = m.message.split[2].to_i
   end
 
   def set_mode_learn m
+    return if not allowed? m
     @@mode = :learn
   end
 
   def set_mode_live m
+    return if not allowed? m
     @@mode = :live
   end
 
@@ -75,6 +86,23 @@ class IAmAlive < Botpop::Plugin
 
   def get_stats m
     m.reply "Registred sentences: #{Entry.count}"
+  end
+
+  def user_add m, name
+    return if not allowed? m and Admin.count > 0
+    Admin.create(user: name)
+    m.reply "#{name} added to the iaa admins list"
+  end
+
+  def user_remove m, name
+    return if not allowed? m
+    Admin.where(user: name).delete
+    m.reply "#{name} removed from the iaa admins list"
+  end
+
+  def user_list m
+    return if not allowed? m
+    m.reply "iaa admins list: " + Admin.all.map(&:user).join(", ")
   end
 
 end
