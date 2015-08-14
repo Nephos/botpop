@@ -56,7 +56,7 @@ class IAmAlive < Botpop::Plugin
     end
   end
 
-  def allowed(m)
+  def allowed?(m)
     Admin.find(user: m.user.to_s)
   end
   public
