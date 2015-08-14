@@ -50,6 +50,7 @@ class IAmAlive < Botpop::Plugin
   def answer_to m, e
     a = Entry.where(id: e).to_a.shuffle.first
     if not a.nil?
+      sleep(rand(0..20).to_f/10)
       m.reply a.message
       @@db_lock.lock
       Entry.create(user: "self", message: a.message)
@@ -58,7 +59,7 @@ class IAmAlive < Botpop::Plugin
   end
 
   def allowed?(m)
-    Admin.find(user: m.user.to_s) || (puts "Not allowed")
+    Admin.find(user: m.user.to_s) || (m.reply "Not allowed"; return nil)
   end
   public
 
