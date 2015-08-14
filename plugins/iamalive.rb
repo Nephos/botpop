@@ -16,7 +16,7 @@ class IAmAlive < Botpop::Plugin
 
   CONFIG = config(:safe => true)
   ENABLED = CONFIG['enable'] || false
-  DATABASE_FILE = (Dir.pwd + "/plugins/iamalive/" + (CONFIG['database'] || "db.sqlite3"))
+  SQLITE_BASE = Dir.pwd + "/plugins/iamalive/"
   HELP = ["!iaa reac", "!iaa reac P", "!iaa learn", "!iaa live", "!iaa mode", "!iaa stats", "!iaa user [add/remove/list]"]
 
   @@mode = config['default_mode'].to_sym
@@ -24,7 +24,13 @@ class IAmAlive < Botpop::Plugin
 
   if ENABLED
     require 'sequel'
-    DB = Sequel.sqlite(DATABASE_FILE)
+    if CONFIG['database']['postgres']
+      CONFIG_DB = CONFIG['database']['postgres']
+      DB = Sequel.connect({"adapter" => "postgres"}.merge(CONFIG_DB))
+    elsif CONFIG['database']['sqlite']
+      CONFIG_DB = CONFIG['database']['sqlite']
+      DB = Sequel.sqlite(SQLITE_BASE + CONFIG_DB['file'])
+    end
     require_relative 'iamalive/entry'
     require_relative 'iamalive/admin'
     @@db_lock = Mutex.new
@@ -32,7 +38,7 @@ class IAmAlive < Botpop::Plugin
 
   def register_entry m
     @@db_lock.lock
-    Entry.create(user: m.user.to_s, message: m.message)
+    Entry.create(user: m.user.to_s, message: m.message, channel: m.channel.to_s)
     @@db_lock.unlock
     forget_older! if rand(1..100) == 100
   end
@@ -54,7 +60,7 @@ class IAmAlive < Botpop::Plugin
       sleep(rand(0..20).to_f/10)
       m.reply a.message
       @@db_lock.lock
-      Entry.create(user: "self", message: a.message)
+      Entry.create(user: "self", message: a.message, channel: m.channel.to_s)
       @@db_lock.unlock
     end
   end
