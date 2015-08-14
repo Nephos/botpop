@@ -9,6 +9,7 @@ class IAmAlive < Botpop::Plugin
   match(/^!iaa live$/, use_prefix: false, method: :set_mode_live)
   match(/^!iaa mode$/, use_prefix: false, method: :get_mode)
   match(/^!iaa stats?$/, use_prefix: false, method: :get_stats)
+  match(/^!iaa forget (.+)/, use_prefix: false, method: :forget)
   match(/^!iaa user add (\w+)$/, use_prefix: false, method: :user_add)
   match(/^!iaa user remove (\w+)$/, use_prefix: false, method: :user_remove)
   match(/^!iaa user list$/, use_prefix: false, method: :user_list)
@@ -57,7 +58,7 @@ class IAmAlive < Botpop::Plugin
   end
 
   def allowed?(m)
-    Admin.find(user: m.user.to_s)
+    Admin.find(user: m.user.to_s) || (puts "Not allowed")
   end
   public
 
@@ -86,6 +87,13 @@ class IAmAlive < Botpop::Plugin
 
   def get_stats m
     m.reply "Registred sentences: #{Entry.count}"
+  end
+
+  def forget m, what
+    return if not allowed? m
+    @@db_lock.lock
+    n = Entry.where(message: what).delete
+    m.reply "Removed (#{n}x) \"#{what}\""
   end
 
   def user_add m, name
