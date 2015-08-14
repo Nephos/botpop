@@ -15,22 +15,27 @@ class IAmAlive < Botpop::Plugin
   DATABASE_FILE = (Dir.pwd + "/plugins/iamalive/" + (CONFIG['database'] || "db.sqlite3"))
   HELP = ["!iaa reac", "!iaa reac P", "!iaa learn", "!iaa live", "!iaa mode", "!iaa stats"]
 
-  @@mode = :learn
+  @@mode = config['default_mode'].to_sym
   @@reactivity = config['reactivity'] || 50
 
   if ENABLED
     require 'sequel'
     DB = Sequel.sqlite(DATABASE_FILE)
     require_relative 'iamalive/entry'
+    @@db_lock = Mutex.new
   end
 
   def register_entry m
+    @@db_lock.lock
     Entry.create(user: m.user.to_s, message: m.message)
+    @@db_lock.unlock
   end
 
   def react_on_entry m
     return if @@mode != :live
+    @@db_lock.lock
     e = Entry.where(message: m.message).to_a.map(&:id).map{|x| x+1}
+    @@db_lock.unlock
     if rand(1..100) > @@reactivity
       answer_to(m, e)
     end
@@ -41,7 +46,9 @@ class IAmAlive < Botpop::Plugin
     a = Entry.where(id: e).to_a.shuffle.first
     if not a.nil?
       m.reply a.message
+      @@db_lock.lock
       Entry.create(user: "self", message: a.message)
+      @@db_lock.unlock
     end
   end
   public

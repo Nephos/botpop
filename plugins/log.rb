@@ -17,7 +17,7 @@ class Log < Botpop::Plugin
   USERS = YAML.load_file(USER_CONFIG) || raise(MissingConfigurationZone, USER_CONFIG)
 
   @@log_user_list = USERS["list"]
-  @@log_enabled = false
+  @@log_enabled = config["default_started"]
 
   def exec_list_user m
     m.reply @@log_user_list.join(", ")
