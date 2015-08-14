@@ -11,12 +11,12 @@ class Taggle < Botpop::Plugin
   NTIMES = CONFIG['ntimes'] || 10
   WAIT = CONFIG['wait'] || 0.3
 
-  def exec_tg c, m, who
+  def exec_tg m, who
     @@tg_lock ||= Mutex.new
     @@tg_lock.lock
     begin
       NTIMES.times do
-        c.User(who).send("tg #{who}")
+        User(who).send("tg #{who}")
         sleep WAIT
       end
     ensure
