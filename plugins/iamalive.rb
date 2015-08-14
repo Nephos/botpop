@@ -34,6 +34,7 @@ class IAmAlive < Botpop::Plugin
     @@db_lock.lock
     Entry.create(user: m.user.to_s, message: m.message)
     @@db_lock.unlock
+    forget_older! if rand(1..100) == 100
   end
 
   def react_on_entry m
@@ -60,6 +61,13 @@ class IAmAlive < Botpop::Plugin
 
   def allowed?(m)
     Admin.find(user: m.user.to_s) || (m.reply "Not allowed"; return nil)
+  end
+
+  def forget_older!
+    log "Forget the older entry"
+    @@db_lock.lock
+    Entry.first.delete
+    @@db_lock.unlock
   end
   public
 
