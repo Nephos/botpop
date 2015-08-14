@@ -3,12 +3,12 @@
 class Log < Botpop::Plugin
   include Cinch::Plugin
 
-  match /users/, use_prefix: true, method: :exec_list_user
-  match /remove .+/, use_prefix: true, method: :exec_remove_user
-  match /add .+/, use_prefix: true, method: :exec_add_user
-  match /clean/, use_prefix: true, method: :exec_clean
-  match /status/, use_prefix: true, method: :exec_status
-  match /enable/, use_prefix: true, method: :exec_log_enable
+  match /users$/, use_prefix: true, method: :exec_list_user
+  match /remove .+$/, use_prefix: true, method: :exec_remove_user
+  match /add .+$/, use_prefix: true, method: :exec_add_user
+  match /clean$/, use_prefix: true, method: :exec_clean
+  match /status$/, use_prefix: true, method: :exec_status
+  match /enable$/, use_prefix: true, method: :exec_log_enable
   match /.+/, use_prefix: false, method: :exec_log
 
   HELP = ["!log enable", "!log add", "!log remove", "!log users", "!log clean", "!log status"]
