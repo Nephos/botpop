@@ -9,6 +9,7 @@ GEM
       highline (~> 1.6)
     method_source (0.8.2)
     net-ping (1.7.7)
+    pg (0.18.2)
     pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -25,6 +26,7 @@ DEPENDENCIES
   colorize
   htauth
   net-ping
+  pg
   pry
   sequel
   sqlite3

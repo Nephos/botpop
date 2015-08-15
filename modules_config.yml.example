@@ -4,6 +4,7 @@ base:
 
 log:
   enable: true
+  default_started: false
 
 taggle:
   enable: true
@@ -67,8 +68,17 @@ epitech:
   enable: false
 
 iamalive:
-  enable: false
-  database: db.sqlite3
+  enable: true
+  default_mode: live
+  database:
+    postgres:
+      host: localhost
+      port: 5432
+      user: root
+      password: toor
+      database: botpop_iamalive
+    sqlite:
+      file: db.sqlite3
 
 saygoodbye:
   chapui_s:

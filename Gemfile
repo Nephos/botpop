@@ -16,3 +16,4 @@ gem 'htauth'
 #iamalive
 gem 'sequel'
 gem 'sqlite3'
+gem 'pg'
