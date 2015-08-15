@@ -101,7 +101,7 @@ class IAmAlive < Botpop::Plugin
   end
 
   def get_stats m
-    m.reply "Registred sentences: #{Entry.count}"
+    m.reply "Registered sentences: #{Entry.count}"
   end
 
   def forget m, what
