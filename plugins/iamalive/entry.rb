@@ -7,6 +7,7 @@ class IAmAlive
       self.created_at ||= Time.now
       super
     end
+    set_dataset DB[:entries]
   end
 
 end

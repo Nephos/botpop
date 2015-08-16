@@ -1,6 +1,7 @@
 class IAmAlive < Botpop::Plugin
   include Cinch::Plugin
   include Botpop::Plugin::Database
+  include Botpop::Plugin::Database::Admin
 
   match(/^[^!].*/, use_prefix: false, method: :register_entry)
   match(/^[^!].*/, use_prefix: false, method: :react_on_entry)
@@ -18,7 +19,6 @@ class IAmAlive < Botpop::Plugin
 
   CONFIG = config(:safe => true)
   ENABLED = CONFIG['enable'] || false
-  SQLITE_BASE = Dir.pwd + "/plugins/iamalive/"
   HELP = ["!iaa reac", "!iaa reac P", "!iaa learn", "!iaa live", "!iaa mode",
           "!iaa stats", "!iaa forget (Nx SENTENCE)", "!iaa last (nick)",
           "!iaa user [add/remove/list]"]
@@ -27,8 +27,8 @@ class IAmAlive < Botpop::Plugin
   @@reactivity = config['reactivity'] || 50
 
   if ENABLED
-    self.db_config = CONFIG['database']
-    self.db_connect!
+    DB_CONFIG = self.db_config = CONFIG['database']
+    DB = self.db_connect!
     require_relative 'iamalive/entry'
     require_relative 'iamalive/admin'
     @@db_lock = Mutex.new
@@ -61,10 +61,6 @@ class IAmAlive < Botpop::Plugin
       Entry.create(user: "self", message: a.message, channel: m.channel.to_s)
       @@db_lock.unlock
     end
-  end
-
-  def allowed?(m)
-    Admin.find(user: m.user.to_s) || (m.reply "Not allowed"; return nil)
   end
 
   def forget_older!
@@ -124,23 +120,6 @@ class IAmAlive < Botpop::Plugin
     user.strip! if user
     last = Entry.where(channel: m.channel.to_s, user: (user || "self")).last
     m.reply "#{user}: #{last ? last.message : 'no message found'}"
-  end
-
-  def user_add m, name
-    return if not allowed? m and Admin.count > 0
-    Admin.create(user: name)
-    m.reply "#{name} added to the iaa admins list"
-  end
-
-  def user_remove m, name
-    return if not allowed? m
-    Admin.where(user: name).delete
-    m.reply "#{name || 'me'} removed from the iaa admins list"
-  end
-
-  def user_list m
-    return if not allowed? m
-    m.reply "iaa admins list: " + Admin.all.map(&:user).join(", ")
   end
 
 end
