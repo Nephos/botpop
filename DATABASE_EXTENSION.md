@@ -46,6 +46,7 @@ class Plugin ...
     m.reply found ? found[:id] : 'no such word'
   end
 end
+```
 
 If you want to use models, don't forget to set the "dataset" (association with the right database / table) to avoid conflicts:
 
