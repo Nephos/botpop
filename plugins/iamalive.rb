@@ -19,7 +19,9 @@ class IAmAlive < Botpop::Plugin
   CONFIG = config(:safe => true)
   ENABLED = CONFIG['enable'] || false
   SQLITE_BASE = Dir.pwd + "/plugins/iamalive/"
-  HELP = ["!iaa reac", "!iaa reac P", "!iaa learn", "!iaa live", "!iaa mode", "!iaa stats", "!iaa forget n SENTENCE", "!iaa user [add/remove/list]"]
+  HELP = ["!iaa reac", "!iaa reac P", "!iaa learn", "!iaa live", "!iaa mode",
+          "!iaa stats", "!iaa forget (Nx SENTENCE)", "!iaa last (nick)",
+          "!iaa user [add/remove/list]"]
 
   @@mode = config['default_mode'].to_sym
   @@reactivity = config['reactivity'] || 50
@@ -105,7 +107,7 @@ class IAmAlive < Botpop::Plugin
     if arguments.nil?
       @@db_lock.lock
       last = Entry.where(channel: m.channel.to_s, user: "self").last
-      m.reply last ? "\"#{last.message}\" deleted" : "Nop"
+      m.reply last ? "\"#{last.message}\" Forgotten" : "Nop"
       last.delete
       @@db_lock.unlock
     else
@@ -114,7 +116,7 @@ class IAmAlive < Botpop::Plugin
       nb ||= Entry.where(message: what).count
       n = Entry.where(message: what).order_by(:id).reverse.limit(nb).map(&:delete).size rescue 0
       @@db_lock.unlock
-      m.reply "Removed (#{n}x) \"#{what}\""
+      m.reply "(#{n}x) \"#{what}\" Forgotten"
     end
   end
 
