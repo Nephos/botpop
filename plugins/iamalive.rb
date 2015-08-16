@@ -10,7 +10,8 @@ class IAmAlive < Botpop::Plugin
   match(/^!iaa live$/, use_prefix: false, method: :set_mode_live)
   match(/^!iaa mode$/, use_prefix: false, method: :get_mode)
   match(/^!iaa stats?$/, use_prefix: false, method: :get_stats)
-  match(/^!iaa forget (\d+ )?(.+)/, use_prefix: false, method: :forget)
+  match(/^!iaa forget( (\d+ )?(.+))?/, use_prefix: false, method: :forget)
+  match(/^!iaa last( \w+)?$/, use_prefix: false, method: :get_last)
   match(/^!iaa user add (\w+)$/, use_prefix: false, method: :user_add)
   match(/^!iaa user remove (\w+)$/, use_prefix: false, method: :user_remove)
   match(/^!iaa user list$/, use_prefix: false, method: :user_list)
@@ -43,7 +44,7 @@ class IAmAlive < Botpop::Plugin
     @@db_lock.lock
     e = Entry.where(message: m.message).to_a.map(&:id).map{|x| x+1}
     @@db_lock.unlock
-    if rand(1..100) > @@reactivity
+    if @@reactivity > rand(1..100)
       answer_to(m, e)
     end
   end
@@ -99,14 +100,28 @@ class IAmAlive < Botpop::Plugin
     m.reply "Registered sentences: #{Entry.count}"
   end
 
-  def forget m, nb, what
+  def forget m, arguments, nb, what
     return if not allowed? m
-    nb = nb.to_i if not nb.nil?
-    @@db_lock.lock
-    nb ||= Entry.where(message: what).count
-    n = Entry.where(message: what).order_by(:id).reverse.limit(nb).map(&:delete).size rescue 0
-    @@db_lock.unlock
-    m.reply "Removed (#{n}x) \"#{what}\""
+    if arguments.nil?
+      @@db_lock.lock
+      last = Entry.where(channel: m.channel.to_s, user: "self").last
+      m.reply last ? "\"#{last.message}\" deleted" : "Nop"
+      last.delete
+      @@db_lock.unlock
+    else
+      nb = nb.to_i if not nb.nil?
+      @@db_lock.lock
+      nb ||= Entry.where(message: what).count
+      n = Entry.where(message: what).order_by(:id).reverse.limit(nb).map(&:delete).size rescue 0
+      @@db_lock.unlock
+      m.reply "Removed (#{n}x) \"#{what}\""
+    end
+  end
+
+  def get_last m, user
+    user.strip! if user
+    last = Entry.where(channel: m.channel.to_s, user: (user || "self")).last
+    m.reply "#{user}: #{last ? last.message : 'no message found'}"
   end
 
   def user_add m, name
@@ -118,7 +133,7 @@ class IAmAlive < Botpop::Plugin
   def user_remove m, name
     return if not allowed? m
     Admin.where(user: name).delete
-    m.reply "#{name} removed from the iaa admins list"
+    m.reply "#{name || 'me'} removed from the iaa admins list"
   end
 
   def user_list m
