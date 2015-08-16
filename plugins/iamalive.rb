@@ -106,10 +106,11 @@ class IAmAlive < Botpop::Plugin
 
   def forget m, nb, what
     return if not allowed? m
+    nb = nb.to_i if not nb.nil?
     @@db_lock.lock
-    nb ||= 999
-    nb = nb.to_i
-    n = Entry.where(message: what).order_by(:id).reverse.limit(nb).each(&:delete).size rescue 0
+    nb ||= Entry.where(message: what).count
+    n = Entry.where(message: what).order_by(:id).reverse.limit(nb).map(&:delete).size rescue 0
+    @@db_lock.unlock
     m.reply "Removed (#{n}x) \"#{what}\""
   end
 
