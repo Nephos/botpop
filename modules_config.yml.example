@@ -71,14 +71,12 @@ iamalive:
   enable: true
   default_mode: live
   database:
-    postgres:
-      host: localhost
-      port: 5432
-      user: root
-      password: toor
-      database: botpop_iamalive
-    sqlite:
-      file: db.sqlite3
+    adapter: postgres
+    host: localhost
+    port: 5432
+    user: root
+    password: toor
+    database: botpop_iamalive
 
 saygoodbye:
   chapui_s:
