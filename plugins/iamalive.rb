@@ -109,7 +109,7 @@ class IAmAlive < Botpop::Plugin
     @@db_lock.lock
     nb ||= 999
     nb = nb.to_i
-    n = Entry.where(message: what).order_by(:id).reverse.limit(nb).each(&:delete) rescue 0
+    n = Entry.where(message: what).order_by(:id).reverse.limit(nb).each(&:delete).size rescue 0
     m.reply "Removed (#{n}x) \"#{what}\""
   end
 
