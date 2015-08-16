@@ -45,7 +45,7 @@ It can be done via 2 ways:
 
 - migrations: **recommanded**.
   This is safer and more reliable.
-  There is an example if [iamalive](plugins/iamalive/).
+  There is an example in the plugin [iamalive](plugins/iamalive/).
   Checkout the documentation of the orm:
   [sequel migrations](http://sequel.jeremyevans.net/rdoc/files/doc/migration_rdoc.html).
 - manual: **NOT recommanded**.
