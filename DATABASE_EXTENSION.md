@@ -1,9 +1,14 @@
+# Database Extension
+
 ## Plugin Database Extension
 
-You can configure a database to store a large amount of volatiles informations, like the users rights, etc.
+You can configure a database to store a large amount of volatiles informations,
+like the users rights, etc.
 To do it, there is an extension, ready to be used.
 
-- configure the database access (for exemple, in the ``modules_config.yml``:
+### 1. configure the database access
+
+for exemple, in the ``modules_config.yml``:
 ```yaml
 plugin:
   database:
@@ -15,12 +20,15 @@ plugin:
     database: botpop_db
 ```
 
-  and then, in you plugin
+*note: you can also configure it in a specific database file.
+In these case, adapt the following code.*
+
+Then, in you plugin, add the following code:
 
 ```ruby
 class Plugin < Botpop::Plugin
   include Cinch::Plugin
-  include Botpop::Plugin::Database
+  include Botpop::Plugin::Database # include the extension
 
   ...
   if ENABLED
@@ -32,11 +40,20 @@ class Plugin < Botpop::Plugin
 end
 ```
 
-- create the database and tables. It can be done via 2 ways:
-  - migrations: **recommanded**. This is safer and more reliable. There is an example if [iamalive](plugins/iamalive/). Checkout the documentation of the orm: [sequel migrations](http://sequel.jeremyevans.net/rdoc/files/doc/migration_rdoc.html).
-  - manual: **NOT recommanded**. Create the database and tables manually.
+### 2. create the database and tables
+It can be done via 2 ways:
 
-- use it
+- migrations: **recommanded**.
+  This is safer and more reliable.
+  There is an example if [iamalive](plugins/iamalive/).
+  Checkout the documentation of the orm:
+  [sequel migrations](http://sequel.jeremyevans.net/rdoc/files/doc/migration_rdoc.html).
+- manual: **NOT recommanded**.
+  Create the database and tables manually.
+
+### 3. use it
+
+You can access to the database via the constant ``DB``
 
 ```ruby
 class Plugin ...
@@ -48,7 +65,11 @@ class Plugin ...
 end
 ```
 
-If you want to use models, don't forget to set the "dataset" (association with the right database / table) to avoid conflicts:
+### 4. models
+
+If you want to use models, don't forget to set the "dataset"
+(association with the right database / table)
+to avoid conflicts:
 
 ```ruby
 class Model < Sequel::Model
@@ -58,14 +79,22 @@ end
 
 ## Plugin Database::Admin extension
 
-This simple extension allows you to manage users. Simply add to your plugin:
+This simple extension allows you to manage users.
+Simply add to your plugin:
 
 ```ruby
-  include Botpop::Plugin::Database::Admin
+include Botpop::Plugin::Database::Admin
 ```
 
 It **requires** the basic Database extension.
+
+### Table
+
+#### Fields required
+
 An admin requires 2 fields: **id** and **user**.
+
+#### Table creation
 
 You have to create your own migration/table like ``01_create_admins.rb``:
 
@@ -79,6 +108,8 @@ Sequel.migration do
   end
 end
 ```
+
+### Methods
 
 There is 4 methods provided: ``user_add``, ``user_remove``, ``user_list``, and ``cmd_allowed?``.
 Then, add your own match in the plugin, like:

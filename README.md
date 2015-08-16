@@ -155,4 +155,4 @@ By default, the ``modules_configuration.yml`` file is configured for default plu
 
 ### Plugin Database
 
-Check this separated [README FOR DATABASE IN PLUGINS](DATABASE_EXTENSION.md)
+Check this specified [README FOR DATABASE IN PLUGINS](DATABASE_EXTENSION.md)
