@@ -9,7 +9,7 @@ class IAmAlive < Botpop::Plugin
   match(/^!iaa live$/, use_prefix: false, method: :set_mode_live)
   match(/^!iaa mode$/, use_prefix: false, method: :get_mode)
   match(/^!iaa stats?$/, use_prefix: false, method: :get_stats)
-  match(/^!iaa forget (.+)/, use_prefix: false, method: :forget)
+  match(/^!iaa forget (\d+ )?(.+)/, use_prefix: false, method: :forget)
   match(/^!iaa user add (\w+)$/, use_prefix: false, method: :user_add)
   match(/^!iaa user remove (\w+)$/, use_prefix: false, method: :user_remove)
   match(/^!iaa user list$/, use_prefix: false, method: :user_list)
@@ -17,7 +17,7 @@ class IAmAlive < Botpop::Plugin
   CONFIG = config(:safe => true)
   ENABLED = CONFIG['enable'] || false
   SQLITE_BASE = Dir.pwd + "/plugins/iamalive/"
-  HELP = ["!iaa reac", "!iaa reac P", "!iaa learn", "!iaa live", "!iaa mode", "!iaa stats", "!iaa user [add/remove/list]"]
+  HELP = ["!iaa reac", "!iaa reac P", "!iaa learn", "!iaa live", "!iaa mode", "!iaa stats", "!iaa forget n SENTENCE", "!iaa user [add/remove/list]"]
 
   @@mode = config['default_mode'].to_sym
   @@reactivity = config['reactivity'] || 50
@@ -57,7 +57,7 @@ class IAmAlive < Botpop::Plugin
   def answer_to m, e
     a = Entry.where(id: e).to_a.shuffle.first
     if not a.nil?
-      sleep(rand(0..20).to_f/10)
+      sleep(a.message.split.size.to_f / 10)
       m.reply a.message
       @@db_lock.lock
       Entry.create(user: "self", message: a.message, channel: m.channel.to_s)
@@ -104,10 +104,12 @@ class IAmAlive < Botpop::Plugin
     m.reply "Registered sentences: #{Entry.count}"
   end
 
-  def forget m, what
+  def forget m, nb, what
     return if not allowed? m
     @@db_lock.lock
-    n = Entry.where(message: what).delete
+    nb ||= 999
+    nb = nb.to_i
+    n = Entry.where(message: what).order_by(:id).reverse.limit(nb).map(&:delete) rescue 0
     m.reply "Removed (#{n}x) \"#{what}\""
   end
 
