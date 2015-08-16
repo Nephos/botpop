@@ -15,7 +15,7 @@ require 'colorize'
 require_relative 'arguments'
 require_relative 'botpop_plugin_inclusion'
 require_relative 'builtins'
-
+require_relative 'database'
 
 class Botpop
 

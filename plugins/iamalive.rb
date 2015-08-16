@@ -1,5 +1,6 @@
 class IAmAlive < Botpop::Plugin
   include Cinch::Plugin
+  include Botpop::Plugin::Database
 
   match(/^[^!].*/, use_prefix: false, method: :register_entry)
   match(/^[^!].*/, use_prefix: false, method: :react_on_entry)
@@ -23,14 +24,8 @@ class IAmAlive < Botpop::Plugin
   @@reactivity = config['reactivity'] || 50
 
   if ENABLED
-    require 'sequel'
-    if CONFIG['database']['postgres']
-      CONFIG_DB = CONFIG['database']['postgres']
-      DB = Sequel.connect({"adapter" => "postgres"}.merge(CONFIG_DB))
-    elsif CONFIG['database']['sqlite']
-      CONFIG_DB = CONFIG['database']['sqlite']
-      DB = Sequel.sqlite(SQLITE_BASE + CONFIG_DB['file'])
-    end
+    self.db_config = CONFIG['database']
+    self.db_connect!
     require_relative 'iamalive/entry'
     require_relative 'iamalive/admin'
     @@db_lock = Mutex.new
