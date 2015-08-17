@@ -17,6 +17,21 @@ youtube:
   reduce_url: https://youtu.be/___ID___
   search_url: https://www.youtube.com/results?search_query=___MSG___
 
+poilo:
+  enable: true
+  list:
+    u: cul
+    a: bras
+    o: dos
+    i: kiki
+    eu: lepreux
+    y: nazi
+    oi: petit-pois
+    eau: bébé oiseau
+    au: marmot
+    ou: doudou
+    an: manant
+
 searchable:
   #yt: https://www.youtube.com/results?search_query=___MSG___ # use the plugin youtube instead
   xv: http://www.xvideos.com/?k=___MSG___
