@@ -25,7 +25,6 @@ class Youtube < Botpop::Plugin
 
   def find_youtube_video m, title
     e = Mechanize.new
-    binding.pry
     e.get(search_url(title))
     result = {
       title: e.page.at(".item-section li").at('h3').text,
