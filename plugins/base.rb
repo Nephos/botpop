@@ -3,12 +3,12 @@
 class Base < Botpop::Plugin
   include Cinch::Plugin
 
-  match /^!troll .+/ , use_prefix: false, method: :exec_troll
+  match(/^!troll .+/ , use_prefix: false, method: :exec_troll)
   match "!version" , use_prefix: false, method: :exec_version
   match "!code" , use_prefix: false, method: :exec_code
   match "!cmds" , use_prefix: false, method: :exec_help
   match "!help" , use_prefix: false, method: :exec_help
-  match /^!help \w+/ , use_prefix: false, method: :exec_help_plugin
+  match(/^!help \w+/ , use_prefix: false, method: :exec_help_plugin)
 
   HELP = ["!troll [msg]", "!version", "!code", "!help [plugin]", "!cmds"]
   ENABLED = config['enable'].nil? ? true : config['enable']

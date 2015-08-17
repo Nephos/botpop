@@ -11,8 +11,14 @@ taggle:
   ntimes: 10
   wait: 0.3
 
+youtube:
+  enable: true
+  display: "Youtube: ___TITLE___ ___URL___"
+  reduce_url: https://youtu.be/___ID___
+  search_url: https://www.youtube.com/results?search_query=___MSG___
+
 searchable:
-  yt: https://www.youtube.com/results?search_query=___MSG___
+  #yt: https://www.youtube.com/results?search_query=___MSG___ # use the plugin youtube instead
   xv: http://www.xvideos.com/?k=___MSG___
   yp: https://www.youporn.com/search/?query=___MSG___
 

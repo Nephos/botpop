@@ -2,6 +2,7 @@ class IAmAlive < Botpop::Plugin
   include Cinch::Plugin
   include Botpop::Plugin::Database
   include Botpop::Plugin::Database::Admin
+  alias :'allowed?' :'cmd_allowed?'
 
   match(/^[^!].*/, use_prefix: false, method: :register_entry)
   match(/^[^!].*/, use_prefix: false, method: :react_on_entry)
