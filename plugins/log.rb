@@ -48,7 +48,7 @@ class Log < Botpop::Plugin
 
   def exec_clean m
     return unless is_admin? m
-    File.delete(config["file"]) rescue nil
+    File.delete(CONFIG["file"]) rescue nil
   end
 
   def exec_log m
@@ -57,7 +57,7 @@ class Log < Botpop::Plugin
 
   private
   def log m
-    File.open(config["file"], 'a') {|f| f << (m.user.to_s + ": " + m.message + "\n")}
+    File.open(CONFIG["file"], 'a') {|f| f << (m.user.to_s + ": " + m.message + "\n")}
   end
 
   def is_admin? m

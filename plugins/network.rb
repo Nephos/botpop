@@ -14,6 +14,7 @@ class Network < Botpop::Plugin
   HELP = ["!ping", "!ping [ip]", "!httping [ip]",
           "!dos [ip]", "!fok [nick]", "!trace [ip]", "!poke [nick]"]
   ENABLED = config['enable'].nil? ? true : config['enable']
+  CONFIG = config
 
   private
   # Conversion of the string to value in ms
