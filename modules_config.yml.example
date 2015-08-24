@@ -1,6 +1,13 @@
 base:
   enable: true
   help_wait_duration: 120
+  database:
+    adapter: postgres
+    host: localhost
+    port: 5432
+    user: root
+    password: toor
+    database: botpop_base
 
 log:
   enable: true
@@ -9,13 +16,41 @@ log:
 taggle:
   enable: true
   ntimes: 10
-  wait: 0.3
+  wait: 0.8
 
 youtube:
   enable: true
   display: "Youtube: ___TITLE___ ___URL___"
   reduce_url: https://youtu.be/___ID___
   search_url: https://www.youtube.com/results?search_query=___MSG___
+
+network:
+  enable: true
+  dos_wait: 10s
+  dos_duration: 3s
+  trace_duration_init: 0.3s
+  trace_duration_incr: 0.1s
+
+epitech:
+  enable: false
+
+iamalive:
+  enable: false
+  default_mode: live
+  database:
+    adapter: postgres
+    host: localhost
+    port: 5432
+    user: root
+    password: toor
+    database: botpop_iamalive
+
+proxy:
+  enable: false
+  ip_addr: localhost
+  ip_port: 0
+  limit_users: 4
+  passwd_file: /tmp/squid3_passwords
 
 poilo:
   enable: true
@@ -70,34 +105,6 @@ searchable:
 
   pkmn: http://pokemondb.net/search?q=___MSG___
   tek: https://intra.epitech.eu/user/___MSG___
-
-network:
-  enable: true
-  dos_wait: 10s
-  dos_duration: 3s
-  trace_duration_init: 0.3s
-  trace_duration_incr: 0.1s
-
-proxy:
-  enable: false
-  ip_addr: localhost
-  ip_port: 0
-  limit_users: 4
-  passwd_file: /tmp/squid3_passwords
-
-epitech:
-  enable: false
-
-iamalive:
-  enable: true
-  default_mode: live
-  database:
-    adapter: postgres
-    host: localhost
-    port: 5432
-    user: root
-    password: toor
-    database: botpop_iamalive
 
 saygoodbye:
   chapui_s:

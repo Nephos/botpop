@@ -11,10 +11,12 @@ sed 's/prepend/include/g' -i botpop.rb
 but i did never try... You better update ruby ! ;)
 
 ```bash
-bundle install
+bundle install            # install the required gems
+cp modules_config.yml.example modules_config.yml
+editor modules_config.yml # set the database settings, etc.
+# create your database
+rake db:install           # migrate the base plugin
 ```
-
-to install the gems.
 
 
 ## Arguments
@@ -156,3 +158,7 @@ By default, the ``modules_configuration.yml`` file is configured for default plu
 ### Plugin Database
 
 Check this specified [README FOR DATABASE IN PLUGINS](DATABASE_EXTENSION.md)
+
+### Rights managements (users, groups)
+
+Check this specified [README FOR RIGHTS MANAGEMENTS](RIGHTS_MANAGEMENTS.md)

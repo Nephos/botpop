@@ -2,6 +2,7 @@
 
 class Base < Botpop::Plugin
   include Cinch::Plugin
+  include Botpop::Plugin::Database
 
   match(/^!troll .+/ , use_prefix: false, method: :exec_troll)
   match "!version" , use_prefix: false, method: :exec_version
@@ -10,8 +11,22 @@ class Base < Botpop::Plugin
   match "!help" , use_prefix: false, method: :exec_help
   match(/^!help \w+/ , use_prefix: false, method: :exec_help_plugin)
 
+  match("!register", use_prefix: false, method: :user_register)
+  match("!user ls", use_prefix: false, method: :user_ls)
+  match(/^!user (\w+) group ls$/, use_prefix: false, method: :user_group_ls)
+  match(/^!user (\w+) group add (\w+)/, use_prefix: false, method: :user_group_add)
+  match(/^!user (\w+) group rm (\w+)/, use_prefix: false, method: :user_group_rm)
+
   HELP = ["!troll [msg]", "!version", "!code", "!help [plugin]", "!cmds"]
   ENABLED = config['enable'].nil? ? true : config['enable']
+  CONFIG = config
+
+  if ENABLED
+    DB_CONFIG = self.db_config = CONFIG['database']
+    DB = self.db_connect!
+    require_relative 'base/UserModel'
+    require_relative 'base/user'
+  end
 
   def help_wait_before_quit
     HELP_WAIT_DURATION.times do
