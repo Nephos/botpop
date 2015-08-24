@@ -4,7 +4,7 @@ Sequel.migration do
       primary_key :id
       String    :name, null: false, unique: true
       TrueClass :admin
-      String    :groups
+      column    :groups, "text[]"
     end
   end
 end

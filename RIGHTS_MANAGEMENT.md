@@ -10,6 +10,6 @@ class Plugin < Botpop::Plugin
   end
 
   def exec_some_match m
-    return if not cmd_allowed? m
+    return Base.cmd_allowed? m, ["iaa"]
   end
 ```

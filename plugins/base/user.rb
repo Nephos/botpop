@@ -10,7 +10,7 @@ class Base
   end
 
   def self.cmd_allowed? m, groups=["admin"], verbose=true
-    user = User.where(name: m.user.to_s, groups: groups).first
+    user = User.where(name: m.user.to_s).where("groups @> '{#{groups.join(',')}}'").first
     if user.nil?
       m.reply "No authorized" if verbose
       return false
@@ -28,7 +28,7 @@ class Base
       admin = (User.count == 0)
       u = User.create(name: m.user.to_s,
                       admin: admin,
-                      groups: admin ? 'admin' : 'default')
+                      groups: [admin ? 'admin' : 'default'])
       m.reply "Welcome ##{u.id} #{u.name}"
     rescue => err
       m.reply "Cannot register #{m.user.to_s}"
@@ -44,27 +44,24 @@ class Base
   end
 
   def user_group_ls m, name
-    # use cmd_allowed? m instead
-    find_and_exec(m.user.to_s) {|u| return if not u.is_admin?}
+    cmd_allowed? m
     find_and_exec(name) do |u|
-      m.reply u.groups
+      m.reply u.groups.join(', ')
     end
   end
 
   def user_group_add m, name, group
-    # use cmd_allowed? m instead
-    find_and_exec(m.user.to_s) {|u| return if not u.is_admin?}
+    cmd_allowed? m
     find_and_exec(name) do |u|
-      u.update(groups: (u.groups.split(',') + [group]).join(','))
+      u.update(groups: (u.groups + [group]))
       m.reply "group #{group} added to #{u.name}"
     end
   end
 
   def user_group_rm m, name, group
-    # use cmd_allowed? m instead
-    find_and_exec(m.user.to_s) {|u| return if not u.is_admin?}
+    cmd_allowed? m
     find_and_exec(name) do |u|
-      u.update(groups: (u.groups.split(',') - [group]).join(','))
+      u.update(groups: (u.groups - [group]))
       m.reply "group #{group} removed from #{u.name}"
     end
   end

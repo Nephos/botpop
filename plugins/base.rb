@@ -24,6 +24,7 @@ class Base < Botpop::Plugin
   if ENABLED
     DB_CONFIG = self.db_config = CONFIG['database']
     DB = self.db_connect!
+    DB.extension :pg_array
     require_relative 'base/UserModel'
     require_relative 'base/user'
   end

@@ -23,7 +23,7 @@ class IAmAlive < Botpop::Plugin
   @@reactivity = config['reactivity'] || 50
 
   def cmd_allowed? m
-    return if not Base.cmd_allowed? m, ["iaa"]
+    return Base.cmd_allowed? m, ["iaa"]
   end
 
   if ENABLED

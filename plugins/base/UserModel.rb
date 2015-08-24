@@ -13,7 +13,7 @@ class User < Sequel::Model
   end
 
   def belongs_to? group
-    self.groups.split(',').include? group
+    self.groups.include? group
   end
 
   set_dataset Base::DB[:users]
