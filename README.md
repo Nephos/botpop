@@ -161,4 +161,4 @@ Check this specified [README FOR DATABASE IN PLUGINS](DATABASE_EXTENSION.md)
 
 ### Rights managements (users, groups)
 
-Check this specified [README FOR RIGHTS MANAGEMENTS](RIGHTS_MANAGEMENTS.md)
+Check this specified [README FOR RIGHTS MANAGEMENT](RIGHTS_MANAGEMENT.md)
