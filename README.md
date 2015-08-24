@@ -1,5 +1,6 @@
 # botpop
 [![Code Climate](https://codeclimate.com/github/pouleta/botpop/badges/gpa.svg)](https://codeclimate.com/github/pouleta/botpop)
+[![GitHub version](https://badge.fury.io/gh/pouleta%2Fbotpop.svg)](http://badge.fury.io/gh/pouleta%2Fbotpop)
 
 ## Requirements
 
