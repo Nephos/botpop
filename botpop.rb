@@ -46,7 +46,8 @@ class Botpop
             (m.is_a?(Class)) and
             (m.ancestors.include?(Plugin)) and
             (m.included_modules.include?(Cinch::Plugin))
-    }.map{|m| Module.const_get(m)}
+    }.map{|m| Module.const_get(m)}.select{|m|
+      m::ENABLED}
   end
 
   # FIRST LOAD THE CONFIGURATION
