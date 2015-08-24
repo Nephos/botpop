@@ -17,3 +17,6 @@ gem 'htauth'
 gem 'sequel'
 gem 'sqlite3'
 gem 'pg'
+
+#other
+gem 'nomorebeer'
