@@ -32,7 +32,6 @@ class Base
       m.reply "Welcome ##{u.id} #{u.name}"
     rescue => err
       m.reply "Cannot register #{m.user.to_s}"
-      binding.pry
     end
   end
 
