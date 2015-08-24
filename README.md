@@ -1,8 +1,14 @@
 # botpop
 [![Code Climate](https://codeclimate.com/github/pouleta/botpop/badges/gpa.svg)](https://codeclimate.com/github/pouleta/botpop)
 
+## Requirements
 
-## Usage
+- Ruby 2.0 or greater
+- Postgresql 9.3 or greater
+
+
+
+## Installation
 Ruby 2 or greater is required. To be compatible with Ruby 1.9, you can try :
 
 ```bash
@@ -53,7 +59,7 @@ end
 Some official plugins are developped. You can propose your own creation by pull request, or add snippets link to the wiki.
 
 ## List
-- [Base](https://github.com/pouleta/botpop/blob/master/plugins/base.rb) : this is a basic plugin, providing __version, code, help, and troll__
+- [Base](https://github.com/pouleta/botpop/blob/master/plugins/base.rb) : this is a basic plugin, providing __version, code, help, and troll__. It also provide a full groups's system.
 - [Network](https://github.com/pouleta/botpop/blob/master/plugins/network.rb) : an usefull plugin with commands __ping, ping ip, ping http, traceroute, dos attack and poke__
 - [Searchable](https://github.com/pouleta/botpop/blob/master/plugins/searchable.rb) : a little plugin providing irc research with engines like __google, wikipedia, ruby-doc, etc...__
 - [Proxy](https://github.com/pouleta/botpop/blob/master/plugins/proxy.rb) : an audacious plugin to create user access to a local proxy
@@ -160,5 +166,7 @@ By default, the ``modules_configuration.yml`` file is configured for default plu
 Check this specified [README FOR DATABASE IN PLUGINS](DATABASE_EXTENSION.md)
 
 ### Rights managements (users, groups)
+
+Requires postgresql, because it uses the pg_array extension.
 
 Check this specified [README FOR RIGHTS MANAGEMENT](RIGHTS_MANAGEMENT.md)
