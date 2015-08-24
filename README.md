@@ -88,7 +88,7 @@ class MyFuryPlugin < Botpop::Plugin
   include Cinch::Plugin
 
   def exec_whatkingofanimal m
-    m.reply "Die you son of a" + ["lion", "pig", "red panda"].shuffle.first + " !!"
+    m.reply "Die you son of a" + ["lion", "pig", "red panda"].sample + " !!"
   end
   ...code...
 end

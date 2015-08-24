@@ -47,7 +47,7 @@ class IAmAlive < Botpop::Plugin
 
   private
   def answer_to m, e
-    a = Entry.where(id: e).to_a.shuffle.first
+    a = Entry.where(id: e).to_a.sample
     if not a.nil?
       sleep(a.message.split.size.to_f / 10)
       m.reply a.message

@@ -10,7 +10,7 @@ class SayGoodBye < Botpop::Plugin
 
   def exec_sg m
     arg = m.message.split.last
-    m.reply config[arg].shuffle.first
+    m.reply config[arg].sample
   end
 
 end

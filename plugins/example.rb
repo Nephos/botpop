@@ -8,7 +8,7 @@ class MyFury < Botpop::Plugin
   CONFIG = config
 
   def exec_whatkingofanimal m
-    m.reply "Die you son of a" + ["lion", "pig", "red panda"].shuffle.first + " !!"
+    m.reply "Die you son of a" + ["lion", "pig", "red panda"].sample + " !!"
   end
 
 end
