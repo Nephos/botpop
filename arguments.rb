@@ -83,17 +83,19 @@ class Arguments
   end
 
   def disable_plugins
-    i = 0
     plugins = []
     argv = @argv.dup
-    while i
+    loop do
       i = argv.index('--plugin-disable')
-      if i
-        plugin = argv[i + 1]
-        plugin = plugin + '.rb' if plugin[-4..-1] != '.rb'
-        plugins << File.expand_path(plugin, plugin_directory)
-        argv = argv[(i+2)..(-1)]
-      end
+      break unless i
+      plugins << @argv[i + 1]
+      argv = argv[(i+2)..(-1)]
+      # if i
+      #   plugin = argv[i + 1]
+      #   plugin = plugin + '.rb' if plugin[-4..-1] != '.rb'
+      #   plugins << File.expand_path(plugin, plugin_directory)
+      #   argv = argv[(i+2)..(-1)]
+      # end
     end
     return plugins
   end
