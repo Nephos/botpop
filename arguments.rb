@@ -1,8 +1,8 @@
 # encoding: utf-8
 class Arguments
 
-  # @arg : name [String] the option to search
-  # @arg : name [Array] the options to search (multiples keys avaliables)
+  # @param name [String] the option to search
+  # @param name [Array] the options to search (multiples keys avaliables)
   def get_one_argument(name, default_value)
     if name.is_a? String
       i = @argv.index(name)
@@ -90,12 +90,6 @@ class Arguments
       break unless i
       plugins << @argv[i + 1]
       argv = argv[(i+2)..(-1)]
-      # if i
-      #   plugin = argv[i + 1]
-      #   plugin = plugin + '.rb' if plugin[-4..-1] != '.rb'
-      #   plugins << File.expand_path(plugin, plugin_directory)
-      #   argv = argv[(i+2)..(-1)]
-      # end
     end
     return plugins
   end
