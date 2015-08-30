@@ -12,7 +12,8 @@ class Log < Botpop::Plugin
   match /.+/, use_prefix: false, method: :exec_log
 
   HELP = ["!log enable", "!log add", "!log remove", "!log users", "!log clean", "!log status"]
-  ENABLED = config['enable'].nil? ? false : config['enable']
+  CONFIG = config['enable']
+  ENABLED = CONFIG.nil? ? false : CONFIG
   USER_CONFIG = "plugins/log_user.yml"
   USERS = YAML.load_file(USER_CONFIG) || raise(MissingConfigurationZone, USER_CONFIG)
 
