@@ -12,13 +12,13 @@ class Log < Botpop::Plugin
   match /.+/, use_prefix: false, method: :exec_log
 
   HELP = ["!log enable", "!log add", "!log remove", "!log users", "!log clean", "!log status"]
-  CONFIG = config['enable']
-  ENABLED = CONFIG.nil? ? false : CONFIG
+  CONFIG = config
+  ENABLED = CONFIG['enable'].nil? ? false : CONFIG['enable']
   USER_CONFIG = "plugins/log_user.yml"
   USERS = YAML.load_file(USER_CONFIG) || raise(MissingConfigurationZone, USER_CONFIG)
 
   @@log_user_list = USERS["list"]
-  @@log_enabled = config["default_started"]
+  @@log_enabled = CONFIG["default_started"]
 
   def exec_list_user m
     m.reply @@log_user_list.join(", ")
