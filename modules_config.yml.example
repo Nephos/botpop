@@ -109,6 +109,9 @@ iamalive:
     password: toor
     database: botpop_iamalive
 
+cequetudisnaaucunsens:
+  enabled: true
+
 saygoodbye:
   chapui_s:
     - "@chapui_s t'es là ?"
