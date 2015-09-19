@@ -11,12 +11,12 @@
 
 ## Installation
 Ruby 2 or greater is required. To be compatible with Ruby 1.9, you can try :
-
 ```bash
 sed 's/prepend/include/g' -i botpop.rb
 ```
 but i did never try... You better update ruby ! ;)
 
+Too install the stuff, just do :
 ```bash
 bundle install            # install the required gems
 cp modules_config.yml.example modules_config.yml
@@ -66,6 +66,7 @@ Some official plugins are developped. You can propose your own creation by pull 
 - [Proxy](https://github.com/pouleta/botpop/blob/master/plugins/proxy.rb) : an audacious plugin to create user access to a local proxy
 - [Log](https://github.com/pouleta/botpop/blob/master/plugins/log.rb) : simple logger
 - [IAmAlive](https://github.com/pouleta/botpop/tree/master/plugins/iamalive) : a plugin to learn how to respond to the users. Fucking machine learning, oh yearh.
+- [CeQueTuDisNaAucunSens](https://github.com/pouleta/botpop/tree/master/plugins/cequetudisnaaucunsens.rb) : a funny plugin to say "ce que tu dis n'a aucun sens" without any meaning.
 
 ### In version 0.X, not upgraded to v1
 - [Coupon](https://github.com/pouleta/botpop/blob/master/plugins/coupons.rb) : the original aim of the bot. It get coupons for the challenge __pathwar__
