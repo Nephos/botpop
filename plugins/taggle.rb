@@ -11,7 +11,12 @@ class Taggle < Botpop::Plugin
   NTIMES = CONFIG['ntimes'] || 10
   WAIT = CONFIG['wait'] || 0.3
 
+  def cmd_allowed? m
+    return Base.cmd_allowed? m, ["tg"]
+  end
+
   def exec_tg m, who
+    return if not cmd_allowed? m
     @@tg_lock ||= Mutex.new
     @@tg_lock.lock
     begin
