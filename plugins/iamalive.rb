@@ -33,7 +33,7 @@ class IAmAlive < Botpop::Plugin
   end
 
   def register_entry m
-    Entry.create(user: m.user.user, message: m.message, channel: m.channel.to_s)
+    Entry.create(user: (m.user.authname || m.user.nick), message: m.message, channel: m.channel.to_s)
     forget_older! if rand(1..100) == 100
   end
 

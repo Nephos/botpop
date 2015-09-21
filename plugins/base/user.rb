@@ -10,7 +10,7 @@ class Base
   end
 
   def self.cmd_allowed? m, groups=["admin"], verbose=true
-    user = User.where(name: m.user.user).where("groups @> '{#{groups.join(',')}}'").first
+    user = User.where(name: m.user.authname).where("groups @> '{#{groups.join(',')}}'").first
     if user.nil?
       m.reply "No authorized" if verbose
       return false
@@ -24,14 +24,15 @@ class Base
   end
 
   def user_register m
+    return m.reply "You are not connected" if m.user.authname.nil?
     begin
       admin = (User.count == 0)
-      u = User.create(name: m.user.user,
+      u = User.create(name: m.user.authname,
                       admin: admin,
                       groups: [admin ? 'admin' : 'default'])
       m.reply "Welcome ##{u.id} #{u.name}"
     rescue => err
-      m.reply "Cannot register #{m.user.user}"
+      m.reply "Cannot register #{m.user.authname}"
     end
   end
 
