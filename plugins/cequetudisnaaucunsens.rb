@@ -1,7 +1,7 @@
 class CeQueTuDisNAAucunSens < Botpop::Plugin
   include Cinch::Plugin
 
-  match(/!?wha+t/, use_prefix: false, method: :say_random)
+  match(/!?wha+t/i, use_prefix: false, method: :say_random)
 
   HELP = ["!what"]
   ENABLED = config['enable'].nil? ? false : config['enable']
