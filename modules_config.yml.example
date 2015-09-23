@@ -9,6 +9,9 @@ base:
     password: toor
     database: botpop_base
 
+points:
+  enable: true
+
 log:
   enable: true
   default_started: false
