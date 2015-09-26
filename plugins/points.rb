@@ -5,8 +5,8 @@ class Base < Botpop::Plugin
   include Botpop::Plugin::Database
 
   match(/.*/, use_prefix: false, method: :save_last_user)
-  match(/!p (\w+)$/, use_prefix: false, method: :add_point_to_last)
-  match(/!p (\w+) (\w+)$/, use_prefix: false, method: :add_point_to_user)
+  match(/!p +(\w+)$/, use_prefix: false, method: :add_point_to_last)
+  match(/!p +(\w+) +(\w+)$/, use_prefix: false, method: :add_point_to_user)
 
   HELP = ["!p [type] <to>"]
   ENABLED = config['enable'].nil? ? true : config['enable']
@@ -29,14 +29,14 @@ class Base < Botpop::Plugin
   def add_point_to_last m, type
     return if @@users[m.channel.to_s].nil?
     nick = @@users[m.channel.to_s]
-    Point.create({assigned_by: m.user.nick, assigned_to: nick, type: type})
-    count = Point.where(assigned_to: nick, type: type).count
+    Point.create({assigned_by: m.user.nick, assigned_to: nick.downcase, type: type})
+    count = Point.where(assigned_to: nick.downcase, type: type).count
     m.reply "User #{nick} has now #{count} points #{type} !"
   end
 
   def add_point_to_user m, type, nick
-    Point.create({assigned_by: m.user.nick, assigned_to: nick, type: type})
-    count = Point.where(assigned_to: nick, type: type).count
+    Point.create({assigned_by: m.user.nick, assigned_to: nick.downcase, type: type})
+    count = Point.where(assigned_to: nick.downcase, type: type).count
     m.reply "User #{nick} has now #{count} points #{type} !"
   end
 
