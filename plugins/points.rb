@@ -1,8 +1,8 @@
 #encoding: utf-8
 
-class Base < Botpop::Plugin
+class Points < Botpop::Plugin
   include Cinch::Plugin
-  include Botpop::Plugin::Database
+  # include Botpop::Plugin::Database
 
   match(/.*/, use_prefix: false, method: :save_last_user)
   match(/!p +(\w+)$/, use_prefix: false, method: :add_point_to_last)
