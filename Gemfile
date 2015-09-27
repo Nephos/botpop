@@ -3,6 +3,9 @@ source 'https://rubygems.org'
 #irc
 gem 'cinch'
 
+# scrap yt
+gem 'mechanize'
+
 # debug
 gem 'pry'
 gem 'colorize'

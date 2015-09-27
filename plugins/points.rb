@@ -12,10 +12,6 @@ class Points < Botpop::Plugin
   ENABLED = config['enable'].nil? ? true : config['enable']
   CONFIG = config
 
-  if ENABLED
-    require_relative 'points/PointModel'
-  end
-
   @@users = {}
   @@lock = Mutex.new
 
@@ -29,13 +25,13 @@ class Points < Botpop::Plugin
   def add_point_to_last m, type
     return if @@users[m.channel.to_s].nil?
     nick = @@users[m.channel.to_s]
-    Point.create({assigned_by: m.user.nick, assigned_to: nick.downcase, type: type})
+    DB[:points].insert({assigned_by: m.user.nick, assigned_to: nick.downcase, type: type})
     count = Point.where(assigned_to: nick.downcase, type: type).count
     m.reply "User #{nick} has now #{count} points #{type} !"
   end
 
   def add_point_to_user m, type, nick
-    Point.create({assigned_by: m.user.nick, assigned_to: nick.downcase, type: type})
+    DB[:points].insert({assigned_by: m.user.nick, assigned_to: nick.downcase, type: type})
     count = Point.where(assigned_to: nick.downcase, type: type).count
     m.reply "User #{nick} has now #{count} points #{type} !"
   end
