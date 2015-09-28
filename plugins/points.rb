@@ -2,7 +2,7 @@
 
 class Points < Botpop::Plugin
   include Cinch::Plugin
-  # include Botpop::Plugin::Database
+  include Botpop::Plugin::Database
 
   match(/.*/, use_prefix: false, method: :save_last_user)
   match(/!p +(\w+)$/, use_prefix: false, method: :add_point_to_last)
@@ -25,14 +25,14 @@ class Points < Botpop::Plugin
   def add_point_to_last m, type
     return if @@users[m.channel.to_s].nil?
     nick = @@users[m.channel.to_s]
-    DB[:points].insert({assigned_by: m.user.nick, assigned_to: nick.downcase, type: type})
-    count = DB[:points].where(assigned_to: nick.downcase, type: type).count
+    Base::DB[:points].insert({assigned_by: m.user.nick, assigned_to: nick.downcase, type: type})
+    count = Base::DB[:points].where(assigned_to: nick.downcase, type: type).count
     m.reply "User #{nick} has now #{count} points #{type} !"
   end
 
   def add_point_to_user m, type, nick
-    DB[:points].insert({assigned_by: m.user.nick, assigned_to: nick.downcase, type: type})
-    count = Point.where(assigned_to: nick.downcase, type: type).count
+    Base::DB[:points].insert({assigned_by: m.user.nick, assigned_to: nick.downcase, type: type})
+    count = Base::DB[:points].where(assigned_to: nick.downcase, type: type).count
     m.reply "User #{nick} has now #{count} points #{type} !"
   end
 
