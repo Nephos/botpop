@@ -39,7 +39,7 @@ class IAmAlive < Botpop::Plugin
 
   def react_on_entry m
     return if @@mode != :live
-    e = Entry.where(message: m.message).to_a.map(&:id).map{|x| x+1}
+    e = Entry.where('LOWER(message) = LOWER(?)', m.message).to_a.map(&:id).map{|x| x+1}
     if @@reactivity > rand(1..100)
       answer_to(m, e)
     end
