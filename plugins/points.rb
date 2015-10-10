@@ -5,10 +5,10 @@ class Points < Botpop::Plugin
   include Botpop::Plugin::Database
 
   match(/.*/, use_prefix: false, method: :save_last_user)
-  match(/!p-stats$/, use_prefix: false, method: :statistics)
-  match(/!p-stats (\w+)$/, use_prefix: false, method: :statistics_for)
-  match(/!p +(\w+)$/, use_prefix: false, method: :add_point_to_last)
-  match(/!p +(\w+) +(\w+)$/, use_prefix: false, method: :add_point_to_user)
+  match(/^!p-stats$/, use_prefix: false, method: :statistics)
+  match(/^!p-stats (\w+)$/, use_prefix: false, method: :statistics_for)
+  match(/^!p +(\w+)$/, use_prefix: false, method: :add_point_to_last)
+  match(/^!p +(\w+) +(\w+)$/, use_prefix: false, method: :add_point_to_user)
 
   HELP = ["!p <type> [to]", "!p-stats [user]"]
   ENABLED = config['enable'].nil? ? true : config['enable']
