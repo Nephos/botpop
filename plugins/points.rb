@@ -18,7 +18,10 @@ class Points < Botpop::Plugin
   @@lock = Mutex.new
 
   def statistics m
-    ret = Base::DB.fetch("SELECT points.type, COUNT(points.*) AS nb FROM points GROUP BY points.type ORDER BY nb DESC LIMIT 10;").all.map{|e| e[:type] + "(#{e[:nb]})"}.join(", ")
+    # ret = Base::DB.fetch("SELECT points.type, COUNT(points.*) AS nb FROM points GROUP BY points.type ORDER BY nb DESC LIMIT 10;").all.map{|e| e[:type] + "(#{e[:nb]})"}.join(", ")
+    data = Base::DB.fetch("SELECT points.type, COUNT(points.*) AS nb FROM points GROUP BY points.type ORDER BY nb DESC LIMIT 10;").all
+    data.map!{|e| Base::DB.fetch("SELECT assigned_to FROM points GROUP BY type, assigned_to HAVING type = ? ORDER BY COUNT(*) DESC;", e[:type]).first.merge(e)}
+    ret = data.map{|e| e[:type] + "(#{e[:nb]}x #{e[:assigned_to]})"}.join(", ")
     m.reply "Top used: #{ret}"
   end
 
