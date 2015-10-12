@@ -67,7 +67,7 @@ Some official plugins are developped. You can propose your own creation by pull 
 - [Log](https://github.com/pouleta/botpop/blob/master/plugins/log.rb) : simple logger
 - [IAmAlive](https://github.com/pouleta/botpop/tree/master/plugins/iamalive) : a plugin to learn how to respond to the users. Fucking machine learning, oh yearh.
 - [CeQueTuDisNaAucunSens](https://github.com/pouleta/botpop/tree/master/plugins/cequetudisnaaucunsens.rb) : a funny plugin to say "ce que tu dis n'a aucun sens" without any meaning.
-- [Points](https://github.com/pouleta/botpop/tree/master/plugins/points.rb) : a gem to add points to an user. ``!p gay for_you``
+- [Points](https://github.com/pouleta/botpop/tree/master/plugins/points.rb) : a gem to add points to an user. ``!p noob for_you``
 
 ### In version 0.X, not upgraded to v1
 - [Coupon](https://github.com/pouleta/botpop/blob/master/plugins/coupons.rb) : the original aim of the bot. It get coupons for the challenge __pathwar__
