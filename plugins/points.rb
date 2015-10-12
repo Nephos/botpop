@@ -10,6 +10,7 @@ class Points < Botpop::Plugin
   match(/^!pstats?p (\w+)$/, use_prefix: false, method: :statistics_for_point)
   match(/^!p +(\w+)$/, use_prefix: false, method: :add_point_to_last)
   match(/^!p +(\w+) +(\w+)$/, use_prefix: false, method: :add_point_to_user)
+  match(/heil/i, use_prefix: false, method: :point_nazi)
 
   HELP = ["!p <type> [to]", "!pstats", "!pstatsu <nick>", "!pstatsp <point>"]
   ENABLED = config['enable'].nil? ? true : config['enable']
@@ -19,7 +20,7 @@ class Points < Botpop::Plugin
   @@lock = Mutex.new
 
   def statistics m
-    ret = Base::DB.fetch("SELECT points.type, COUNT(points.*) AS nb FROM points GROUP BY points.type ORDER BY nb DESC LIMIT 10;").all.map{|e| e[:type] + "(#{e[:nb]})"}.join(", ")
+    ret = Base::DB.fetch("SELECT points.type, COUNT(*) AS nb FROM points GROUP BY points.type ORDER BY nb DESC LIMIT 10;").all.map{|e| e[:type] + "(#{e[:nb]})"}.join(", ")
     # data = Base::DB.fetch("SELECT points.type, COUNT(points.*) AS nb FROM points GROUP BY points.type ORDER BY nb DESC LIMIT 10;").all
     # data.map!{|e| Base::DB.fetch("SELECT assigned_to FROM points GROUP BY type, assigned_to HAVING type = ? ORDER BY COUNT(*) DESC;", e[:type]).first.merge(e)}
     # ret = data.map{|e| e[:type] + "(#{e[:nb]}x #{e[:assigned_to]})"}.join(", ")
@@ -27,7 +28,7 @@ class Points < Botpop::Plugin
   end
 
   def statistics_for_user m, u
-    ret = Base::DB.fetch("SELECT points.type, COUNT(points.*) AS nb FROM points WHERE assigned_to = ? GROUP BY points.type LIMIT 10;", u.downcase).all.map{|e| e[:type] + "(#{e[:nb]})"}.join(", ")
+    ret = Base::DB.fetch("SELECT points.type, COUNT(*) AS nb FROM points WHERE assigned_to = ? GROUP BY points.type ORDER BY COUNT(*) LIMIT 10;", u.downcase).all.map{|e| e[:type] + "(#{e[:nb]})"}.join(", ")
     m.reply "User #{u} has: #{ret}"
   end
 
@@ -47,15 +48,26 @@ class Points < Botpop::Plugin
   def add_point_to_last m, type
     return if @@users[m.channel.to_s].nil?
     nick = @@users[m.channel.to_s]
-    Base::DB[:points].insert({assigned_by: m.user.nick, assigned_to: nick.downcase, type: type})
-    count = Base::DB[:points].where(assigned_to: nick.downcase, type: type).count
-    m.reply "User #{nick} has now #{count} points #{type} !"
+    count = add_point(m.user.nick, nick, type)
+    m.reply "#{nick} has now #{count} points #{type} !"
   end
 
   def add_point_to_user m, type, nick
-    Base::DB[:points].insert({assigned_by: m.user.nick, assigned_to: nick.downcase, type: type})
-    count = Base::DB[:points].where(assigned_to: nick.downcase, type: type).count
-    m.reply "User #{nick} has now #{count} points #{type} !"
+    count = add_point(m.user.nick, nick, type)
+    m.reply "#{nick} has now #{count} points #{type} !"
+  end
+
+  def point_nazi m
+    nick = m.user.nick
+    count = add_point("self", nick, "nazi")
+    m.reply "#{nick} has now #{count} points nazi !"
+  end
+
+  private
+  def add_point(by, to, type)
+    to.downcase!
+    Base::DB[:points].insert({assigned_by: by, assigned_to: to, type: type})
+    count = Base::DB[:points].where(assigned_to: to, type: type).count
   end
 
 end
