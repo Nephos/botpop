@@ -9,6 +9,9 @@ base:
     password: toor
     database: botpop_base
 
+rootme:
+  enable: true
+
 points:
   enable: true
 
