@@ -10,7 +10,7 @@ base:
     database: botpop_base
 
 rootme:
-  enable: true
+  enable: false
 
 points:
   enable: true
