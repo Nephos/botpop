@@ -5,12 +5,12 @@ class Points < Botpop::Plugin
   include Botpop::Plugin::Database
 
   match(/.*/, use_prefix: false, method: :save_last_user)
-  match(/^!pstats$/, use_prefix: false, method: :statistics)
+  match(/^!pstats?$/, use_prefix: false, method: :statistics)
   match(/^!pstats?u (\w+)$/, use_prefix: false, method: :statistics_for_user)
   match(/^!pstats?p (\w+)$/, use_prefix: false, method: :statistics_for_point)
   match(/^!p +(\w+)$/, use_prefix: false, method: :add_point_to_last)
   match(/^!p +(\w+) +(\w+)$/, use_prefix: false, method: :add_point_to_user)
-  match(/heil/i, use_prefix: false, method: :point_nazi)
+  match(/hei(l|i)/i, use_prefix: false, method: :point_nazi)
 
   HELP = ["!p <type> [to]", "!pstats", "!pstatsu <nick>", "!pstatsp <point>"]
   ENABLED = config['enable'].nil? ? true : config['enable']
@@ -28,7 +28,7 @@ class Points < Botpop::Plugin
   end
 
   def statistics_for_user m, u
-    ret = Base::DB.fetch("SELECT points.type, COUNT(*) AS nb FROM points WHERE assigned_to = ? GROUP BY points.type ORDER BY COUNT(*) LIMIT 10;", u.downcase).all.map{|e| e[:type] + "(#{e[:nb]})"}.join(", ")
+    ret = Base::DB.fetch("SELECT points.type, COUNT(*) AS nb FROM points WHERE assigned_to = ? GROUP BY points.type ORDER BY COUNT(*) DESC LIMIT 10;", u.downcase).all.map{|e| e[:type] + "(#{e[:nb]})"}.join(", ")
     m.reply "User #{u} has: #{ret}"
   end
 
@@ -60,7 +60,7 @@ class Points < Botpop::Plugin
   def point_nazi m
     nick = m.user.nick
     count = add_point("self", nick, "nazi")
-    m.reply "#{nick} has now #{count} points nazi !"
+    m.reply "#{nick} has now #{count} points nazi !" if count % 10 == 0
   end
 
   private
