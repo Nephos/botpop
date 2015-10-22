@@ -21,5 +21,8 @@ gem 'sequel'
 # gem 'sqlite3'
 gem 'pg'
 
+#encrypt
+gem 'tor257'
+
 #other
 gem 'nomorebeer'

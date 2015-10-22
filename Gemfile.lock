@@ -1,14 +1,12 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    cinch (2.2.6)
+    cinch (2.2.7)
     coderay (1.1.0)
     colorize (0.7.7)
-    domain_name (0.5.24)
+    domain_name (0.5.25)
       unf (>= 0.0.5, < 1.0.0)
-    highline (1.7.3)
-    htauth (1.2.0)
-      highline (~> 1.6)
+    htauth (2.0.0)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
     mechanize (2.7.3)
@@ -25,18 +23,20 @@ GEM
     mini_portile (0.6.2)
     net-http-digest_auth (1.4)
     net-http-persistent (2.9.4)
-    net-ping (1.7.7)
+    net-ping (1.7.8)
     nokogiri (1.6.6.2)
       mini_portile (~> 0.6.0)
-    nomorebeer (1.0)
+    nomorebeer (1.1)
     ntlm-http (0.1.1)
-    pg (0.18.2)
-    pry (0.10.1)
+    pg (0.18.3)
+    pry (0.10.3)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    sequel (4.25.0)
+    sequel (4.27.0)
     slop (3.6.0)
+    tor257 (0.2)
+      nomorebeer (~> 1.1)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.1)
@@ -55,6 +55,7 @@ DEPENDENCIES
   pg
   pry
   sequel
+  tor257
 
 BUNDLED WITH
    1.10.5

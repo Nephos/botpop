@@ -19,6 +19,9 @@ log:
   enable: true
   default_started: false
 
+encrypt:
+  enable: true
+
 puppet:
   enable: true
 
