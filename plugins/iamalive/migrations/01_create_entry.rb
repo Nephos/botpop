@@ -5,6 +5,7 @@ Sequel.migration do
       String :user, null: false
       String :channel, null: false
       String :message, null: false, text: true
+      String :message_origin, null: false, text: true
       DateTime :created_at
     end
   end
