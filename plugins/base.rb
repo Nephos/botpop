@@ -61,7 +61,7 @@ class Base < Botpop::Plugin
   end
 
   def exec_code m
-    m.reply "https://github.com/pouleta/botpop"
+    m.reply "https://github.com/Nephos/botpop"
   end
 
   def exec_help m

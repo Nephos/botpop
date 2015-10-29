@@ -1,6 +1,6 @@
 # botpop
-[![Code Climate](https://codeclimate.com/github/pouleta/botpop/badges/gpa.svg)](https://codeclimate.com/github/pouleta/botpop)
-[![GitHub version](https://badge.fury.io/gh/pouleta%2Fbotpop.svg)](http://badge.fury.io/gh/pouleta%2Fbotpop)
+[![Code Climate](https://codeclimate.com/github/Nephos/botpop/badges/gpa.svg)](https://codeclimate.com/github/Nephos/botpop)
+[![GitHub version](https://badge.fury.io/gh/Nephos%2Fbotpop.svg)](http://badge.fury.io/gh/Nephos%2Fbotpop)
 
 ## Requirements
 
@@ -60,18 +60,18 @@ end
 Some official plugins are developped. You can propose your own creation by pull request, or add snippets link to the wiki.
 
 ## List
-- [Base](https://github.com/pouleta/botpop/blob/master/plugins/base.rb) : this is a basic plugin, providing __version, code, help, and troll__. It also provide a full groups's system.
-- [Network](https://github.com/pouleta/botpop/blob/master/plugins/network.rb) : an usefull plugin with commands __ping, ping ip, ping http, traceroute, dos attack and poke__
-- [Searchable](https://github.com/pouleta/botpop/blob/master/plugins/searchable.rb) : a little plugin providing irc research with engines like __google, wikipedia, ruby-doc, etc...__
-- [Proxy](https://github.com/pouleta/botpop/blob/master/plugins/proxy.rb) : an audacious plugin to create user access to a local proxy
-- [Log](https://github.com/pouleta/botpop/blob/master/plugins/log.rb) : simple logger
-- [IAmAlive](https://github.com/pouleta/botpop/tree/master/plugins/iamalive) : a plugin to learn how to respond to the users. Fucking machine learning, oh yearh.
-- [CeQueTuDisNaAucunSens](https://github.com/pouleta/botpop/tree/master/plugins/cequetudisnaaucunsens.rb) : a funny plugin to say "ce que tu dis n'a aucun sens" without any meaning.
-- [Points](https://github.com/pouleta/botpop/tree/master/plugins/points.rb) : a gem to add points to an user. ``!p noob for_you``
+- [Base](https://github.com/Nephos/botpop/blob/master/plugins/base.rb) : this is a basic plugin, providing __version, code, help, and troll__. It also provide a full groups's system.
+- [Network](https://github.com/Nephos/botpop/blob/master/plugins/network.rb) : an usefull plugin with commands __ping, ping ip, ping http, traceroute, dos attack and poke__
+- [Searchable](https://github.com/Nephos/botpop/blob/master/plugins/searchable.rb) : a little plugin providing irc research with engines like __google, wikipedia, ruby-doc, etc...__
+- [Proxy](https://github.com/Nephos/botpop/blob/master/plugins/proxy.rb) : an audacious plugin to create user access to a local proxy
+- [Log](https://github.com/Nephos/botpop/blob/master/plugins/log.rb) : simple logger
+- [IAmAlive](https://github.com/Nephos/botpop/tree/master/plugins/iamalive) : a plugin to learn how to respond to the users. Fucking machine learning, oh yearh.
+- [CeQueTuDisNaAucunSens](https://github.com/Nephos/botpop/tree/master/plugins/cequetudisnaaucunsens.rb) : a funny plugin to say "ce que tu dis n'a aucun sens" without any meaning.
+- [Points](https://github.com/Nephos/botpop/tree/master/plugins/points.rb) : a gem to add points to an user. ``!p noob for_you``
 
 ### In version 0.X, not upgraded to v1
-- [Coupon](https://github.com/pouleta/botpop/blob/master/plugins/coupons.rb) : the original aim of the bot. It get coupons for the challenge __pathwar__
-- [Intranet](https://github.com/pouleta/botpop/blob/master/plugins/intranet.rb) : an useless plugin to check the intranet of epitech
+- [Coupon](https://github.com/Nephos/botpop/blob/master/plugins/coupons.rb) : the original aim of the bot. It get coupons for the challenge __pathwar__
+- [Intranet](https://github.com/Nephos/botpop/blob/master/plugins/intranet.rb) : an useless plugin to check the intranet of epitech
 
 
 ## Create your own
@@ -82,7 +82,7 @@ You should take the time to read the documentation before developping anything.
 
 
 ### Example of new plugin
-A full example of plugin code is provided in the commented file : [Example of Fury Plugin](https://github.com/pouleta/botpop/blob/master/plugins/example.rb)
+A full example of plugin code is provided in the commented file : [Example of Fury Plugin](https://github.com/Nephos/botpop/blob/master/plugins/example.rb)
 
 First, put your ruby code file in ``plugins/``, and put your code in the scope :
 ```ruby
@@ -109,7 +109,7 @@ end
 
 
 ### Add entry to the !help command
-The __official plugin__ [Base](https://github.com/pouleta/botpop/blob/master/plugins/base.rb) provides the command __!help__ and __!help plugin__.
+The __official plugin__ [Base](https://github.com/Nephos/botpop/blob/master/plugins/base.rb) provides the command __!help__ and __!help plugin__.
 
 It list the avaliable commands of the plugins. You can add your help to your plugin by providing a __HELP__ constant.
 __The strings should be as short as possible.__
