@@ -66,7 +66,10 @@ class Points < Botpop::Plugin
   private
   def add_point(by, to, type)
     to.downcase!
-    Base::DB[:points].insert({assigned_by: by, assigned_to: to, type: type})
+    Base::DB[:points].insert({assigned_by: by,
+                              assigned_to: to,
+                              type: type,
+                              created_at: Time.now})
     count = Base::DB[:points].where(assigned_to: to, type: type).count
   end
 
