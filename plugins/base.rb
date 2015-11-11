@@ -39,21 +39,13 @@ class Base < Botpop::Plugin
   def help_get_plugins_str
     ["Plugins found : " + Botpop::PLUGINS.size.to_s] +
       Botpop::PLUGINS.map do |plugin|
-      plugin.to_s.split(':').last + ': ' + plugin::HELP.join(', ') rescue nil
+      plugin.to_s.split(':').last
     end.compact
   end
 
   HELP_WAIT_DURATION = config['help_wait_duration'] || 120
   def help m
-    @@help_lock ||= Mutex.new
-    if @@help_lock.try_lock
-      @@help_time = 0
-      help_get_plugins_str().each{|str| m.reply str} # display
-      help_wait_before_quit rescue nil
-      @@help_lock.unlock
-    else
-      m.reply "Help already sent #{@@help_time} seconds ago. Wait #{HELP_WAIT_DURATION - @@help_time} seconds more."
-    end
+    m.reply help_get_plugins_str.join(', ')
   end
 
   def exec_version m
