@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'net/http'
+require "i18n"
 
 class Anecdote < Botpop::Plugin
   include Cinch::Plugin
@@ -11,6 +12,12 @@ class Anecdote < Botpop::Plugin
   CONFIG = config
 
   def exec_new m, _, s
+    s.downcase!
+    I18n.config.available_locales = [:en, :fr]
+    f = I18n.transliterate(s)[0]
+    x = "Après je vous propose d"
+    x += (%w(a e i o u y).include?(f) ? "'" : "e ") if not s[0..1].match(/d['e] /)
+    s = x + s
     url = URI.parse 'http://memegenerator.net/create/instance'
     post_data = {
       'imageID' => 14185932,
