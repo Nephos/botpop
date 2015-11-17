@@ -15,8 +15,8 @@ class Anecdote < Botpop::Plugin
     s.downcase!
     I18n.config.available_locales = [:en, :fr]
     f = I18n.transliterate(s)[0]
-    x = "Après je vous propose d"
-    x += (%w(a e i o u y).include?(f) ? "'" : "e ") if not s[0..1].match(/d['e] /)
+    x = "Après je vous propose "
+    x += (%w(a e i o u y).include?(f) ? "d'" : "de ") if not s.match(/^d['e] .+/)
     s = x + s
     url = URI.parse 'http://memegenerator.net/create/instance'
     post_data = {
