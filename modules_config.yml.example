@@ -15,6 +15,9 @@ rootme:
 points:
   enable: true
 
+anecdote:
+  enable: true
+
 log:
   enable: true
   default_started: false

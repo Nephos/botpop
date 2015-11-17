@@ -34,7 +34,7 @@ class Puppet < Botpop::Plugin
                                content: msg,
                                created_at: Time.now,
                                read_at: nil)
-    User(nick).monitor
+    # User(nick).monitor
   end
 
   def read m
