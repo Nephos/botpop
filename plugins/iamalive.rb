@@ -56,7 +56,6 @@ class IAmAlive < Botpop::Plugin
   end
 
   def forget_older!
-    return if not cmd_allowed? m
     log "Forget the older entry"
     Entry.first.delete
   end

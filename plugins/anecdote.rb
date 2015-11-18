@@ -28,16 +28,19 @@ class Anecdote < Botpop::Plugin
       'text1' => "Ca fera une petite anecdote !!",
     }
     meme = nil
-    Net::HTTP.start url.host do |http|
-      post = Net::HTTP::Post.new url.path
-      post.set_form_data post_data
-      res = http.request post
-      location = res['Location']
-      redirect = url + location
-      get = Net::HTTP::Get.new redirect.request_uri
-      res = http.request get
-      doc = Nokogiri.HTML res.body
-      meme = doc.css("meta")[7]['content']
+    begin
+      Net::HTTP.start url.host do |http|
+        post = Net::HTTP::Post.new url.path
+        post.set_form_data post_data
+        res = http.request post
+        location = res['Location']
+        redirect = url + location
+        get = Net::HTTP::Get.new redirect.request_uri
+        res = http.request get
+        doc = Nokogiri.HTML res.body
+        meme = doc.css("meta")[7]['content']
+      end
+    rescue => _err
     end
     m.reply meme ? meme : "Achtung ! ACHTUUUUNG !!!"
   end
