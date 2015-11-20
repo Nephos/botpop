@@ -68,11 +68,11 @@ Some official plugins are developped. You can propose your own creation by pull 
 - [IAmAlive](https://github.com/Nephos/botpop/tree/master/plugins/iamalive) : a plugin to learn how to respond to the users. Fucking machine learning, oh yearh.
 - [CeQueTuDisNaAucunSens](https://github.com/Nephos/botpop/tree/master/plugins/cequetudisnaaucunsens.rb) : a funny plugin to say "ce que tu dis n'a aucun sens" without any meaning.
 - [Points](https://github.com/Nephos/botpop/tree/master/plugins/points.rb) : a gem to add points to an user. ``!p noob for_you``
+- [Anecdote](https://github.com/Nephos/botpop/blob/master/plugins/anecdote.rb) : a cool meme generator plugin with nazi and youtuber. French meme.
 
 ### In version 0.X, not upgraded to v1
 - [Coupon](https://github.com/Nephos/botpop/blob/master/plugins/coupons.rb) : the original aim of the bot. It get coupons for the challenge __pathwar__
 - [Intranet](https://github.com/Nephos/botpop/blob/master/plugins/intranet.rb) : an useless plugin to check the intranet of epitech
-- [Anecdote](https://github.com/Nephos/botpop/blob/master/plugins/anecdote.rb) : a cool meme generator plugin with nazi and youtuber. French meme.
 
 
 ## Create your own
