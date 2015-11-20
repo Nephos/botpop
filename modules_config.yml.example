@@ -124,11 +124,6 @@ iamalive:
 cequetudisnaaucunsens:
   enabled: true
 
-apoil:
-  enable: true
-  words:
-    - fille
-
 saygoodbye:
   chapui_s:
     - "@chapui_s t'es là ?"
