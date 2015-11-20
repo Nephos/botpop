@@ -72,6 +72,7 @@ Some official plugins are developped. You can propose your own creation by pull 
 ### In version 0.X, not upgraded to v1
 - [Coupon](https://github.com/Nephos/botpop/blob/master/plugins/coupons.rb) : the original aim of the bot. It get coupons for the challenge __pathwar__
 - [Intranet](https://github.com/Nephos/botpop/blob/master/plugins/intranet.rb) : an useless plugin to check the intranet of epitech
+- [Anecdote](https://github.com/Nephos/botpop/blob/master/plugins/anecdote.rb) : a cool meme generator plugin with nazi and youtuber. French meme.
 
 
 ## Create your own
