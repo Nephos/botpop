@@ -31,7 +31,7 @@ class Base
                       admin: admin,
                       groups: [admin ? 'admin' : 'default'])
       m.reply "Welcome ##{u.id} #{u.name}"
-    rescue => err
+    rescue => _
       m.reply "Cannot register #{m.user.authname}"
     end
   end
