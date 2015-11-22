@@ -54,16 +54,19 @@ class Puppet < Botpop::Plugin
   end
 
   def make_primary m, email
-    m = get_addresses(user, address: email)
-    return m.reply "No your email #{email}" if m.nil?
-    get_adresses.update(primary: false)
-    m.update(primary: true)
+    a = get_addresses(m.user).where(address: email)
+    return m.reply "No your email #{email}" if a.first.nil?
+    get_addresses(m.user).update(primary: false)
+    a.update(primary: true)
+    m.reply "Your primary email #{m.user.nick} is now #{email}"
   end
 
   def let m, _, _, to, msg
     log "New message addressed to #{to} to send"
     # insert new message in database
-    Base::DB[:messages].insert(author: m.user.nick,
+    from = Base::DB[:emails].where(authname: m.user.authname, primary: true).select(:address).first
+    from = from && from[:address] || m.user.nick
+    Base::DB[:messages].insert(author: from,
                                dest: to,
                                content: msg,
                                created_at: Time.now,
