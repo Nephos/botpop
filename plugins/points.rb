@@ -70,7 +70,7 @@ class Points < Botpop::Plugin
                               assigned_to: to,
                               type: type,
                               created_at: Time.now})
-    count = Base::DB[:points].where(assigned_to: to, type: type).count
+    Base::DB[:points].where(assigned_to: to, type: type).count
   end
 
 end
