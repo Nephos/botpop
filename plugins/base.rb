@@ -1,5 +1,8 @@
 #encoding: utf-8
 
+require "i18n"
+I18n.config.available_locales = [:en, :fr]
+
 class Base < Botpop::Plugin
   include Cinch::Plugin
   include Botpop::Plugin::Database
@@ -17,7 +20,8 @@ class Base < Botpop::Plugin
   match(/^!user (\w+) group add (\w+)/, use_prefix: false, method: :user_group_add)
   match(/^!user (\w+) group rm (\w+)/, use_prefix: false, method: :user_group_rm)
 
-  HELP = ["!troll [msg]", "!version", "!code", "!help [plugin]", "!cmds"]
+  HELP = ["!troll [msg]", "!version", "!code", "!help [plugin]", "!cmds",
+          "!user ls", "!user <name> group <ls|add|rm> [group]"]
   ENABLED = config['enable'].nil? ? true : config['enable']
   CONFIG = config
 

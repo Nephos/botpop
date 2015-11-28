@@ -1,6 +1,5 @@
 require 'nokogiri'
 require 'net/http'
-require "i18n"
 
 class Anecdote < Botpop::Plugin
   include Cinch::Plugin
@@ -13,7 +12,6 @@ class Anecdote < Botpop::Plugin
 
   def exec_new m, _, s
     s.downcase!
-    I18n.config.available_locales = [:en, :fr]
     f = I18n.transliterate(s)[0]
     x = "Après je vous propose "
     x += (%w(a e i o u y).include?(f) ? "d'" : "de ") if not s.match(/^(d'|de ).+/)
