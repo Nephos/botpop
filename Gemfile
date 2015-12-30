@@ -26,3 +26,4 @@ gem 'tor257'
 
 #other
 gem 'nomorebeer'
+gem 'i18n'

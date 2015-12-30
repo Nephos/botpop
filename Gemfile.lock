@@ -9,6 +9,7 @@ GEM
     htauth (2.0.0)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
+    i18n (0.7.0)
     mechanize (2.7.3)
       domain_name (~> 0.5, >= 0.5.1)
       http-cookie (~> 1.0)
@@ -49,6 +50,7 @@ DEPENDENCIES
   cinch
   colorize
   htauth
+  i18n
   mechanize
   net-ping
   nomorebeer
@@ -58,4 +60,4 @@ DEPENDENCIES
   tor257
 
 BUNDLED WITH
-   1.10.5
+   1.11.2
