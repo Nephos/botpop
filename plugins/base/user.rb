@@ -1,11 +1,11 @@
 class Base
 
-  def find_and_exec(name)
+  def find_and_exec(m, name)
     u = User.where(name: name).first
     if u
       yield u
     else
-      m.reply "no such user"
+      m.reply "No such user '#{name}'"
     end
   end
 
@@ -46,14 +46,14 @@ class Base
 
   def user_group_ls m, name
     cmd_allowed? m
-    find_and_exec(name) do |u|
+    find_and_exec(m, name) do |u|
       m.reply u.groups.join(', ')
     end
   end
 
   def user_group_add m, name, group
     cmd_allowed? m
-    find_and_exec(name) do |u|
+    find_and_exec(m, name) do |u|
       u.update(groups: (u.groups + [group]))
       m.reply "group #{group} added to #{u.name}"
     end
@@ -61,7 +61,7 @@ class Base
 
   def user_group_rm m, name, group
     cmd_allowed? m
-    find_and_exec(name) do |u|
+    find_and_exec(m, name) do |u|
       u.update(groups: (u.groups - [group]))
       m.reply "group #{group} removed from #{u.name}"
     end
