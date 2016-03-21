@@ -9,6 +9,12 @@ base:
     password: toor
     database: botpop_base
 
+dice:
+  enable: true
+
+eip:
+  enable: true
+
 rootme:
   enable: false
 
