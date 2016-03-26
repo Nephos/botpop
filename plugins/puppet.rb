@@ -68,7 +68,7 @@ class Puppet < Botpop::Plugin
     from = from && from[:address] || m.user.nick
     Base::DB[:messages].insert(author: from,
                                dest: to,
-                               content: msg,
+                               content: msg.strip,
                                created_at: Time.now,
                                read_at: nil)
     Base::DB[:emails].where(address: to).update('usage = usage+1')
@@ -100,11 +100,11 @@ class Puppet < Botpop::Plugin
 
   private
   def send_privmsg_to_channel chan, msg
-    Channel(chan).send(msg)
+    Channel(chan).send(msg.strip)
   end
 
   def send_privmsg_to_user user, msg
-    User(user).send(msg)
+    User(user).send(msg.strip)
   end
 
   def get_messages user
